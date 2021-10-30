@@ -1,6 +1,7 @@
 from seat_book import post
 import json
 
+# status=false时可以预定
 def seat_reserve(cookie):
     with open('pre_10_headers.json','r') as f:
         pre_headers=json.load(f)
