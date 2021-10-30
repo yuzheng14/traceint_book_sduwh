@@ -29,19 +29,31 @@ def book(cookie):
             time.sleep(1)
             continue
         print("post请求成功")
+
+        # 预定12号（常用座位）
+        book_para["variables"]["seatKey"]='19,75'
+        print("开始预定12号")
+        book_resp=post(book_para,book_headers).json()
+        try:
+            if book_resp["data"]["userAuth"]["reserve"]["reserveSeat"] :
+                print("预定成功，座位为12号")
+                return
+        except:
+            print("预定12号失败")
+
         seats=resp["data"]["userAuth"]["reserve"]["libs"][0]["lib_layout"]["seats"]
         seats.sort(key=take_seat_name)
         for seat in seats:
             if(seat["seat_status"]==1):
                 book_para["variables"]["seatKey"]=seat["key"]
                 print(f"开始预定{seat['name']}号")
-                book_resp=post(book_para,book_headers)
+                book_resp=post(book_para,book_headers).json()
                 try:
                     if book_resp["data"]["userAuth"]["reserve"]["reserveSeat"] :
                         print(f"预定成功，座位为{seat['name']}号")
                         return
                 except:
-                    print("预定失败")
+                    print(f"预定{seat['name']}号失败")
                     continue
             else:
                 print(f"{seat['name']}号座位无法预定")
