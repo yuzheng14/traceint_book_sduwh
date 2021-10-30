@@ -12,14 +12,14 @@ def post(post_para, headers):
     return resp
 
 def book(cookie):
-    with open('json/10_para.json', 'r') as f:
+    with open('json/book/10_para.json', 'r') as f:
         post_para = json.load(f)
-    with open('json/10_headers.json','r') as f:
+    with open('json/book/10_headers.json','r') as f:
         headers=json.load(f)
     headers['Cookie']=cookie
-    with open('json/book_para.json','r') as f:
+    with open('json/book/book_para.json','r') as f:
         book_para=json.load(f)
-    with open('json/book_headers.json','r') as f:
+    with open('json/book/book_headers.json','r') as f:
         book_headers=json.load(f)
     book_headers['Cookie']=headers['Cookie']
     while(True):
@@ -60,9 +60,9 @@ def book(cookie):
         
 
 def book_test():
-    with open('json/book_para.json','r') as f:
+    with open('json/book/book_para.json','r') as f:
         book_para=json.load(f)
-    with open('json/10_resp.json','r') as f:
+    with open('json/book/10_resp.json','r') as f:
         resp=json.load(f)
 
     if 'errors' not in resp:
