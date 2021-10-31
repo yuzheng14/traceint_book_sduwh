@@ -9,6 +9,14 @@ def post(post_para, headers):
     resp = requests.request("post", url, json=post_para, headers=headers)
     return resp
 
+def verify_cookie(cookie):
+    with open('json/book/index_headers.json') as f:
+        headers=json.load(f)
+    with open('json/book/index_para.json') as f:
+        para=json.load(f)
+    resp=post(para,headers).json()
+    return 'errors' not in resp
+
 def book(cookie):
     with open('json/book/10_para.json', 'r') as f:
         post_para = json.load(f)
