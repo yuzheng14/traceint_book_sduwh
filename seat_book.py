@@ -19,7 +19,6 @@ def verify_cookie(cookie):
         para = json.load(f)
     headers['Cookie'] = cookie
     resp = post(para, headers).json()
-    print(resp)
     return 'errors' not in resp
 
 
