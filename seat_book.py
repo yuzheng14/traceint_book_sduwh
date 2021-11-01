@@ -4,7 +4,11 @@ import time
 
 # seat_status=1为可预订
 
-
+def wait_time(hour,minute):
+    time_to_wait=hour*60+minute
+    while time.localtime().tm_hour*60+time.localtime().tm_min < time_to_wait:
+        pass
+    
 def post(post_para, headers):
 
     url = 'https://wechat.v2.traceint.com/index.php/graphql/'
