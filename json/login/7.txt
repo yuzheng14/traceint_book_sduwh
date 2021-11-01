@@ -1,0 +1,24 @@
+GET https://wechat.v2.traceint.com/index.php/urlNew/auth.html?r=https%3A%2F%2Fweb.traceint.com%2Fweb%2Findex.html%23%2Fpages%2Findex%2Findex%3Fr%3D1635740937%26n%3D617f6d0914e74&code=071EqP0w31POlX27Wt1w364Asf4EqP0A&state=1 HTTP/1.1
+Host: wechat.v2.traceint.com
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat(0x63040026)
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Cookie: FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635549931,1635550504,1635568036,1635689109; wechatSESS_ID=9486c4036c942883e0ece931b8ce9d95ba2e436a6ab7c0a8; SERVERID=b9fc7bd86d2eed91b23d7347e0ee995e|1635740937|1635740933
+Referer: https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2996d437cd442527&redirect_uri=https%3A%2F%2Fwechat.v2.traceint.com%2Findex.php%2FurlNew%2Fauth.html%3Fr%3Dhttps%253A%252F%252Fweb.traceint.com%252Fweb%252Findex.html%2523%252Fpages%252Findex%252Findex%253Fr%253D1635740937%2526n%253D617f6d0914e74&response_type=code&scope=snsapi_userinfo&state=1&connect_redirect=1&uin=MjAwNTcxNTA3OA%3D%3D&key=fbb52145789d0aca374ab633fd906c18142fb6c81c5eecd3d2f6c768385647a1ce35a93194b4c75b34dfb66b69d7f3e7f80e864872b9c84557e051c92a6726d90d4ce3c4db6dce7f627d9d201cfa8b2bc59a1d549d331cb2e52bef60c32090b03f18bfd16614cbdfcd5a70f9752268a1c0161d9f3dfdeb65dac1bd3062a545bb&version=63040026&pass_ticket=yxHHNjeZdF9nA6MWULlbzgEPps4czteK399zvDw0%2BOQMh6m95nCR19kubhSzaoCn
+Accept-Language: zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7
+
+
+HTTP/1.1 302 Found
+Date: Mon, 01 Nov 2021 04:28:59 GMT
+Content-Type: text/html
+Content-Length: 0
+Connection: keep-alive
+Location: https://web.traceint.com/web/index.html#/pages/index/index?r=1635740937&n=617f6d0914e74
+Set-Cookie: Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNTc0NDUzOX0.ZEYkvOsMF8UMxlf19W7DW0kQZTfBXO5lAzxSypYQgINPTe8cdQU7w_b841wGG_3zGFlVRa64QtM2cdVnp13o7kiNuYCHfJL8gtP02YjdocL2dsw5X0LxIoYHkxusEZ02Ga4C02ncM7tfj4Tl_jlYnmCvMlvdwcOO5wPsFcwwmnjiPLqKrnrzgg_Kc2I-3xb3LV6uq87QsaHGDPP8pY1hOF7ap4aLkX0kiHkaHBCs8rzFqpAIJ0JP9LXeEJdb7IgbImEItU68qO_XR4xUliWHBXFTPA8K8u2yBOg0rWPjwJIEo_pAkex5WiDVzr-xtF5bLSjw__l7JEqime-a0j4DhQ; expires=Mon, 01-Nov-2021 05:28:59 GMT; path=/; domain=traceint.com; httponly
+Set-Cookie: SERVERID=b9fc7bd86d2eed91b23d7347e0ee995e|1635740939|1635740933;Path=/
+
