@@ -56,7 +56,7 @@ def book(cookie):
                 return
         except:
             log("预定12号失败")
-
+        log("预定12号失败")
         seats = resp["data"]["userAuth"]["reserve"]["libs"][0]["lib_layout"]["seats"]
         seats.sort(key=take_seat_name)
         for seat in seats:
