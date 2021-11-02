@@ -1,5 +1,6 @@
 from seat_book import post
 import json
+from log import log
 
 # status=false时可以预定
 def seat_reserve(cookie):
