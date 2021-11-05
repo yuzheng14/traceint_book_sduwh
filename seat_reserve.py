@@ -29,9 +29,9 @@ def seat_prereserve(cookie):
     log("预定12号失败")
     log(prereserve_resp)
 
-    with open('json/pre_10_headers.json','r') as f:
+    with open('json/reserve/pre_10_headers.json','r') as f:
         pre_headers=json.load(f)
-    with open('json/pre_10_para.json','r') as f:
+    with open('json/reserve/pre_10_para.json','r') as f:
         pre_para=json.load(f)
     pre_headers['Cookie']=cookie
     
@@ -39,6 +39,7 @@ def seat_prereserve(cookie):
     resp=post(pre_para,pre_headers).json()
     while 'error' in resp:
         log('请求座位失败')
+        log(resp)
         time.sleep(1)
     seats = resp["data"]["userAuth"]["prereserve"]["libLayout"]["seats"]
     seats.sort(key=take_seat_name)
@@ -51,6 +52,9 @@ def seat_prereserve(cookie):
                 if prereserve_resp["data"]["userAuth"]["prereserve"]["save"]:
                     log(f"预定成功，座位为{seat['name']}号")
                     return
+                else:
+                    log(f"预定{seat['name']}号失败")
+                    log(prereserve_resp)
             except:
                 log(f"预定{seat['name']}号失败")
                 log(prereserve_resp)
@@ -60,4 +64,4 @@ def seat_prereserve(cookie):
 
 
 if __name__=='__main__':
-    seat_prereserve('FROM_TYPE=weixin; v=5.5; wechatSESS_ID=9339df68de0e05c90c28bec5e452336dd1d902e4a38fc7d0; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNTgzMDAwNH0.M0HCiKFvNEnKejfF8WemOhUHYDRS9MG6Bb7xsWwfy30D40LCVlDHXUVDOfFZLnnra60Vdg6ilfHbmZqsqUXugMEes1swqUpXoXa54M9uiEl6qidIK960FJCSo18qH894e3pUL0nOBeClfvKLblWJ_qyPiw0Ffr8_7qfbh2zRosHqNawoJHmFgLrSL6qvbjkGtQ16TlVruy5AZSvQlXmx919PJOESoShBKxBBPpr5dJC4k09bwnxdX_dVzWuSdKxXT8nKTBCjL1mqA6-fKIeGFaZUL6wxpgq2URku-1XLUtO2DtX9nNkWvjU2-iaHKVLxTly1cI3tEdYB-Uq3TQDHCg; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1635826406|1635826398; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635689109,1635740940,1635776764,1635826405; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1635826405')
+    seat_prereserve('FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635826405,1635862471,1635913594,1636000027; wechatSESS_ID=bdf45042cc7568920a9a8810ebafc4e2f4d582ed5759e7fd; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNjA4OTY0MX0.U2V8UAqEZVSSTMrLdpTaM_8b7Ad3yIBeVuSSGQRYgBbua4gi7k19MVyow0rbuj3zob7g407H1FNLAQRuBhZsCtQ6pscPIHs-s0xGq181WgxsapHm_JFioEfTQF_8-Qoxggg_s56xFRF8DmMAfHMd2Ub-vK7fud0pnWRJW7ba1CoPUOJsM_tbU1G1z9iaigWwr88ooAjOMk70q92cKQkeqy67adkm3v-jhAOmZV5U_J-ga1rB-htYbpmcTWkd95UmOIryGwQCH9RMTDNkK2F1aZlrZzsaUXWJ1KNz-MrMXSkDRqhzrtLQgcOXUCkhQ5TKrEAZPYmYIHs7Gk98mcJoxw; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1636086041|1636086035')
