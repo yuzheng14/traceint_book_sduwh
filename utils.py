@@ -3,6 +3,17 @@ import requests
 import time
 
 def verify_cookie(cookie):
+    '''验证cookie有效性
+    参数
+    -------------------------------
+    cookie:str
+        传入cookie
+
+    返回值
+    -----------------------
+    bool
+        true为有效
+    '''
     with open('json/book/index_headers.json') as f:
         headers = json.load(f)
     with open('json/book/index_para.json') as f:
@@ -27,3 +38,8 @@ def take_seat_name(elem):
     if name != "" and name is not None:
         return int(elem['name'])
     return 5000
+
+def log(message):
+    # with open('log.out','a',encoding='utf-8') as f:
+        # f.write(time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'+'\n')
+    print((time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'))
