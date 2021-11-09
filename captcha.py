@@ -41,12 +41,13 @@ def get_captcha(cookie):
     captcha_headers['Cookie']=cookie
     resp=post(captcha_para,captcha_headers).json()
     log(resp)
-
+    number=0
     while(time.time()<end_time ):
         if 'errors' not in resp:
             with open('resource/captcha/captcha-site.out','a') as f:
                 f.write(json.dumps(resp['data']['userAuth']['prereserve']['captcha'])+'\n')
-                log('加入网址成功')
+                number=number+1
+                log(f'加入网址成功，当前已有{number}条')
         else:
             log(resp)
         resp=post(captcha_para,captcha_headers).json()
