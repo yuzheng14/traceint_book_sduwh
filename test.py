@@ -83,6 +83,45 @@ def partial_cookie_test():
     status=verify_cookie('Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNTg2NjA3MX0.Y4cvBDUU7jHFVMnFbS2m1z9W0fZ51bDdhuWed7M4KizrMXEJPTxSUMzk1TaQYTWBF1Oopd6xI9sI-CJjvbOzsah_VPfMpBxFSXsJauXzbqtQryQ4PfhsH0fDEtmE8vGnbyXh0l6vSLOQkPrQl20fZ9plMSdJcCwtVMbYvkvXPQuLE0DZDnIHWjP6J_qDJF3oLm48wjlQgLO0TBJfybvamCQCQWJgZXkG7NvltLLtW7zfOQlhnJb9bJTFGxDilSjd3skZfoU_6ZDMl5x0_f-GNvFEPA5E8RCuYxhYYlbF0WbGjh3JoAP6X3WG5_6fpEpPW1ofgcDVTDtg-pfjXsVRuw')
     log(f'cookie test 9 (only Authorization): {status}')
 
+def content_length_test():
+    with open('json/reserve/captcha_headers.json','r') as f:
+        captcha_headers=json.load(f)
+    with open('json/book/10_headers.json','r') as f:
+        ten_headers=json.load(f)
+    with open('json/book/all_headers.json','r') as f:
+        all_headers=json.load(f)
+    with open('json/book/book_headers.json','r') as f:
+        book_headers=json.load(f)
+    with open('json/reserve/pre_10_headers.json','r') as f:
+        pre_10_headers=json.load(f)
+    
+    # del captcha_headers['Content-Length']
+    # del ten_headers['Content-Length']
+    # del all_headers['Content-Length']
+    # del book_headers['Content-Length']
+    # del pre_10_headers['Content-Length']
+    headers_dict={}
+    headers_dict['captcha_headers']=captcha_headers
+    headers_dict['ten_headers']=ten_headers
+    headers_dict['all_headers']=all_headers
+    headers_dict['book_headers']=book_headers
+    headers_dict['pre_10_headers']=pre_10_headers
+    # heads_list.append(captcha_headers)
+    # heads_list.append(ten_headers)
+    # heads_list.append(all_headers)
+    # heads_list.append(book_headers)
+    # heads_list.append(pre_10_headers)
+    for header in headers_dict.values():
+        # log(header)
+        del header['Content-Length']
+        del header['Cookie']
+
+    for key1,value1 in headers_dict.items():
+        for key2,value2 in headers_dict.items():
+            if json.dumps(value1,separators={',',':'}) == json.dumps(value2,separators={',',':'}):
+                log(f"{key1}与{key2}相同")
+            else:
+                log(f"{key1}与{key2}不同")
 
 # 测试失效cookie
 # cookie_test('FROM_TYPE=weixin; v=5.5; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNTU1MzUzMH0.jgq_S3qlBx44o3hqqa08DVX2i6J3V2alOXJXGUq61R0RQ3SGCJkT9c15Pl4uJ_xps4_WXEbkuW3QahMfNDvsmG-lwK-w1f9KNcV001QojJIQ6H1qfZg6wYZzhmHogSZwTK9nYbNoV6zUz-yviBf_qj4FpgfAHWWwqwNDSPaj_MlKOmsDaYzIGS9aUJKkoqKpnqh7lkAuvlW-Mkhy0_mgG-MbzqB7u07A6cUz_RhuXlW4lq_JR675lgLLEG73k_UWl7QE_ABoRFcCnEDGGsUPB6GDqNVorAXGHhC0rbpbvqIodQQDeKgj4S_TBaTMuTJza48yjMUvKiqREvKAzjDyrw; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635515712,1635519596,1635546155,1635549931; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1635549931; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1635549942|1635546149')
@@ -91,3 +130,4 @@ def partial_cookie_test():
 # log('')
 # prereserve_test()
 # partial_cookie_test()
+content_length_test()
