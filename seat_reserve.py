@@ -1,6 +1,5 @@
-from seat_book import post,verify_cookie,take_seat_name,wait_time
+from utils import post,verify_cookie,take_seat_name,wait_time,log
 import json
-from log import log
 import time
 
 # status=false时可以预定
@@ -37,7 +36,7 @@ def seat_prereserve(cookie):
     
     
     resp=post(pre_para,pre_headers).json()
-    while 'error' in resp:
+    while 'errors' in resp:
         log('请求座位失败')
         log(resp)
         time.sleep(1)

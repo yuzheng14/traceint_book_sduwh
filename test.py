@@ -1,7 +1,7 @@
-from seat_book import book,post,take_seat_name,verify_cookie,wait_time
+from seat_book import book
+from utils import post,take_seat_name,verify_cookie,wait_time,log
 import json
 import time
-from log import log
 
 def cookie_test(cookie):
     with open('json/book/10_para.json', 'r') as f:
@@ -122,6 +122,24 @@ def content_length_test():
                 log(f"{key1}与{key2}相同")
             else:
                 log(f"{key1}与{key2}不同")
+def file_append_test():
+    for i in range(5):
+        with open('test.out','a') as f:
+            f.write(time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\n')
+    log('完毕')
+
+def get_captcha_test():
+    with open('json/reserve/captcha_resp.json','r') as f:
+        resp=json.load(f)
+    log(resp)
+
+    if 'errors' not in resp:
+        with open('resource/captcha/captcha-site.out','a') as f:
+            f.write(json.dumps(resp['data']['userAuth']['prereserve']['captcha'])+'\n')
+            log('加入网址成功')
+    else:
+        log(resp)
+    log('时间截止')
 
 # 测试失效cookie
 # cookie_test('FROM_TYPE=weixin; v=5.5; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNTU1MzUzMH0.jgq_S3qlBx44o3hqqa08DVX2i6J3V2alOXJXGUq61R0RQ3SGCJkT9c15Pl4uJ_xps4_WXEbkuW3QahMfNDvsmG-lwK-w1f9KNcV001QojJIQ6H1qfZg6wYZzhmHogSZwTK9nYbNoV6zUz-yviBf_qj4FpgfAHWWwqwNDSPaj_MlKOmsDaYzIGS9aUJKkoqKpnqh7lkAuvlW-Mkhy0_mgG-MbzqB7u07A6cUz_RhuXlW4lq_JR675lgLLEG73k_UWl7QE_ABoRFcCnEDGGsUPB6GDqNVorAXGHhC0rbpbvqIodQQDeKgj4S_TBaTMuTJza48yjMUvKiqREvKAzjDyrw; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635515712,1635519596,1635546155,1635549931; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1635549931; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1635549942|1635546149')
@@ -130,4 +148,6 @@ def content_length_test():
 # log('')
 # prereserve_test()
 # partial_cookie_test()
-content_length_test()
+# content_length_test()
+# file_append_test()
+get_captcha_test()

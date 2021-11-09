@@ -1,6 +1,7 @@
 import requests
 import json
-from seat_book import post
+from utils import post,wait_time,log,verify_cookie
+import time
 
 def ocr():
     # 打开一张验证码图片
@@ -20,13 +21,36 @@ def ocr():
     print(text)
     print(time.time()-start)
 
-def get_captcha():
+def get_captcha(cookie):
+    wait_time(12,30)
+    if not verify_cookie(cookie):
+        log('cookie无效，请更新后重试')
+    with open('json/reserve/get_end_time_headers.json','r') as f:
+        get_end_time_headers=json.load(f)
+    with open('json/reserve/get_end_time_para.json','r') as f:
+        get_end_time_para=json.load(f)
+    get_end_time_headers['Cookie']=cookie
+    resp_end_time=post(get_end_time_para,get_end_time_headers)
+    log(resp_end_time)
+    end_time=resp_end_time.json()['data']['userAuth']['prereserve']['endTime']
+
     with open('json/reserve/captcha_headers.json','r') as f:
         captcha_headers=json.load(f)
     with open('json/reserve/captcha_para.json','r') as f:
         captcha_para=json.load(f)
-    captcha_headers['Cookie']='FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1636086043,1636172899,1636259364,1636432169; wechatSESS_ID=425de0efbe7c24056d7a744b0713647c1c027572777cca40; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNjQ1MDA5M30.y38Xzb1E7ms0Gw5dJs4jC9graD_soI8rUjpccjzjKxRXkqBwwB5zYnz6L35tFMJry_QUI-qFz9_Eher6X1ztS11IDANkheuycn27LYp8UPDWHDpTNMA9GKmM40tvZwMTQMMB5VWDef6sxF2LKNAvkrWAlsCfaX9T3hS_L-JTk3HufedIhCJynoHqaYRALsK99Tzu3s81XfBmMk0FB4aJM7OnnGHr39NjJb9GtA-Vtb2BgmyP5uTTiVTHhJ1Pirxd3FucKYBDEfbnYqzIgcpYZ_AK9vqPI2JhzmWtXFkV3Uc2KK8TuIIs9T231LGwZMdPQH6lLbqv7UCEHzg_sWjfqA; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1636446493|1636446487'
-    resp=post(captcha_para,captcha_headers)
-    print(resp.json())
+    captcha_headers['Cookie']=cookie
+    resp=post(captcha_para,captcha_headers).json()
+    log(resp)
+
+    while(time.time()<end_time ):
+        if 'errors' not in resp:
+            with open('resource/captcha/captcha-site.out','a') as f:
+                f.write(json.dumps(resp['data']['userAuth']['prereserve']['captcha'])+'\n')
+                log('加入网址成功')
+        else:
+            log(resp)
+        resp=post(captcha_para,captcha_headers).json()
+    log('时间截止')
+
 if __name__=='__main__':
-    get_captcha()
+    get_captcha('')

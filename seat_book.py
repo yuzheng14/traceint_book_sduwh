@@ -1,8 +1,7 @@
 import requests
 import json
 import time
-from log import log
-from utils import post,verify_cookie,take_seat_name
+from utils import post,verify_cookie,take_seat_name,log
 
 # seat_status=1为可预订
 def book(cookie):
