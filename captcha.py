@@ -3,24 +3,20 @@ import json
 from utils import post,wait_time,log,verify_cookie
 import time
 import os
+import ddddocr
 
 def ocr():
-    # 打开一张验证码图片
-    with open("./resource/captcha/jfem.jpg", "rb") as f:
-        img_bytes = f.read()
-    # 步骤 1
-
-    import time
-    start=time.time()
-    import ddddocr
-
+    images=os.listdir('resource/captcha/captchas')
+    images.sort()
     ocr=ddddocr.DdddOcr()
-
-
-
-    text=ocr.classification(img_bytes)
-    print(text)
-    print(time.time()-start)
+    for img in images:
+        with open(f'resource/captcha/captchas/{img}','rb') as f:
+            try:
+                captcha=ocr.classification(f.read())
+            except:
+                log(f.read())
+        with open('resource/captcha/captchas/captchas.out','a') as f:
+            f.write(f'{{"name":"{img}","captcha":"{captcha}"}}\n')
 
 def get_captcha_image():
     images=os.listdir('resource/captcha/captchas')
@@ -98,5 +94,6 @@ def get_captcha(cookie):
     log('时间截止')
 
 if __name__=='__main__':
-    get_captcha('FROM_TYPE=weixin; v=5.5; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNjYwODE1Nn0.UdiaHaYub4aNi91D9YKBnJ5LWLuSKkNyUa7nSUeuLxpFNPQl9ANWLKZAhmNj9CQSwg8a8AOtLc_5xP_AxE-xTle3gnghsxIM-H6XSs0y0VS4j2GrNuODrB_67IOfsEdmDW-NiVd_nDMxnbKJGhb5l3wDgbKFqOJWKvanDoz7D8IO6ICBx39lPRRWZGt1BTxIwuueVG6hrgQRjJilknNzUiSE-EPCjOCGmR3AYp7rE4nWvEvB6h0Z6kaoy8xiD09liEtKUn7vK3LsmRP3lqPUJ3jUylqaMYJ_hFztNLUJZ3OQr_xVaqTJQb7qfJgwRSLvUw023e_QAZw1NWY7JiMA8A; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1636604556|1636604497; Hm_lvt_7ecd21a13263a714793f376c18038a87=1636446493,1636517763,1636604485,1636604557; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1636604557')
+    # get_captcha('FROM_TYPE=weixin; v=5.5; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNjYwODE1Nn0.UdiaHaYub4aNi91D9YKBnJ5LWLuSKkNyUa7nSUeuLxpFNPQl9ANWLKZAhmNj9CQSwg8a8AOtLc_5xP_AxE-xTle3gnghsxIM-H6XSs0y0VS4j2GrNuODrB_67IOfsEdmDW-NiVd_nDMxnbKJGhb5l3wDgbKFqOJWKvanDoz7D8IO6ICBx39lPRRWZGt1BTxIwuueVG6hrgQRjJilknNzUiSE-EPCjOCGmR3AYp7rE4nWvEvB6h0Z6kaoy8xiD09liEtKUn7vK3LsmRP3lqPUJ3jUylqaMYJ_hFztNLUJZ3OQr_xVaqTJQb7qfJgwRSLvUw023e_QAZw1NWY7JiMA8A; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1636604556|1636604497; Hm_lvt_7ecd21a13263a714793f376c18038a87=1636446493,1636517763,1636604485,1636604557; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1636604557')
     # get_captcha_image()
+    ocr()

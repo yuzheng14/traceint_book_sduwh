@@ -4,6 +4,7 @@ import json
 import time
 import os
 import os.path
+import requests
 
 def cookie_test(cookie):
     with open('json/book/10_para.json', 'r') as f:
@@ -155,6 +156,14 @@ def string_test():
 def in_test():
     alist=['1','2']
     log('1' in alist)
+def get_captcha_bytes_test():
+    resp=requests.get('https://static.wechat.v2.traceint.com/template/theme2/cache/yzm/10d84ba656ed060957f90bc8731d902d.jpg')
+    log(resp.content)
+    with open('json/reserve/captcha_resp.json','r') as f:
+        resp=json.load(f)['data']['userAuth']['prereserve']['captcha']['data']
+    log(resp)
+    resp=requests.get(resp)
+    log(resp.content)
 
 # 测试失效cookie
 # cookie_test('FROM_TYPE=weixin; v=5.5; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNTU1MzUzMH0.jgq_S3qlBx44o3hqqa08DVX2i6J3V2alOXJXGUq61R0RQ3SGCJkT9c15Pl4uJ_xps4_WXEbkuW3QahMfNDvsmG-lwK-w1f9KNcV001QojJIQ6H1qfZg6wYZzhmHogSZwTK9nYbNoV6zUz-yviBf_qj4FpgfAHWWwqwNDSPaj_MlKOmsDaYzIGS9aUJKkoqKpnqh7lkAuvlW-Mkhy0_mgG-MbzqB7u07A6cUz_RhuXlW4lq_JR675lgLLEG73k_UWl7QE_ABoRFcCnEDGGsUPB6GDqNVorAXGHhC0rbpbvqIodQQDeKgj4S_TBaTMuTJza48yjMUvKiqREvKAzjDyrw; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635515712,1635519596,1635546155,1635549931; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1635549931; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1635549942|1635546149')
@@ -169,4 +178,5 @@ def in_test():
 # string_test()
 # log(len('ba315bdcb30fd7f55cd8fe1d443d4024'))
 # log(len(os.listdir('resource/captcha/captchas')))
-in_test()
+# in_test()
+get_captcha_bytes_test()

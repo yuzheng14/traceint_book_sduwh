@@ -1,12 +1,18 @@
 from utils import post,verify_cookie,take_seat_name,wait_time,log
 import json
 import time
+import ddddocr
+import requests
+import websocket
 
 # status=false时可以预定
 def seat_prereserve(cookie):
     if not verify_cookie(cookie):
         log('cookie无效，请重新输入cookie')
         return
+    
+    ocr=ddddocr.DdddOcr()
+
     with open('json/reserve/reserve_para.json','r') as f:
         prereserve_para=json.load(f)
     with open('json/reserve/reserve_headers.json','r') as f:
@@ -34,17 +40,44 @@ def seat_prereserve(cookie):
 
     log('开始等待预定时间')
     wait_time(12,30)
-    log('尝试发送验证码')
-    log(json.dumps(verify_captcha_para,indent=4))
+    log('尝试识别验证码')
+    
     resp_captcha=post(captcha_para,captcha_headers).json()
-    log(json.dumps(resp_captcha,indent=4))
+    captcha_code=resp_captcha['data']['userAuth']['prereserve']['captcha']['code']
+    captcha_website=resp_captcha['data']['userAuth']['prereserve']['captcha']['data']
+    captcha=ocr.classification(requests.get(captcha_website).content)
+    verify_captcha_para['variables']['captcha']=captcha
+    verify_captcha_para['variables']['captchaCode']=captcha_code
     resp_verify_captcha=post(verify_captcha_para,verify_captcha_headers).json()
-    if  resp_verify_captcha['data']['userAuth']['prereserve']['verifyCaptcha']:
-        log('直接发送验证码成功')
-    else:
-        log('直接发送验证码失败')
+    while not resp_verify_captcha['data']['userAuth']['prereserve']['verifyCaptcha']:
         log(json.dumps(resp_verify_captcha,indent=4))
-        return
+        log(f'{captcha_code}尝试失败，开始下一次尝试')
+        resp_captcha=post(captcha_para,captcha_headers).json()
+        captcha_code=resp_captcha['data']['userAuth']['prereserve']['captcha']['code']
+        captcha_website=resp_captcha['data']['userAuth']['prereserve']['captcha']['data']
+        captcha=ocr.classification(requests.get(captcha_website).content)
+        if len(captcha) !=4:
+            continue
+        verify_captcha_para['variables']['captcha']=captcha
+        verify_captcha_para['variables']['captchaCode']=captcha_code
+        resp_verify_captcha=post(verify_captcha_para,verify_captcha_headers).json()
+    log('验证码尝试成功')
+
+    log('开始尝试连接websocket')
+    # TODO:修改websocket代码
+    while True:
+        try:
+            wss=websocket.create_connection(resp_verify_captcha['data']['data']['prereserve']['setStep1'],timeout=30)
+            log('websocke连接成功')
+            break
+        except Exception as e:
+            log(f'websocket连接失败，即将开始下一次尝试')
+            log(e)
+            continue
+
+    message=wss.recv()
+    while 'out' not in message:
+        meessage=wss.recv()
     
     log("开始预定12号")
     prereserve_resp = post(prereserve_para, prereserve_headers).json()
@@ -63,7 +96,7 @@ def seat_prereserve(cookie):
     while 'errors' in resp:
         log('请求座位失败')
         log(json.dumps(resp,indent=4))
-        time.sleep(1)
+        # time.sleep(1)
     seats = resp["data"]["userAuth"]["prereserve"]["libLayout"]["seats"]
     seats.sort(key=take_seat_name)
     for seat in seats:
