@@ -26,10 +26,18 @@ def seat_prereserve(cookie):
         verify_captcha_para=json.load(f)
     verify_captcha_headers['Cookie']=cookie
 
+    with open('json/reserve/captcha_headers.json','r') as f:
+        captcha_headers=json.load(f)
+    with open('json/reserve/captcha_para.json','r') as f:
+        captcha_para=json.load(f)
+    captcha_headers['Cookie']=cookie
+
     log('开始等待预定时间')
     wait_time(12,30)
     log('尝试发送验证码')
     log(json.dumps(verify_captcha_para,indent=4))
+    resp_captcha=post(captcha_para,captcha_headers).json()
+    log(json.dumps(resp_captcha,indent=4))
     resp_verify_captcha=post(verify_captcha_para,verify_captcha_headers).json()
     if  resp_verify_captcha['data']['userAuth']['prereserve']['verifyCaptcha']:
         log('直接发送验证码成功')
@@ -37,8 +45,6 @@ def seat_prereserve(cookie):
         log('直接发送验证码失败')
         log(json.dumps(resp_verify_captcha,indent=4))
         return
-    
-    return
     
     log("开始预定12号")
     prereserve_resp = post(prereserve_para, prereserve_headers).json()
