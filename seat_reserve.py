@@ -56,28 +56,33 @@ def seat_prereserve(cookie):
         captcha_code=resp_captcha['data']['userAuth']['prereserve']['captcha']['code']
         captcha_website=resp_captcha['data']['userAuth']['prereserve']['captcha']['data']
         captcha=ocr.classification(requests.get(captcha_website).content)
-        if len(captcha) !=4:
-            continue
+        log(f'识别验证码为{captcha}')
         verify_captcha_para['variables']['captcha']=captcha
         verify_captcha_para['variables']['captchaCode']=captcha_code
         resp_verify_captcha=post(verify_captcha_para,verify_captcha_headers).json()
-    log('验证码尝试成功')
+    log(f'验证码尝试成功，验证码为{captcha}')
 
     log('开始尝试连接websocket')
     # TODO:修改websocket代码
-    while True:
-        try:
-            wss=websocket.create_connection(resp_verify_captcha['data']['data']['prereserve']['setStep1'],timeout=30)
-            log('websocke连接成功')
-            break
-        except Exception as e:
-            log(f'websocket连接失败，即将开始下一次尝试')
-            log(e)
-            continue
+    # while True:
+    #     try:
+    #         wss=websocket.create_connection(resp_verify_captcha['data']['data']['prereserve']['setStep1'],timeout=30)
+    #         log('websocke连接成功')
+    #         break
+    #     except Exception as e:
+    #         log(f'websocket连接失败，即将开始下一次尝试')
+    #         log(e)
+    #         continue
 
-    message=wss.recv()
-    while 'out' not in message:
-        meessage=wss.recv()
+    # message=wss.recv()
+    # while 'out' not in message:
+    #     meessage=wss.recv()
+    resp_queue=requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
+    while int(resp_queue.content) >0:
+        log(f'前方排队{resp_queue.content}人')
+        resp_queue=requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
+
+    log('排队完成')
     
     log("开始预定12号")
     prereserve_resp = post(prereserve_para, prereserve_headers).json()
