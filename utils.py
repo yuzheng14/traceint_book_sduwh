@@ -2,6 +2,7 @@ import json
 import requests
 import time
 from enum import Enum
+import traceback
 
 def verify_cookie(cookie):
     '''验证cookie有效性
@@ -85,3 +86,16 @@ def get_para_and_headers(activity:Activity) -> tuple:
 def get_resp(activity:Activity) -> requests.Response:
     para,headers=get_para_and_headers(activity)
     return post(para,headers)
+
+def on_message(ws,meessage):
+    log(f'websocket:\t')
+def on_close(ws,a,b):
+    log('wss关闭')
+def on_error(ws,error):
+    log('出现异常')
+    log(error)
+    traceback.print_exc()
+
+if __name__=='__main__':
+    status=verify_cookie('FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635913724,1636000165,1636122571,1636331028; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNjcwMjUzMX0.xjUtxYhsKj1-41z0I9M0kHmb6XwSF3V0seiZrQtVH9fuSOoA4tAGmcWTziQbokYXn98nf7oDlkYzX9A-muTQ7Pi3Mj0xdw1L-EGETj3uFKm30e3gIAd6Fkq_zL5YfmDY0WeFPbAnfpPSoLHOQkw4pUyZPYNTaB-2Q0DQGdwqeSNn6dN7nIaGLBKETYfZioa86W34X8CgHA8lMX7Z1lLkmKAGK6F9WY6sd0P-80P8wDzABdg88tr2cdK9FGlDCcEgbd7cJPbzIfIsJq1vbvA0a559bq90L1iMg4wuCVyO6ZSvJBUdQCsbR_XYZtBMlFuhvHwcQEkjO-VHCF2cdz9uuA; wechatSESS_ID=583a79f0a5c3db1d9e13ebe6f2ebe4c1243bdfa21a467134; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1636700727; SERVERID=d3936289adfff6c3874a2579058ac651|1636700840|1636698929')
+    log(status)

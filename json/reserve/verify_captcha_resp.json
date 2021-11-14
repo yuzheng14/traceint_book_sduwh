@@ -1,5 +1,5 @@
 {
-    "": {
+    "data": {
         "userAuth": {
             "prereserve": {
                 "verifyCaptcha": true,
