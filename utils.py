@@ -88,11 +88,13 @@ def get_resp(activity:Activity) -> requests.Response:
     return post(para,headers)
 
 def on_message(ws,meessage):
-    log(f'websocket:\t')
+    log(f'WebSocketApp:\t')
+
 def on_close(ws,a,b):
-    log('wss关闭')
+    log('WebSocketApp:\twss关闭')
+
 def on_error(ws,error):
-    log('出现异常')
+    log('WebSocketApp:\t出现异常')
     log(error)
     traceback.print_exc()
 

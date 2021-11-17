@@ -1,3 +1,4 @@
+import traceback
 import requests
 import json
 from utils import post,wait_time,log,verify_cookie
@@ -19,8 +20,8 @@ def ocr():
             f.write(f'{{"name":"{img}","captcha":"{captcha}"}}\n')
 
 def get_captcha_image():
-    images=os.listdir('resource/captcha/captchas')
-    with open('resource/captcha/captcha-site.out','r') as f:
+    images=os.listdir('resource/captcha/chinese_captchas')
+    with open('resource/captcha/chinese_captcha_site.out','r') as f:
         count=0
         for line in f:
             data=json.loads(line)
@@ -34,10 +35,13 @@ def get_captcha_image():
                 continue
             try:
                 resp=requests.get(url)
-                with open(f'resource/captcha/captchas/{file_name}','wb') as image:
-                    image.write(resp.content)
-                count=count+1
-                log(f'{code}已写入,当前已有{count}个')
+                if resp.status_code==200:
+                    with open(f'resource/captcha/chinese_captchas/{file_name}','wb') as image:
+                        image.write(resp.content)
+                    count=count+1
+                    log(f'{code}已写入,当前已有{count}个')
+                else:
+                    log(f'{code}网页访问失败，状态码{resp.status_code}')
             except:
                 count=count+1
                 log(f'{code}写入失败,当前已有{count}个')
@@ -93,7 +97,24 @@ def get_captcha(cookie):
             log(resp.content)
     log('时间截止')
 
+def recognize_imgs():
+    images=os.listdir('resource/captcha/chinese_captchas')
+    ocr=ddddocr.DdddOcr()
+    images.sort()
+    for img in images:
+        with open(f'resource/captcha/chinese_captchas/{img}','rb') as f:
+            try:
+                captcha=ocr.classification(f.read())
+            
+                if len(captcha) == 4:
+                    filename="_".join((captcha,img))
+                    with open(f'resource/captcha/recognize_ddddocr/{filename}','wb') as image_file:
+                        image_file.write(f.read())
+            except:
+                traceback.print_exc()
+
 if __name__=='__main__':
     # get_captcha('FROM_TYPE=weixin; v=5.5; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNjYwODE1Nn0.UdiaHaYub4aNi91D9YKBnJ5LWLuSKkNyUa7nSUeuLxpFNPQl9ANWLKZAhmNj9CQSwg8a8AOtLc_5xP_AxE-xTle3gnghsxIM-H6XSs0y0VS4j2GrNuODrB_67IOfsEdmDW-NiVd_nDMxnbKJGhb5l3wDgbKFqOJWKvanDoz7D8IO6ICBx39lPRRWZGt1BTxIwuueVG6hrgQRjJilknNzUiSE-EPCjOCGmR3AYp7rE4nWvEvB6h0Z6kaoy8xiD09liEtKUn7vK3LsmRP3lqPUJ3jUylqaMYJ_hFztNLUJZ3OQr_xVaqTJQb7qfJgwRSLvUw023e_QAZw1NWY7JiMA8A; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1636604556|1636604497; Hm_lvt_7ecd21a13263a714793f376c18038a87=1636446493,1636517763,1636604485,1636604557; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1636604557')
     # get_captcha_image()
-    ocr()
+    # ocr()
+    recognize_imgs()
