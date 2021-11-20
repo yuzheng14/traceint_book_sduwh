@@ -5,6 +5,7 @@ from utils import post,wait_time,log,verify_cookie
 import time
 import os
 import ddddocr
+import muggle_ocr
 
 def ocr():
     images=os.listdir('resource/captcha/captchas')
@@ -97,24 +98,41 @@ def get_captcha(cookie):
             log(resp.content)
     log('时间截止')
 
-def recognize_imgs():
+def recognize_imgs_ddddocr():
     images=os.listdir('resource/captcha/chinese_captchas')
     ocr=ddddocr.DdddOcr()
     images.sort()
     for img in images:
         with open(f'resource/captcha/chinese_captchas/{img}','rb') as f:
-            try:
-                captcha=ocr.classification(f.read())
-            
-                if len(captcha) == 4:
-                    filename="_".join((captcha,img))
-                    with open(f'resource/captcha/recognize_ddddocr/{filename}','wb') as image_file:
-                        image_file.write(f.read())
-            except:
-                traceback.print_exc()
+            image_data=f.read()
+        try:
+            captcha=ocr.classification(image_data)
+        
+            if len(captcha) == 4:
+                filename="_".join((captcha,img))
+                with open(f'resource/captcha/recognize_muggle_ocr/{filename}','wb') as image_file:
+                    image_file.write(image_data)
+        except:
+            traceback.print_exc()
 
+def recognize_imgs_muggle_ocr():
+    images=os.listdir('resource/captcha/chinese_captchas')
+    ocr=ddddocr.DdddOcr()
+    images.sort()
+    for img in images:
+        with open(f'resource/captcha/chinese_captchas/{img}','rb') as f:
+            image_data=f.read()
+        try:
+            captcha=ocr.classification(image_data)
+        
+            if len(captcha) == 4:
+                filename="_".join((captcha,img))
+                with open(f'resource/captcha/recognize_muggle_ocr/{filename}','wb') as image_file:
+                    image_file.write(image_data)
+        except:
+            traceback.print_exc()
 if __name__=='__main__':
     # get_captcha('FROM_TYPE=weixin; v=5.5; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNjYwODE1Nn0.UdiaHaYub4aNi91D9YKBnJ5LWLuSKkNyUa7nSUeuLxpFNPQl9ANWLKZAhmNj9CQSwg8a8AOtLc_5xP_AxE-xTle3gnghsxIM-H6XSs0y0VS4j2GrNuODrB_67IOfsEdmDW-NiVd_nDMxnbKJGhb5l3wDgbKFqOJWKvanDoz7D8IO6ICBx39lPRRWZGt1BTxIwuueVG6hrgQRjJilknNzUiSE-EPCjOCGmR3AYp7rE4nWvEvB6h0Z6kaoy8xiD09liEtKUn7vK3LsmRP3lqPUJ3jUylqaMYJ_hFztNLUJZ3OQr_xVaqTJQb7qfJgwRSLvUw023e_QAZw1NWY7JiMA8A; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1636604556|1636604497; Hm_lvt_7ecd21a13263a714793f376c18038a87=1636446493,1636517763,1636604485,1636604557; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1636604557')
     # get_captcha_image()
     # ocr()
-    recognize_imgs()
+    recognize_imgs_muggle_ocr()

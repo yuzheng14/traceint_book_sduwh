@@ -89,16 +89,21 @@ def seat_prereserve(cookie):
     
 
     # log('开始尝试连接websocket')
-    # TODO:修改websocket代码
-    # try:
-    #     wss=websocket.create_connection(resp_get_end_time['data']['userAuth']['prereserve']['queeUrl'],timeout=30)
-    #     log('create_connection连接成功')
-    #     message=wss.recv()
-    #     wss.close()
-    #     log('create_connection连接关闭')
-    # except Exception as e:
-    #     log(f'create_connection连接异常')
-    #     traceback.print_exc()
+    # TODO:修改为若排队未完成且排队人数为-1且超出时间则一直连接wss连接
+    try:
+        try:
+            wss_url=resp_verify_captcha['data']['userAuth']['prereserve']['setStep1']
+        except:
+            wss_url=resp_get_end_time['data']['userAuth']['prereserve']['queeUrl']
+        log(f'wss连接地址{wss_url}')
+        wss=websocket.create_connection(wss_url,timeout=30)
+        log('create_connection连接成功')
+        # message=wss.recv()
+        wss.close()
+        log('create_connection连接关闭')
+    except Exception as e:
+        log(f'create_connection连接异常')
+        traceback.print_exc()
 
     # try:
     #     wss=websocket.WebSocketApp('wss://wechat.v2.traceint.com/quee/quee?sid=21001936&schId=126&in=3kQ5&time=1636000215&t=b832ed9029ca3e1a1f3e2328770de52f',
@@ -115,7 +120,8 @@ def seat_prereserve(cookie):
     # log(message)
     # while 'out' not in message:
     #     meessage=wss.recv()
-    time.sleep(1)
+    
+    # time.sleep(1)
     # TODO 此处改为更通用的写法
     resp_queue=requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
     queue_num=int(resp_queue.content)
@@ -174,6 +180,10 @@ def seat_prereserve(cookie):
         else:
             log(f"{seat['name']}号座位已有人")
 
+    # 查看排队数据，已增强系统精准性
+    resp_queue=requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
+    queue_num=int(resp_queue.content)
+
 
 if __name__=='__main__':
-    seat_prereserve('FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1636122571,1636331028,1636863912,1636950371; wechatSESS_ID=8108a479d257414fc6fdf9a6213744113480b3dea943e82f; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNzEyMzU2MX0.koiUT1FW_DfElbkR-HKNvb5S_AT9dk9O4ejp-wAqj8ifVezH6g6yHjsMXcgcJNjDQJx7r8CXOVltIyruPrU0be_NpsljIowoZCnOsHcYHB97CR2iiY_z_c6fx0sgJ6jApPdOC4uql6-kSY_u3rOX4sIVRIY2zSfdZlT9ipBbhvv0_KHQ6x4JX38-0VZB83MwNSiHB6Q7WI1gS_NcaHqWtQWdbDYyz9z8sTZP5NK02BzPFZ3Db6Lf7sb2l9WkVtxa95_pMkPo1ixX-abTLSBxh8DlFHLLp53lN2R-FPncedpAjtHWh7U94DlObj_Xlj54IL_1W9sHq45EwuOe0ocwMA; SERVERID=b9fc7bd86d2eed91b23d7347e0ee995e|1637122550|1637122550; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1637122550')
+    seat_prereserve('FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1636863912,1636950371,1637209490,1637287316; wechatSESS_ID=bdd25ff524a4413ab5e6b68c6035055d1e7b67c933c597d9; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1637381872|1637381870; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNzM4NTQ3Mn0.wjDebv70m8A7WwcshOEkFx8XEvN281q67tTyAYg7lNGSH7x9y8R3GFnCf8mBldhgVq_LWHZue8f0C1vxxeH17aJqArcconIt5Y-i43FqTemmxwEnxLKzZUu-XTlud8V4YWuAjDJC_dB_g57yX4aX5njTET6lrw-nBkWqGfOdcGbRioJuAXcuIEwDdpo0Fg5t_Sq2qN0hHo1U2EtQ8-ZnN8_TcGBESZ0IZPYVrzs-w0BqRRHYXROZ5N5BWj5f_PdWphSbFOQlQmt3LuspCBtTlqZYk48ZhaBspx7QmiwpNtgIi2LfiTgm2okXAb9W3hGUnTUm2xUqL_KRvMS0LrAdsw; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1637381873')
