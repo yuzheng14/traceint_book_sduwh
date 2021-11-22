@@ -112,24 +112,7 @@ def seat_prereserve(cookie):
     except Exception as e:
         log(f'create_connection连接异常')
         traceback.print_exc()
-
-    # try:
-    #     wss=websocket.WebSocketApp('wss://wechat.v2.traceint.com/quee/quee?sid=21001936&schId=126&in=3kQ5&time=1636000215&t=b832ed9029ca3e1a1f3e2328770de52f',
-    #         header={'User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat(0x63040026)',f'Cookie: {cookie}'},
-    #         cookie=cookie,
-    #         on_message=on_message,
-    #         on_close=on_close,
-    #         on_error=on_error)
-    #     wss.run_forever()
-    # except:
-    #     log('WebSocketApp连接失败')
-    #     traceback.print_exc()
-    
-    # log(message)
-    # while 'out' not in message:
-    #     meessage=wss.recv()
-    
-    # time.sleep(1)
+        
     # TODO 此处改为更通用的写法
     resp_queue=requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
     queue_num=int(resp_queue.content)
