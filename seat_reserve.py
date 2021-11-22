@@ -45,6 +45,14 @@ def seat_prereserve(cookie):
         get_end_time_para=json.load(f)
     get_end_time_headers['Cookie']=cookie
 
+    log('开始等待验证cookie时间')
+    wait_time(12,29)
+    if not verify_cookie(cookie):
+        log('cookie无效，请重新输入cookie')
+        return
+    else:
+        log('cookie有效，请等待预定时间')
+
     log('开始等待预定时间')
     wait_time(12,30)
     try:
