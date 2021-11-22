@@ -85,16 +85,6 @@ def seat_prereserve(cookie):
     except Exception as e:
         log(f'错误')
         traceback.print_exc()
-    
-    # 确认验证码是否验证成功
-    # 经确认无需此步
-    # resp_get_end_time=post(get_end_time_para,get_end_time_headers).json()
-    # if resp_get_end_time['data']['userAuth']['prereserve']['getStep'] ==1:
-    #     log('确认验证captcha成功')
-    # else:
-    #     log('确认验证captcha失败')
-
-    
 
     # log('开始尝试连接websocket')
     # TODO:修改为若排队未完成且排队人数为-1且超出时间则一直连接wss连接
@@ -112,7 +102,7 @@ def seat_prereserve(cookie):
     except Exception as e:
         log(f'create_connection连接异常')
         traceback.print_exc()
-        
+
     # TODO 此处改为更通用的写法
     resp_queue=requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
     queue_num=int(resp_queue.content)
