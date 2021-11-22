@@ -96,9 +96,6 @@ def seat_prereserve(cookie):
         log(f'wss连接地址{wss_url}')
         wss=websocket.create_connection(wss_url,timeout=30)
         log('create_connection连接成功')
-        # message=wss.recv()
-        wss.close()
-        log('create_connection连接关闭')
     except Exception as e:
         log(f'create_connection连接异常')
         traceback.print_exc()
@@ -164,7 +161,10 @@ def seat_prereserve(cookie):
     # 查看排队数据，已增强系统精准性
     resp_queue=requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
     queue_num=int(resp_queue.content)
-
+    
+    if 'wss' in dir(): # vars() locals().keys()均可
+        wss.close()
+        log('create_connection连接关闭')
 
 if __name__=='__main__':
     seat_prereserve('FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1636863912,1636950371,1637209490,1637287316; wechatSESS_ID=bdd25ff524a4413ab5e6b68c6035055d1e7b67c933c597d9; SERVERID=82967fec9605fac9a28c437e2a3ef1a4|1637381872|1637381870; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNzM4NTQ3Mn0.wjDebv70m8A7WwcshOEkFx8XEvN281q67tTyAYg7lNGSH7x9y8R3GFnCf8mBldhgVq_LWHZue8f0C1vxxeH17aJqArcconIt5Y-i43FqTemmxwEnxLKzZUu-XTlud8V4YWuAjDJC_dB_g57yX4aX5njTET6lrw-nBkWqGfOdcGbRioJuAXcuIEwDdpo0Fg5t_Sq2qN0hHo1U2EtQ8-ZnN8_TcGBESZ0IZPYVrzs-w0BqRRHYXROZ5N5BWj5f_PdWphSbFOQlQmt3LuspCBtTlqZYk48ZhaBspx7QmiwpNtgIi2LfiTgm2okXAb9W3hGUnTUm2xUqL_KRvMS0LrAdsw; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1637381873')
