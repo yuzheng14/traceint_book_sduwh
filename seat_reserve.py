@@ -115,19 +115,20 @@ def seat_prereserve(cookie):
     log(f'前方排队{queue_num}人')
     log('排队完成')
     
-    log("开始预定23号")
-    prereserve_resp = post(prereserve_para, prereserve_headers).json()
-    try:
-        if prereserve_resp["data"]["userAuth"]["prereserve"]["save"]:
-            log("预定成功，座位为23号")
-            return
-    except:
-        log("预定23号异常")
-        log(json.dumps(prereserve_resp,indent=4,ensure_ascii=False))
-        traceback.print_exc()
+    # 暂时取消预定23号
+    # log("开始预定23号")
+    # prereserve_resp = post(prereserve_para, prereserve_headers).json()
+    # try:
+    #     if prereserve_resp["data"]["userAuth"]["prereserve"]["save"]:
+    #         log("预定成功，座位为23号")
+    #         return
+    # except:
+    #     log("预定23号异常")
+    #     log(json.dumps(prereserve_resp,indent=4,ensure_ascii=False))
+    #     traceback.print_exc()
     
-    log("预定23号失败")
-    log(json.dumps(prereserve_resp,indent=4,ensure_ascii=False))
+    # log("预定23号失败")
+    # log(json.dumps(prereserve_resp,indent=4,ensure_ascii=False))
 
     resp=post(pre_para,pre_headers).json()
     while 'errors' in resp:
