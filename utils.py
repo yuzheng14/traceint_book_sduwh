@@ -55,6 +55,7 @@ def log_json(message_json):
 
 # TODO doc注释
 # TODO 完善函数
+# TODO 未拆封微信浏览器之前无法完善
 def renew_cookie(cookie:dict) -> dict:
     if verify_cookie(cookie):
         log('当前验证码有效，无需更新')
@@ -139,3 +140,23 @@ def save_recognized_image(image_byte:bytes,name:str):
         保存图片文件名称
     '''
     save_image(image_byte,name,'resource/captcha/recognized_captcha')
+
+def get_SToken(cookie:str) -> str:
+    '''获取退座所需要的SToken
+    参数
+    ---------------------
+    cookie:str
+        传入cookie
+    
+    返回值
+    ---------------------
+    str
+        退座所需要的SToken
+    '''
+    with open('json/book/index_headers.json') as f:
+        headers = json.load(f)
+    with open('json/book/index_para.json') as f:
+        para = json.load(f)
+    headers['Cookie'] = cookie
+    resp = post(para, headers).json()
+    return resp['data']['userAuth']['reserve']['getSToken']
