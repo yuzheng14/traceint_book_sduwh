@@ -105,7 +105,7 @@ def save_image(image_byte:bytes,name:str,image_path:str):
     image_byte:bytes
         要保存的图片二进制数据
     name:str
-        文件名称
+        保存图片文件名称
     image_path:str
         保存地址/路径
     '''
@@ -119,7 +119,7 @@ def save_unrecognized_image(image_byte:bytes,name:str):
     image_bytes:bytes
         要保存的图片二进制代码
     name:str
-        文件名称
+        保存图片文件名称
     '''
     save_image(image_byte,name,'resource/captcha/unrecognized_captcha')
 
@@ -130,6 +130,6 @@ def save_recognized_image(image_byte:bytes,name:str):
     image_bytes:bytes
         要保存的图片二进制代码
     name:str
-        文件名称
+        保存图片文件名称
     '''
     save_image(image_byte,name,'resource/captcha/recognized_captcha')
