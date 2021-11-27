@@ -112,8 +112,11 @@ def save_image(image_byte:bytes,name:str,image_path:str):
     image_path:str
         保存地址/路径
     '''
-    with open(f'{image_path}/{name}','wb') as f:
-        f.write(image_byte)
+    try:
+        with open(f'{image_path}/{name}','wb') as f:
+            f.write(image_byte)
+    except:
+        traceback.print_exc()
 
 def save_unrecognized_image(image_byte:bytes,name:str):
     '''保存未验证的验证码图片到对应文件夹
