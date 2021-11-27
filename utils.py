@@ -98,6 +98,38 @@ def on_error(ws,error):
     log(error)
     traceback.print_exc()
 
-if __name__=='__main__':
-    status=verify_cookie('FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635913724,1636000165,1636122571,1636331028; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNjcwMjUzMX0.xjUtxYhsKj1-41z0I9M0kHmb6XwSF3V0seiZrQtVH9fuSOoA4tAGmcWTziQbokYXn98nf7oDlkYzX9A-muTQ7Pi3Mj0xdw1L-EGETj3uFKm30e3gIAd6Fkq_zL5YfmDY0WeFPbAnfpPSoLHOQkw4pUyZPYNTaB-2Q0DQGdwqeSNn6dN7nIaGLBKETYfZioa86W34X8CgHA8lMX7Z1lLkmKAGK6F9WY6sd0P-80P8wDzABdg88tr2cdK9FGlDCcEgbd7cJPbzIfIsJq1vbvA0a559bq90L1iMg4wuCVyO6ZSvJBUdQCsbR_XYZtBMlFuhvHwcQEkjO-VHCF2cdz9uuA; wechatSESS_ID=583a79f0a5c3db1d9e13ebe6f2ebe4c1243bdfa21a467134; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1636700727; SERVERID=d3936289adfff6c3874a2579058ac651|1636700840|1636698929')
-    log(status)
+def save_image(image_byte:bytes,name:str,image_path:str):
+    '''保存验证码图片
+    参数
+    -----------------------
+    image_byte:bytes
+        要保存的图片二进制数据
+    name:str
+        文件名称
+    image_path:str
+        保存地址/路径
+    '''
+    with open(f'{image_path}/{name}','wb') as f:
+        f.write(image_byte)
+
+def save_unrecognized_image(image_byte:bytes,name:str):
+    '''保存未验证的验证码图片到对应文件夹
+    参数
+    -------------------------
+    image_bytes:bytes
+        要保存的图片二进制代码
+    name:str
+        文件名称
+    '''
+    save_image(image_byte,name,'resource/captcha/unrecognized_captcha')
+
+def save_recognized_image(image_byte:bytes,name:str):
+    '''保存已验证的验证码图片到对应文件夹
+    参数
+    -------------------------
+    image_bytes:bytes
+        要保存的图片二进制代码
+    name:str
+        文件名称
+    '''
+    save_image(image_byte,name,'resource/captcha/recognized_captcha')
