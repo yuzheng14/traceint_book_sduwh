@@ -1,0 +1,15 @@
+{
+    "data": {
+        "userAuth": {
+            "reserve": {
+                "reserveCancle": {
+                    "timerange": 51112,
+                    "img": "stop.png",
+                    "hours": "14",
+                    "mins": "11",
+                    "per": 96
+                }
+            }
+        }
+    }
+}
