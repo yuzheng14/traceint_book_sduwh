@@ -148,7 +148,7 @@ def seat_prereserve(cookie):
             try:
                 if prereserve_resp["data"]["userAuth"]["prereserve"]["save"]:
                     log(f"预定成功，座位为{seat['name']}号")
-                    return
+                    break
                 else:
                     log(f"预定{seat['name']}号失败")
                     log(json.dumps(prereserve_resp,indent=4,ensure_ascii=False))
