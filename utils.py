@@ -50,6 +50,9 @@ def log(message):
         # f.write(time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'+'\n')
     print((time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'))
 
+def log_json(message_json):
+    log(f'\n{message_json}')
+
 # TODO doc注释
 # TODO 完善函数
 def renew_cookie(cookie:dict) -> dict:
