@@ -86,7 +86,6 @@ def seat_prereserve(cookie):
         log(f'错误')
         traceback.print_exc()
 
-    # log('开始尝试连接websocket')
     # TODO:修改为若排队未完成且排队人数为-1且超出时间则一直连接wss连接
     try:
         try:
@@ -114,27 +113,12 @@ def seat_prereserve(cookie):
         queue_num=int(resp_queue.content)
     log(f'前方排队{queue_num}人')
     log('排队完成')
-    
-    # 暂时取消预定23号
-    # log("开始预定23号")
-    # prereserve_resp = post(prereserve_para, prereserve_headers).json()
-    # try:
-    #     if prereserve_resp["data"]["userAuth"]["prereserve"]["save"]:
-    #         log("预定成功，座位为23号")
-    #         return
-    # except:
-    #     log("预定23号异常")
-    #     log(json.dumps(prereserve_resp,indent=4,ensure_ascii=False))
-    #     traceback.print_exc()
-    
-    # log("预定23号失败")
-    # log(json.dumps(prereserve_resp,indent=4,ensure_ascii=False))
 
     resp=post(pre_para,pre_headers).json()
     while 'errors' in resp:
         log('请求座位失败')
         log(json.dumps(resp,indent=4,ensure_ascii=False))
-        # time.sleep(1)
+        
     seats = resp["data"]["userAuth"]["prereserve"]["libLayout"]["seats"]
     seats.sort(key=take_seat_name)
     for seat in seats:
