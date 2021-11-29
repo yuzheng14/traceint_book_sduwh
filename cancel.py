@@ -13,9 +13,11 @@ def cancel(cookie):
     cancel_header['Cookie']=cookie
 
     log('等待固定时间')
+    
+    wait_time(22,30)
+
     s_token=get_SToken(cookie)
     cancel_para['variables']['sToken']=s_token
-    wait_time(22,30)
     cancel_resp=post(cancel_para,cancel_header)
     log_json(cancel_resp.json())
 
