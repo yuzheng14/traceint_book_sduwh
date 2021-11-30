@@ -12,6 +12,14 @@ def cancel(cookie):
         cancel_header=json.load(f)
     cancel_header['Cookie']=cookie
 
+    log('开始等待验证cookie时间')
+    wait_time(12,29)
+    if not verify_cookie(cookie):
+        log('cookie无效，请重新输入cookie')
+        return
+    else:
+        log('cookie有效，请等待预定时间')
+
     log('等待固定时间')
     
     wait_time(22,30)
