@@ -13,7 +13,7 @@ def cancel(cookie):
     cancel_header['Cookie']=cookie
 
     log('开始等待验证cookie时间')
-    wait_time(12,29)
+    wait_time(22,29)
     if not verify_cookie(cookie):
         log('cookie无效，请重新输入cookie')
         return
