@@ -51,7 +51,7 @@ def log(message):
     print((time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'))
 
 def log_json(message_json):
-    log(f'\n{message_json}')
+    log(f'\n{json.dumps(message_json,indent=4,ensure_ascii=False)}')
 
 # TODO doc注释
 # TODO 完善函数

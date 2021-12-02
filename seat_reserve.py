@@ -166,4 +166,4 @@ def seat_prereserve(cookie):
         save_recognized_image(image_byte,'_'.join((captcha,captcha_code,captcha_website.split('/')[-1])))
 
 if __name__=='__main__':
-    seat_prereserve('FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1636950371,1637209490,1637287316,1637418775; wechatSESS_ID=ad316af26f39204b06b9dbbace48d2cfdd1a025177ae5e38; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNzQ3MTk4MH0.PXvW0JPBbzyuet895fJ8HQNBvRkmjQzzDrs44TEuK_ikmA33VWwzdNerplQZB4Fmy1Djs4Pcz8bm35yxELOH4w0bRch6XsibMzSZKJ9YQv-hyG0n9wF_b92T9e6dP7m-eCfjD_tPFHwYXhAHvOsbnUOeL2PLFdQXDYrpAmkUUdG7HjBgXNGKlg4TylWKdvh2U8Tg3UT4-6H06C1LnhQDu3Bz7YgfNWzRj8axgh4rG2LIMrWT71CRbgkNjrtIXnuwdVvuQEJFIMuovTSSMaA0dTRWjUonef5LeoYz39W480Uo8iahHM2Aw9Ay0vxXmkU4BM8TrBly-77XUsMguFTFMQ; SERVERID=b9fc7bd86d2eed91b23d7347e0ee995e|1637468380|1637468378; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1637468381')
+    seat_prereserve('')
