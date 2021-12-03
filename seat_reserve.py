@@ -1,10 +1,14 @@
-from utils import post, verify_cookie, take_seat_name, wait_time, log, save_unrecognized_image, save_recognized_image
 import json
 import time
+import traceback
+
 import ddddocr
 import requests
 import websocket
-import traceback
+
+from utils.utils import (log, save_recognized_image, save_unrecognized_image,
+                         take_seat_name, wait_time)
+from utils.request import post, verify_cookie
 
 
 # status=false时可以预定
