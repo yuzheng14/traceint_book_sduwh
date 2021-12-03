@@ -1,15 +1,15 @@
 import json
-import requests
 import time
-from enum import Enum
 import traceback
-from utils.request import post, verify_cookie
+from enum import Enum
+from utils.request import verify_cookie
 
 
 # TODO doc注释
 def wait_time(hour, minute):
     time_to_wait = hour * 60 + minute
-    while time.localtime().tm_hour * 60 + time.localtime().tm_min < time_to_wait:
+    while time.localtime().tm_hour * 60 + time.localtime(
+    ).tm_min < time_to_wait:
         pass
 
 
@@ -69,18 +69,6 @@ class Activity(Enum):
     withdraw = {}
 
 
-# TODO doc注释
-# TODO 完善函数
-def get_para_and_headers(activity: Activity) -> tuple:
-    return ()
-
-
-# TODO doc注释
-def get_resp(activity: Activity) -> requests.Response:
-    para, headers = get_para_and_headers(activity)
-    return post(para, headers)
-
-
 def save_image(image_byte: bytes, name: str, image_path: str):
     '''保存验证码图片
     参数
@@ -121,23 +109,3 @@ def save_recognized_image(image_byte: bytes, name: str):
         保存图片文件名称
     '''
     save_image(image_byte, name, 'resource/captcha/recognized_captcha')
-
-
-def get_SToken(cookie: str) -> str:
-    """获取退座所需要的SToken
-    参数
-    ---------------------
-    cookie:str
-        传入cookie
-    返回值
-    ---------------------
-    str
-        退座所需要的SToken
-    """
-    with open('json/book/index_headers.json') as f:
-        headers = json.load(f)
-    with open('json/book/index_para.json') as f:
-        para = json.load(f)
-    headers['Cookie'] = cookie
-    resp = post(para, headers).json()
-    return resp['data']['userAuth']['reserve']['getSToken']
