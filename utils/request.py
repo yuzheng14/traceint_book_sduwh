@@ -3,6 +3,12 @@ import json
 
 
 def post(post_para, headers):
+    """对图书馆接口发送post请求
+
+    Args:
+        post_para (list(json)): 要发送的json数据
+        headers (dict): headers参数
+    """
 
     url = 'https://wechat.v2.traceint.com/index.php/graphql/'
     resp = requests.request("post", url, json=post_para, headers=headers)
