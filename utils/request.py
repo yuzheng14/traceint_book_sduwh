@@ -1,11 +1,13 @@
 import requests
 import json
 
+
 def post(post_para, headers):
 
     url = 'https://wechat.v2.traceint.com/index.php/graphql/'
     resp = requests.request("post", url, json=post_para, headers=headers)
     return resp
+
 
 def verify_cookie(cookie):
     '''验证cookie有效性
