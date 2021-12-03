@@ -81,20 +81,6 @@ def get_resp(activity: Activity) -> requests.Response:
     return post(para, headers)
 
 
-def on_message(ws, meessage):
-    log('WebSocketApp:\t')
-
-
-def on_close(ws, a, b):
-    log('WebSocketApp:\twss关闭')
-
-
-def on_error(ws, error):
-    log('WebSocketApp:\t出现异常')
-    log(error)
-    traceback.print_exc()
-
-
 def save_image(image_byte: bytes, name: str, image_path: str):
     '''保存验证码图片
     参数
