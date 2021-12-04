@@ -60,8 +60,8 @@ def get_step(cookie: str) -> int:
     return resp.json()['data']['userAuth']['prereserve']['getStep']
 
 
-def get_libLayout(cookie: str, lib_id: int) -> dict:
-    para, headers = get_para_and_headers(Activity.libLayout, cookie)
+def get_prereseve_libLayout(cookie: str, lib_id: int) -> dict:
+    para, headers = get_para_and_headers(Activity.prereserveLibLayout, cookie)
     para['variables']['libId'] = lib_id
     return post(para, headers).json()
 
