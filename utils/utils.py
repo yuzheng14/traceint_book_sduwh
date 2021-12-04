@@ -57,11 +57,19 @@ class Activity(Enum):
         "query":
         "query getStep0 {\n userAuth {\n prereserve {\n getNum\n captcha {\n code\n data\n }\n }\n }\n}"
     }
-    get_step = {
+    getStep = {
         "operationName":
         "getStep",
         "query":
         "query getStep {\n userAuth {\n prereserve {\n getStep\n queeUrl\n successUrl\n endTime\n }\n }\n}"
+    }
+    libLayout = {
+        "operationName": "libLayout",
+        "query":
+        "query libLayout($libId: Int!) {\n userAuth {\n prereserve {\n libLayout(libId: $libId) {\n max_x\n max_y\n seats_booking\n seats_total\n seats_used\n seats {\n key\n name\n seat_status\n status\n type\n x\n y\n }\n }\n }\n }\n}",
+        "variables": {
+            "libId": None
+        }
     }
     prereserve_10_seats = {}
     get_end_time = {}
