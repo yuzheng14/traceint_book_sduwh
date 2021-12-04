@@ -5,7 +5,7 @@ import requests
 from utils.utils import Activity, log
 
 
-def post(post_para, headers):
+def post(post_para: dict, headers: dict) -> requests.Response:
     """对图书馆接口发送post请求
 
     Args:
@@ -39,26 +39,29 @@ def verify_cookie(cookie):
     return 'errors' not in resp
 
 
-# TODO doc注释
-# TODO 完善函数
-def get_para_and_headers(activity: Activity) -> tuple:
+def get_para_and_headers(activity: Activity, cookie: str) -> tuple:
     """获取该项活动的json参数和headers
 
     Args:
         activity (Activity): 活动enum
+        cookie (str): 传入cookie
 
     Returns:
         tuple: 返回json参数和headers组成的元组
     """
-    return ()
+
+    headers = Activity.headers.value
+    headers['Cookie'] = cookie
+
+    return (activity.value, headers)
 
 
-# TODO doc注释
-def get_resp(activity: Activity) -> requests.Response:
+def get_resp(activity: Activity, cookie: str) -> requests.Response:
     """通过传入的活动获取response
 
     Args:
         activity (Activity): 活动enum
+        cookie (str): 传入cookie
 
     Returns:
         requests.Response: 返回的response
@@ -96,3 +99,18 @@ def renew_cookie(cookie: dict) -> dict:
         return cookie
     pass
     return cookie
+
+
+# TODO doc注释
+# TODO 完善函数
+def have_seat() -> bool:
+    pass
+
+
+def get_step_response(cookie: str) -> requests.Response:
+    return get_resp(Activity.get_step, cookie)
+
+
+def get_step(cookie: str) -> int:
+    resp = get_step_response(cookie)
+    return resp['data']['userAuth']['prereserve']['getStep']

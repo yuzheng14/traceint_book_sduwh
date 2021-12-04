@@ -33,30 +33,35 @@ def log_json(message_json):
 
 
 # TODO doc注释
-# TODO 完善函数
-# TODO 未拆封微信浏览器之前无法完善
-def renew_cookie(cookie: dict) -> dict:
-    from utils.request import verify_cookie
-    if verify_cookie(cookie):
-        log('当前验证码有效，无需更新')
-        return cookie
-    pass
-    return cookie
-
-
-# TODO doc注释
-# TODO 完善函数
-def have_seat() -> bool:
-    pass
-
-
-# TODO doc注释
 class Activity(Enum):
+    headers = {
+        "Host": "wechat.v2.traceint.com",
+        "Connection": "keep-alive",
+        "Content-Length": "729",
+        "Origin": "https://web.traceint.com",
+        "User-Agent":
+        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat(0x63040026)",
+        "Content-Type": "application/json",
+        "Accept": "*/*",
+        "Cookie": "",
+        "Sec-Fetch-Site": "same-site",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "https://web.traceint.com/web/index.html",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"
+    }
     captcha = {
         "operationName":
         "getStep0",
         "query":
         "query getStep0 {\n userAuth {\n prereserve {\n getNum\n captcha {\n code\n data\n }\n }\n }\n}"
+    }
+    get_step = {
+        "operationName":
+        "getStep",
+        "query":
+        "query getStep {\n userAuth {\n prereserve {\n getStep\n queeUrl\n successUrl\n endTime\n }\n }\n}"
     }
     prereserve_10_seats = {}
     get_end_time = {}
