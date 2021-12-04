@@ -71,15 +71,6 @@ class Activity(Enum):
             "libId": None
         }
     }
-    prereserve_10_seats = {}
-    get_end_time = {}
-    prereserve = {}
-    verify_captcha = {}
-    reserve_10_seats = {}
-    reserve_all_floors = {}
-    reserve = {}
-    index = {}
-    withdraw = {}
 
 
 def save_image(image_byte: bytes, name: str, image_path: str):
