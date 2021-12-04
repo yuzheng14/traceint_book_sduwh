@@ -113,4 +113,4 @@ def get_step_response(cookie: str) -> requests.Response:
 
 def get_step(cookie: str) -> int:
     resp = get_step_response(cookie)
-    return resp['data']['userAuth']['prereserve']['getStep']
+    return resp.json()['data']['userAuth']['prereserve']['getStep']
