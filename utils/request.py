@@ -108,9 +108,25 @@ def have_seat() -> bool:
 
 
 def get_step_response(cookie: str) -> requests.Response:
+    """获取getStep的响应
+
+    Args:
+        cookie (str): 传入headers的cookie
+
+    Returns:
+        requests.Response: 返回响应
+    """
     return get_resp(Activity.get_step, cookie)
 
 
 def get_step(cookie: str) -> int:
+    """获取getStep
+
+    Args:
+        cookie (str): headers中的cookie
+
+    Returns:
+        int: getStep
+    """
     resp = get_step_response(cookie)
     return resp.json()['data']['userAuth']['prereserve']['getStep']
