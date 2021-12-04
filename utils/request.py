@@ -66,7 +66,7 @@ def get_resp(activity: Activity, cookie: str) -> requests.Response:
     Returns:
         requests.Response: 返回的response
     """
-    para, headers = get_para_and_headers(activity)
+    para, headers = get_para_and_headers(activity, cookie)
     return post(para, headers)
 
 
