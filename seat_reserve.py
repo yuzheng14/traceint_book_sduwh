@@ -197,6 +197,13 @@ def seat_prereserve(cookie):
     if 'wss' in dir():  # vars() locals().keys()均可
         wss.close()
         log('create_connection连接关闭')
+
+    resp_queue = requests.get(
+        'https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917'
+    )
+    queue_num = int(resp_queue.content)
+    log(f'关闭websocket后排队人数{queue_num}')
+
     if 'image_byte' in dir():
         log('开始写入验证码图片')
         save_recognized_image(
