@@ -103,6 +103,15 @@ def get_step(cookie: str) -> int:
 
 
 def get_prereseve_libLayout(cookie: str, lib_id: int) -> dict:
+    """通过libId获取该层图书馆的座位信息
+
+    Args:
+        cookie (str): headers中的cookie
+        lib_id (int): 图书馆楼层id
+
+    Returns:
+        dict: 楼层信息json
+    """
     para, headers = get_para_and_headers(Activity.prereserveLibLayout, cookie)
     para['variables']['libId'] = lib_id
     return post(para, headers).json()
