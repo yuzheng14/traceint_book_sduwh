@@ -3,24 +3,40 @@ import time
 import traceback
 
 
-# TODO doc注释
-def wait_time(hour, minute):
+def wait_time(hour: int, minute: int):
+    """等待至参数指定的时间（时间可为负值）
+
+    Args:
+        hour (int): 等待的点
+        minute (int): 等待的分
+    """
     time_to_wait = hour * 60 + minute
     while time.localtime().tm_hour * 60 + time.localtime(
     ).tm_min < time_to_wait:
         pass
 
 
-# TODO doc注释
-def take_seat_name(elem):
+def take_seat_name(elem: dict):
+    """从seat dict中获取座位号
+
+    Args:
+        elem (dict): seat dict
+
+    Returns:
+        int: 座位号
+    """
     name = elem['name']
     if name != "" and name is not None:
         return int(elem['name'])
     return 5000
 
 
-# TODO doc注释
-def log(message):
+def log(message: str):
+    """输出格式化信息到控制台（可能会改为到文件
+
+    Args:
+        message (str): 要输出的信息
+    """
     # with open('log.out','a',encoding='utf-8') as f:
     # f.write(time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'+'\n')
     print((time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime()) + '\t' +
