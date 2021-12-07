@@ -92,7 +92,7 @@ def get_step(cookie: str) -> int:
 
 def need_captcha(cookie: str) -> bool:
     """判断当前是否需要验证验证码
-    
+
     Args:
         cookie (str): headers中的cookie
 

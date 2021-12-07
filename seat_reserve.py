@@ -8,7 +8,7 @@ import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image,
                          take_seat_name, wait_time)
-from utils.request import post, verify_cookie, need_captcha
+from utils.request import post, verify_cookie, need_captcha, get_step
 
 
 # status=false时可以预定
