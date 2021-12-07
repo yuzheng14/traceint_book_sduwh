@@ -90,6 +90,15 @@ def get_step(cookie: str) -> int:
     return resp.json()['data']['userAuth']['prereserve']['getStep']
 
 
+def need_captcha() -> bool:
+    """判断当前是否需要验证验证码
+
+    Returns:
+        bool: true为需要
+    """
+    return get_step() == 0
+
+
 def get_prereseve_libLayout(cookie: str, lib_id: int) -> dict:
     """通过libId获取该层图书馆的座位信息
 
