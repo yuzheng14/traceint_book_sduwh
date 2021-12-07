@@ -7,7 +7,7 @@ import requests
 import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image,
-                         take_seat_name, wait_time, log_json)
+                         take_seat_name, wait_time)
 from utils.request import post, verify_cookie, get_step
 
 
