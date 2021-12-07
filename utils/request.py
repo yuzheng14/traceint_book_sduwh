@@ -86,7 +86,7 @@ def get_step(cookie: str) -> int:
     Returns:
         int: getStep
     """
-    resp = get_resp(Activity.getStep, cookie)
+    resp = get_step_response(cookie)
     return resp.json()['data']['userAuth']['prereserve']['getStep']
 
 
@@ -129,6 +129,18 @@ def get_resp(activity: Activity, cookie: str) -> requests.Response:
     """
     para, headers = get_para_and_headers(activity, cookie)
     return post(para, headers)
+
+
+def get_step_response(cookie: str) -> requests.Response:
+    """获取getStep的响应
+
+    Args:
+        cookie (str): headers中的cookie
+
+    Returns:
+        requests.Response: 返回响应
+    """
+    return get_resp(Activity.getStep, cookie)
 
 
 def verify_cookie(cookie):
@@ -181,8 +193,8 @@ def get_ws_url(cookie: str) -> str:
     Returns:
         str: websocket地址
     """
-    resp = get_resp(Activity.getStep, cookie)
-    return resp['data']['userAuth']['prereserve']['queeUrl']
+    resp = get_step_response(cookie)
+    return resp.json()['data']['userAuth']['prereserve']['queeUrl']
 
 
 # TODO doc注释
