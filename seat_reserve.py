@@ -8,7 +8,7 @@ import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image,
                          take_seat_name, wait_time)
-from utils.request import post, verify_cookie, need_captcha, get_step
+from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url
 
 
 # status=false时可以预定
@@ -110,8 +110,8 @@ def seat_prereserve(cookie):
             wss_url = resp_verify_captcha['data']['userAuth']['prereserve'][
                 'setStep1']
         except Exception:
-            wss_url = resp_get_end_time['data']['userAuth']['prereserve'][
-                'queeUrl']
+            wss_url = get_ws_url(cookie)
+
         log(f'wss连接地址{wss_url}')
         wss = websocket.create_connection(wss_url, timeout=30)
         log('create_connection连接成功')
