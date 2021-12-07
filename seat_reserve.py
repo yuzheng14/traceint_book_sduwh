@@ -44,12 +44,6 @@ def seat_prereserve(cookie):
         captcha_para = json.load(f)
     captcha_headers['Cookie'] = cookie
 
-    with open('json/reserve/get_end_time_headers.json', 'r') as f:
-        get_end_time_headers = json.load(f)
-    with open('json/reserve/get_end_time_para.json', 'r') as f:
-        get_end_time_para = json.load(f)
-    get_end_time_headers['Cookie'] = cookie
-
     log('开始等待验证cookie时间')
     wait_time(12, 29)
     if not verify_cookie(cookie):
@@ -61,9 +55,7 @@ def seat_prereserve(cookie):
     log('开始等待预定时间')
     wait_time(12, 30)
     try:
-        resp_get_end_time = post(get_end_time_para,
-                                 get_end_time_headers).json()
-        if need_captcha():
+        if need_captcha(cookie):
 
             log('尝试识别验证码')
             resp_captcha = post(captcha_para, captcha_headers).json()

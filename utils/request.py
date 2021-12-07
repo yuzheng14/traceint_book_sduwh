@@ -172,6 +172,19 @@ def get_SToken(cookie: str) -> str:
     return resp['data']['userAuth']['reserve']['getSToken']
 
 
+def get_ws_url(cookie: str) -> str:
+    """获取websocket链接地址（通常在程序崩溃时重新运行时获取）
+
+    Args:
+        cookie (str): headers中的cookie参数
+
+    Returns:
+        str: websocket地址
+    """
+    resp = get_resp(Activity.getStep, cookie)
+    return resp['data']['userAuth']['prereserve']['queeUrl']
+
+
 # TODO doc注释
 # TODO 完善函数
 # TODO 未拆封微信浏览器之前无法完善
