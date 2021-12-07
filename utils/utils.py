@@ -59,7 +59,7 @@ def log_file(msg: str, file: str):
     """
     with open(file, 'a') as f:
         f.write(
-            f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}'
+            f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}\n'
         )
 
 
