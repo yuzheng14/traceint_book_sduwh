@@ -90,13 +90,16 @@ def get_step(cookie: str) -> int:
     return resp.json()['data']['userAuth']['prereserve']['getStep']
 
 
-def need_captcha() -> bool:
+def need_captcha(cookie: str) -> bool:
     """判断当前是否需要验证验证码
+    
+    Args:
+        cookie (str): headers中的cookie
 
     Returns:
         bool: true为需要
     """
-    return get_step() == 0
+    return get_step(cookie) == 0
 
 
 def get_prereseve_libLayout(cookie: str, lib_id: int) -> dict:
