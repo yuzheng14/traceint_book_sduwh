@@ -119,3 +119,4 @@ def save_recognized_image(image_byte: bytes, name: str):
         保存图片文件名称
     '''
     save_image(image_byte, name, 'resource/captcha/recognized_captcha')
+

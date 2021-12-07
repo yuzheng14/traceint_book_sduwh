@@ -77,18 +77,6 @@ def get_para_and_headers(activity: Activity, cookie: str) -> tuple:
     return (activity.value, headers)
 
 
-def get_step_response(cookie: str) -> requests.Response:
-    """获取getStep的响应
-
-    Args:
-        cookie (str): 传入headers的cookie
-
-    Returns:
-        requests.Response: 返回响应
-    """
-    return get_resp(Activity.getStep, cookie)
-
-
 def get_step(cookie: str) -> int:
     """获取getStep
 
@@ -98,7 +86,7 @@ def get_step(cookie: str) -> int:
     Returns:
         int: getStep
     """
-    resp = get_step_response(cookie)
+    resp = get_resp(Activity.getStep, cookie)
     return resp.json()['data']['userAuth']['prereserve']['getStep']
 
 
