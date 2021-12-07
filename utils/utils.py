@@ -31,19 +31,19 @@ def log_json(message_json):
     log(f'\n{json.dumps(message_json,indent=4,ensure_ascii=False)}')
 
 
-def log_error(error=None, json=None):
+def log_error(error=None, _json=None):
     """记录错误至error.out文件，两个参数有且仅可有一个参数有值
 
     Args:
         error (str, optional): 要输出的错误信息. Defaults to None.
         json (dict, optional): 要输出错误发生时的json. Defaults to None.
     """
-    if (error is None and json is None) or (error is not None
-                                            and json is not None):
+    if (error is None and _json is None) or (error is not None
+                                             and _json is not None):
         log("非法！错误信息及json信息同时为空或同时不为空")
 
     if (error is None):
-        msg = f'\n{json.dumps(json,indent=4,ensure_ascii=False)}'
+        msg = f'\n{json.dumps(_json,indent=4,ensure_ascii=False)}'
     else:
         msg = error
 
