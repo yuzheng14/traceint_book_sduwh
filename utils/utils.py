@@ -31,7 +31,7 @@ def take_seat_name(elem: dict):
     return 5000
 
 
-def log(message: str):
+def log(msg=None, _json=None):
     """输出格式化信息到控制台（可能会改为到文件
 
     Args:
@@ -39,31 +39,37 @@ def log(message: str):
     """
     # with open('log.out','a',encoding='utf-8') as f:
     # f.write(time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'+'\n')
-    print((time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime()) + '\t' +
-           f'{message}'))
+    msg = msg_or_json(msg, _json)
+    print(
+        f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}\n')
 
 
-def log_json(message_json):
-    log(f'\n{json.dumps(message_json,indent=4,ensure_ascii=False)}')
+def msg_or_json(msg=None, _json=None):
+    """根据传入参数返回处理好的信息，两个参数有且仅有一个参数不为none
+
+    Args:
+        msg (str, optional): 普通信息. Defaults to None.
+        _json (dict, optional): json信息. Defaults to None.
+    """
+    if (msg is None and _json is None) or (msg is not None
+                                           and _json is not None):
+        log("非法！错误信息及json信息同时为空或同时不为空")
+
+    if (msg is None):
+        return f'\n{json.dumps(_json,indent=4,ensure_ascii=False)}'
+    else:
+        return msg
 
 
-def log_error(error=None, _json=None):
-    """记录错误至error.out文件，两个参数有且仅可有一个参数有值
+def log_info(info=None, _json=None):
+    """记录错误至info.out文件，两个参数有且仅可有一个参数有值
 
     Args:
         error (str, optional): 要输出的错误信息. Defaults to None.
         json (dict, optional): 要输出错误发生时的json. Defaults to None.
     """
-    if (error is None and _json is None) or (error is not None
-                                             and _json is not None):
-        log("非法！错误信息及json信息同时为空或同时不为空")
-
-    if (error is None):
-        msg = f'\n{json.dumps(_json,indent=4,ensure_ascii=False)}'
-    else:
-        msg = error
-
-    log_file(msg, "log/error.out")
+    msg = msg_or_json(info, _json)
+    log_file(msg, "log/info.out")
 
 
 def log_file(msg: str, file: str):
