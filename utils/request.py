@@ -1,4 +1,5 @@
 import json
+import traceback
 from enum import Enum
 
 import requests
@@ -160,7 +161,13 @@ def verify_cookie(cookie):
     with open('json/book/index_para.json') as f:
         para = json.load(f)
     headers['Cookie'] = cookie
-    resp = post(para, headers).json()
+    resp = post(para, headers)
+    try:
+        resp = resp.json()
+    except Exception as e:
+        log(resp.content)
+        traceback.print_exc()
+        raise e
     return 'errors' not in resp
 
 
