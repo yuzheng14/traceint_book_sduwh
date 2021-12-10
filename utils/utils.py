@@ -41,7 +41,7 @@ def log(msg=None, _json=None):
     # f.write(time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'+'\n')
     msg = msg_or_json(msg, _json)
     print(
-        f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}\n')
+        f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}')
 
 
 def msg_or_json(msg=None, _json=None):
