@@ -1,5 +1,4 @@
 import json
-import traceback
 from enum import Enum
 
 import requests
