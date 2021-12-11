@@ -7,7 +7,7 @@ import requests
 import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image,
-                         take_seat_name, wait_time)
+                         take_seat_name, wait_time, log_info)
 from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url
 
 
@@ -57,7 +57,8 @@ def seat_prereserve(cookie):
     try:
         if need_captcha(cookie):
 
-            log('尝试识别验证码')
+            log('当前未验证验证码，开始验证验证码')
+
             resp_captcha = post(captcha_para, captcha_headers).json()
             captcha_code = resp_captcha['data']['userAuth']['prereserve'][
                 'captcha']['code']
