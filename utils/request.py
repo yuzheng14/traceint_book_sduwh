@@ -219,7 +219,7 @@ def get_captcha_code_website(cookie: str) -> tuple:
         cookie (str): headers的cookie
 
     Returns:
-        tuple: 返回元组，第一个元素为code，第二个元素为网址
+        tuple: 返回元组，第一个元素为code(后面发送验证请求会用到)，第二个元素为网址
     """
     resp = get_resp(Activity.captcha, cookie)
     try:
@@ -229,6 +229,18 @@ def get_captcha_code_website(cookie: str) -> tuple:
         raise e
     return (resp['data']['userAuth']['prereserve']['captcha']['code'],
             resp['data']['userAuth']['prereserve']['captcha']['data'])
+
+
+def get_captcha_image(website: str) -> bytes:
+    """根据网址获取验证码图片二进制信息
+
+    Args:
+        website (str): 验证码网址
+
+    Returns:
+        bytes: 图片二进制信息
+    """
+    return requests.get(website).content
 
 
 # TODO doc注释
