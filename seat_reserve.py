@@ -55,10 +55,12 @@ def seat_prereserve(cookie):
     log('开始等待预定时间')
     wait_time(12, 30)
     try:
+        # 如果没有验证验证码，则开始验证验证码
         if need_captcha(cookie):
 
             log('当前未验证验证码，开始验证验证码')
 
+            # 获取验证码的code和网址
             captcha_code, captcha_website = get_captcha_code_website(cookie)
             image_byte = requests.get(captcha_website).content
 
