@@ -211,6 +211,26 @@ def get_ws_url(cookie: str) -> str:
     return resp.json()['data']['userAuth']['prereserve']['queeUrl']
 
 
+# TODO 测试
+def get_captcha_code_website(cookie: str) -> tuple:
+    """获取验证码的code和网址
+
+    Args:
+        cookie (str): headers的cookie
+
+    Returns:
+        tuple: 返回元组，第一个元素为code，第二个元素为网址
+    """
+    resp = get_resp(Activity.captcha, cookie)
+    try:
+        resp = resp.json()
+    except Exception as e:
+        log_info(resp.content)
+        raise e
+    return (resp['data']['userAuth']['prereserve']['captcha']['code'],
+            resp['data']['userAuth']['prereserve']['captcha']['data'])
+
+
 # TODO doc注释
 # TODO 完善函数
 # TODO 未拆封微信浏览器之前无法完善
