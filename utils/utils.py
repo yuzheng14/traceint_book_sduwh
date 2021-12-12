@@ -98,15 +98,15 @@ def save_image(image_byte: bytes, name: str, image_path: str):
         traceback.print_exc()
 
 
-def save_unrecognized_image(image_byte: bytes, name: str):
-    '''保存未验证的验证码图片到对应文件夹
-    参数
-    -------------------------
-    image_bytes:bytes
-        要保存的图片二进制代码
-    name:str
-        保存图片文件名称
-    '''
+def save_unrecognized_image(image_byte: bytes, code: str, website: str):
+    """保存未验证的验证码图片到对应文件夹
+
+    Args:
+        image_byte (bytes): 图片二进制信息
+        code (str): 该验证码code（通过前面post请求获取）
+        website (str): 该验证码的网址
+    """
+    name = '_'.join((code, website.split('/')[-1]))
     save_image(image_byte, name, 'resource/captcha/unrecognized_captcha')
 
 

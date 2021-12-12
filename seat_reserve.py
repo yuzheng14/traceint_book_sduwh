@@ -73,7 +73,7 @@ def seat_prereserve(cookie):
             while not resp_verify_captcha['data']['userAuth']['prereserve']['verifyCaptcha']:
 
                 log(f'{captcha_code}尝试失败，保存验证码图片后开始下一次尝试')
-                save_unrecognized_image(image_byte, '_'.join((captcha_code, captcha_website.split('/')[-1])))
+                save_unrecognized_image(image_byte, captcha_code, captcha_website)
 
                 # 获取验证码的code和网址，并获取验证码图片二进制信息
                 captcha_code, captcha_website = get_captcha_code_website(cookie)
