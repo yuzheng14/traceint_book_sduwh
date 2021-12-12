@@ -232,7 +232,7 @@ def get_captcha_code_website(cookie: str) -> tuple:
     try:
         result = ((resp['data']['userAuth']['prereserve']['captcha']['code'],
                    resp['data']['userAuth']['prereserve']['captcha']['data']))
-    except Exception as e:
+    except TypeError as e:
         log_info("json中无code及网址")
         log_info(_json=resp)
         raise e
@@ -249,7 +249,12 @@ def get_captcha_image(website: str) -> bytes:
     Returns:
         bytes: 图片二进制信息
     """
-    return requests.get(website).content
+    resp = requests.get(website)
+    if resp.status_code != 404:
+        return resp.content
+    else:
+        log_info('图片地址404')
+        raise Exception("404 Not Found")
 
 
 # TODO doc注释
