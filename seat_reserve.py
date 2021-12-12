@@ -6,8 +6,7 @@ import ddddocr
 import requests
 import websocket
 
-from utils.utils import (log, save_recognized_image, save_unrecognized_image,
-                         take_seat_name, wait_time, log_info)
+from utils.utils import (log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info)
 from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url, get_captcha_code_website, get_captcha_image
 
 
@@ -69,20 +68,15 @@ def seat_prereserve(cookie):
 
             verify_captcha_para['variables']['captcha'] = captcha
             verify_captcha_para['variables']['captchaCode'] = captcha_code
-            resp_verify_captcha = post(verify_captcha_para,
-                                       verify_captcha_headers).json()
+            resp_verify_captcha = post(verify_captcha_para, verify_captcha_headers).json()
 
-            while not resp_verify_captcha['data']['userAuth']['prereserve'][
-                    'verifyCaptcha']:
+            while not resp_verify_captcha['data']['userAuth']['prereserve']['verifyCaptcha']:
 
                 log(f'{captcha_code}尝试失败，保存验证码图片后开始下一次尝试')
-                save_unrecognized_image(
-                    image_byte, '_'.join(
-                        (captcha_code, captcha_website.split('/')[-1])))
+                save_unrecognized_image(image_byte, '_'.join((captcha_code, captcha_website.split('/')[-1])))
 
                 # 获取验证码的code和网址，并获取验证码图片二进制信息
-                captcha_code, captcha_website = get_captcha_code_website(
-                    cookie)
+                captcha_code, captcha_website = get_captcha_code_website(cookie)
                 image_byte = get_captcha_image(captcha_website)
 
                 captcha = ocr.classification(image_byte)
@@ -90,8 +84,7 @@ def seat_prereserve(cookie):
                 log(f'识别验证码为{captcha}')
                 verify_captcha_para['variables']['captcha'] = captcha
                 verify_captcha_para['variables']['captchaCode'] = captcha_code
-                resp_verify_captcha = post(verify_captcha_para,
-                                           verify_captcha_headers).json()
+                resp_verify_captcha = post(verify_captcha_para, verify_captcha_headers).json()
 
             log(f'验证码尝试成功，验证码为{captcha}')
             log(json.dumps(resp_verify_captcha, indent=4, ensure_ascii=False))
@@ -104,8 +97,7 @@ def seat_prereserve(cookie):
     # TODO:修改为若排队未完成且排队人数为-1且超出时间则一直连接wss连接
     try:
         try:
-            wss_url = resp_verify_captcha['data']['userAuth']['prereserve'][
-                'setStep1']
+            wss_url = resp_verify_captcha['data']['userAuth']['prereserve']['setStep1']
         except Exception:
             wss_url = get_ws_url(cookie)
 
@@ -117,9 +109,7 @@ def seat_prereserve(cookie):
         traceback.print_exc()
 
     # TODO 此处改为更通用的写法
-    resp_queue = requests.get(
-        'https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917'
-    )
+    resp_queue = requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
     queue_num = int(resp_queue.content)
     log(f'前方排队{queue_num}人')
 
@@ -128,9 +118,7 @@ def seat_prereserve(cookie):
         if queue_num > 100:
             time.sleep(2)
         # TODO 此处改为更通用的写法
-        resp_queue = requests.get(
-            'https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917'
-        )
+        resp_queue = requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
         queue_num = int(resp_queue.content)
     log(f'前方排队{queue_num}人')
     log('排队完成')
@@ -160,10 +148,7 @@ def seat_prereserve(cookie):
                     break
                 else:
                     log(f"预定{seat['name']}号失败")
-                    log(
-                        json.dumps(prereserve_resp,
-                                   indent=4,
-                                   ensure_ascii=False))
+                    log(json.dumps(prereserve_resp, indent=4, ensure_ascii=False))
             except Exception:
                 log(f"预定{seat['name']}号失败")
                 log(json.dumps(prereserve_resp, indent=4, ensure_ascii=False))
@@ -172,9 +157,7 @@ def seat_prereserve(cookie):
             log(f"{seat['name']}号座位已有人")
 
     # 查看排队数据，已增强系统精准性
-    resp_queue = requests.get(
-        'https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917'
-    )
+    resp_queue = requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
     queue_num = int(resp_queue.content)
     log(f'抢座完成后排队人数{queue_num}')
 
@@ -187,17 +170,13 @@ def seat_prereserve(cookie):
         wss.close()
         log('create_connection连接关闭')
 
-    resp_queue = requests.get(
-        'https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917'
-    )
+    resp_queue = requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
     queue_num = int(resp_queue.content)
     log(f'关闭websocket后排队人数{queue_num}')
 
     if 'image_byte' in dir():
         log('开始写入验证码图片')
-        save_recognized_image(
-            image_byte, '_'.join(
-                (captcha, captcha_code, captcha_website.split('/')[-1])))
+        save_recognized_image(image_byte, '_'.join((captcha, captcha_code, captcha_website.split('/')[-1])))
 
 
 if __name__ == '__main__':

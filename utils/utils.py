@@ -11,8 +11,7 @@ def wait_time(hour: int, minute: int):
         minute (int): 等待的分
     """
     time_to_wait = hour * 60 + minute
-    while time.localtime().tm_hour * 60 + time.localtime(
-    ).tm_min < time_to_wait:
+    while time.localtime().tm_hour * 60 + time.localtime().tm_min < time_to_wait:
         pass
 
 
@@ -40,8 +39,7 @@ def log(msg=None, _json=None):
     # with open('log.out','a',encoding='utf-8') as f:
     # f.write(time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'+'\n')
     msg = msg_or_json(msg, _json)
-    print(
-        f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}')
+    print(f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}')
 
 
 def msg_or_json(msg=None, _json=None):
@@ -51,8 +49,7 @@ def msg_or_json(msg=None, _json=None):
         msg (str, optional): 普通信息. Defaults to None.
         _json (dict, optional): json信息. Defaults to None.
     """
-    if (msg is None and _json is None) or (msg is not None
-                                           and _json is not None):
+    if (msg is None and _json is None) or (msg is not None and _json is not None):
         log("非法！错误信息及json信息同时为空或同时不为空")
 
     if (msg is None):
@@ -80,9 +77,7 @@ def log_file(msg: str, file: str):
         file (str): 文件名称及路径
     """
     with open(file, 'a') as f:
-        f.write(
-            f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}\n'
-        )
+        f.write(f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}\n')
 
 
 def save_image(image_byte: bytes, name: str, image_path: str):
