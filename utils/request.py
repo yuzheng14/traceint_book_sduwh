@@ -222,15 +222,24 @@ def get_captcha_code_website(cookie: str) -> tuple:
         tuple: 返回元组，第一个元素为code(后面发送验证请求会用到)，第二个元素为网址
     """
     resp = get_resp(Activity.captcha, cookie)
+
     try:
         resp = resp.json()
     except Exception as e:
+        log_info("当前响应无json")
         log_info(resp.content)
         raise e
-    return (resp['data']['userAuth']['prereserve']['captcha']['code'],
-            resp['data']['userAuth']['prereserve']['captcha']['data'])
+    try:
+        result = ((resp['data']['userAuth']['prereserve']['captcha']['code'],
+                   resp['data']['userAuth']['prereserve']['captcha']['data']))
+    except Exception as e:
+        log_info("json中无code及网址")
+        log_info(_json=resp)
+        raise e
+    return result
 
 
+# TODO test
 def get_captcha_image(website: str) -> bytes:
     """根据网址获取验证码图片二进制信息
 

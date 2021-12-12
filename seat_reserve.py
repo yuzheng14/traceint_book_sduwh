@@ -8,7 +8,7 @@ import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image,
                          take_seat_name, wait_time, log_info)
-from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url, get_captcha_code_website
+from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url, get_captcha_code_website, get_captcha_image
 
 
 # status=false时可以预定
@@ -38,12 +38,7 @@ def seat_prereserve(cookie):
         verify_captcha_para = json.load(f)
     verify_captcha_headers['Cookie'] = cookie
 
-    with open('json/reserve/captcha_headers.json', 'r') as f:
-        captcha_headers = json.load(f)
-    with open('json/reserve/captcha_para.json', 'r') as f:
-        captcha_para = json.load(f)
-    captcha_headers['Cookie'] = cookie
-
+    # 在开始明日预约前的1分钟确认cookie是否有效
     log('开始等待验证cookie时间')
     wait_time(12, 29)
     if not verify_cookie(cookie):
@@ -52,20 +47,25 @@ def seat_prereserve(cookie):
     else:
         log('cookie有效，请等待预定时间')
 
+    # 等待明日预约开始
     log('开始等待预定时间')
     wait_time(12, 30)
+
+    # 开始抢座
     try:
+
         # 如果没有验证验证码，则开始验证验证码
         if need_captcha(cookie):
 
             log('当前未验证验证码，开始验证验证码')
 
-            # 获取验证码的code和网址
+            # 获取验证码的code和网址，并获取图片二进制信息
             captcha_code, captcha_website = get_captcha_code_website(cookie)
-            image_byte = requests.get(captcha_website).content
+            image_byte = get_captcha_image(captcha_website)
 
+            # ocr识别验证码
             captcha = ocr.classification(image_byte)
-            log(f'识别验证码为{captcha}')
+            log_info(f'识别验证码为{captcha}')
 
             verify_captcha_para['variables']['captcha'] = captcha
             verify_captcha_para['variables']['captchaCode'] = captcha_code
@@ -80,13 +80,11 @@ def seat_prereserve(cookie):
                     image_byte, '_'.join(
                         (captcha_code, captcha_website.split('/')[-1])))
 
-                resp_captcha = post(captcha_para, captcha_headers).json()
-                captcha_code = resp_captcha['data']['userAuth']['prereserve'][
-                    'captcha']['code']
-                captcha_website = resp_captcha['data']['userAuth'][
-                    'prereserve']['captcha']['data']
+                # 获取验证码的code和网址，并获取验证码图片二进制信息
+                captcha_code, captcha_website = get_captcha_code_website(
+                    cookie)
+                image_byte = get_captcha_image(captcha_website)
 
-                image_byte = requests.get(captcha_website).content
                 captcha = ocr.classification(image_byte)
 
                 log(f'识别验证码为{captcha}')
