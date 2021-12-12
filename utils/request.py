@@ -219,6 +219,18 @@ def get_captcha_image(website: str) -> bytes:
 
 def verify_captcha(cookie: str, captcha: str, captcha_code: str) -> bool:
     para, headers = get_para_and_headers(Activity.verify_captcha, cookie)
+    para['variables']['captcha'] = captcha
+    para['variables']['captchaCode'] = captcha_code
+    resp = post(para, headers)
+
+    try:
+        resp = resp.json()
+    except Exception as e:
+        log_info("响应无json")
+        log_info(resp.content)
+        raise e
+
+    return resp['data']['userAuth']['prereserve']['verifyCaptcha']
 
 
 # TODO doc注释
