@@ -8,7 +8,7 @@ import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image,
                          take_seat_name, wait_time, log_info)
-from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url
+from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url, get_captcha_code_website
 
 
 # status=false时可以预定
@@ -59,11 +59,7 @@ def seat_prereserve(cookie):
 
             log('当前未验证验证码，开始验证验证码')
 
-            resp_captcha = post(captcha_para, captcha_headers).json()
-            captcha_code = resp_captcha['data']['userAuth']['prereserve'][
-                'captcha']['code']
-            captcha_website = resp_captcha['data']['userAuth']['prereserve'][
-                'captcha']['data']
+            captcha_code, captcha_website = get_captcha_code_website(cookie)
             image_byte = requests.get(captcha_website).content
 
             captcha = ocr.classification(image_byte)
