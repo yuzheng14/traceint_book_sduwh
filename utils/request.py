@@ -217,20 +217,38 @@ def get_captcha_image(website: str) -> bytes:
         raise Exception("404 Not Found")
 
 
-def verify_captcha(cookie: str, captcha: str, captcha_code: str) -> bool:
+def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
+    """验证验证码是否正确，返回结果以及websocket的url
+
+    Args:
+        cookie (str): 如变量名
+        captcha (str): 识别出来的验证码
+        code (str): 验证码的code（前面post请求得到的）
+
+    Raises:
+        e: 若无法找到json或者json解析出错则抛出异常
+
+    Returns:
+        tuple: 第一个元素为bool型，验证是否成功；第二个元素为str，websocket的url
+    """
     para, headers = get_para_and_headers(Activity.verify_captcha, cookie)
     para['variables']['captcha'] = captcha
-    para['variables']['captchaCode'] = captcha_code
+    para['variables']['captchaCode'] = code
     resp = post(para, headers)
+    ws_url = None
+    verify_result = False
 
     try:
         resp = resp.json()
+        verify_result = resp['data']['userAuth']['prereserve']['verifyCaptcha']
+        if verify_result:
+            ws_url = resp['data']['userAuth']['prereserve']['setStep1']
     except Exception as e:
         log_info("响应无json")
         log_info(resp.content)
         raise e
 
-    return resp['data']['userAuth']['prereserve']['verifyCaptcha']
+    return (verify_result, ws_url)
 
 
 # TODO doc注释

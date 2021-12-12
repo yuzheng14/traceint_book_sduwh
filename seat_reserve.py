@@ -7,7 +7,7 @@ import requests
 import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info)
-from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url, get_captcha_code_website, get_captcha_image
+from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url, get_captcha_code_website, get_captcha_image, verify_captcha
 
 
 # status=false时可以预定
@@ -30,12 +30,6 @@ def seat_prereserve(cookie):
     with open('json/reserve/pre_10_para.json', 'r') as f:
         pre_para = json.load(f)
     pre_headers['Cookie'] = cookie
-
-    with open('json/reserve/verify_captcha_headers.json', 'r') as f:
-        verify_captcha_headers = json.load(f)
-    with open('json/reserve/verify_captcha_para.json', 'r') as f:
-        verify_captcha_para = json.load(f)
-    verify_captcha_headers['Cookie'] = cookie
 
     # 在开始明日预约前的1分钟确认cookie是否有效
     log('开始等待验证cookie时间')
@@ -66,11 +60,9 @@ def seat_prereserve(cookie):
             captcha = ocr.classification(image_byte)
             log_info(f'识别验证码为{captcha}')
 
-            verify_captcha_para['variables']['captcha'] = captcha
-            verify_captcha_para['variables']['captchaCode'] = captcha_code
-            resp_verify_captcha = post(verify_captcha_para, verify_captcha_headers).json()
-
-            while not resp_verify_captcha['data']['userAuth']['prereserve']['verifyCaptcha']:
+            # 获取验证验证码是否成功以及获得ws_url地址
+            verify_result, ws_url = verify_captcha(cookie, captcha, captcha_code)
+            while not verify_result:
 
                 log(f'{captcha_code}尝试失败，保存验证码图片后开始下一次尝试')
                 save_unrecognized_image(image_byte, captcha_code, captcha_website)
@@ -79,15 +71,12 @@ def seat_prereserve(cookie):
                 captcha_code, captcha_website = get_captcha_code_website(cookie)
                 image_byte = get_captcha_image(captcha_website)
 
+                # 识别验证码
                 captcha = ocr.classification(image_byte)
-
-                log(f'识别验证码为{captcha}')
-                verify_captcha_para['variables']['captcha'] = captcha
-                verify_captcha_para['variables']['captchaCode'] = captcha_code
-                resp_verify_captcha = post(verify_captcha_para, verify_captcha_headers).json()
+                log_info(f'识别验证码为{captcha}')
+                verify_result, ws_url = verify_captcha(cookie, captcha, captcha_code)
 
             log(f'验证码尝试成功，验证码为{captcha}')
-            log(json.dumps(resp_verify_captcha, indent=4, ensure_ascii=False))
         else:
             log('已验证验证码')
     except Exception:
@@ -97,12 +86,13 @@ def seat_prereserve(cookie):
     # TODO:修改为若排队未完成且排队人数为-1且超出时间则一直连接wss连接
     try:
         try:
-            wss_url = resp_verify_captcha['data']['userAuth']['prereserve']['setStep1']
+            if ws_url is None:
+                ws_url = get_ws_url(cookie)
         except Exception:
-            wss_url = get_ws_url(cookie)
+            ws_url = get_ws_url(cookie)
 
-        log(f'wss连接地址{wss_url}')
-        wss = websocket.create_connection(wss_url, timeout=30)
+        log(f'wss连接地址{ws_url}')
+        wss = websocket.create_connection(ws_url, timeout=30)
         log('create_connection连接成功')
     except Exception:
         log('create_connection连接异常')
