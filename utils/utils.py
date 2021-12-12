@@ -110,13 +110,14 @@ def save_unrecognized_image(image_byte: bytes, code: str, website: str):
     save_image(image_byte, name, 'resource/captcha/unrecognized_captcha')
 
 
-def save_recognized_image(image_byte: bytes, name: str):
-    '''保存已验证的验证码图片到对应文件夹
-    参数
-    -------------------------
-    image_bytes:bytes
-        要保存的图片二进制代码
-    name:str
-        保存图片文件名称
-    '''
+def save_recognized_image(image_byte: bytes, captcha: str, code: str, website: str):
+    """保存已验证的验证码图片到对应文件夹
+
+    Args:
+        image_byte (bytes): 验证码图片二进制信息
+        captcha (str): 识别出来的验证码
+        code (str): 验证码code（通过前面post请求获取）
+        website (str): 该验证码图片的网址
+    """
+    name = '_'.join((captcha, code, website.split('/')[-1]))
     save_image(image_byte, name, 'resource/captcha/recognized_captcha')

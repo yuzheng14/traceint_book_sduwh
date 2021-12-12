@@ -176,7 +176,7 @@ def seat_prereserve(cookie):
 
     if 'image_byte' in dir():
         log('开始写入验证码图片')
-        save_recognized_image(image_byte, '_'.join((captcha, captcha_code, captcha_website.split('/')[-1])))
+        save_recognized_image(image_byte, captcha, captcha_code, captcha_website)
 
 
 if __name__ == '__main__':
