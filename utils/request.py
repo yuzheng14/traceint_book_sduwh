@@ -78,11 +78,26 @@ def get_step(cookie: str) -> int:
     Args:
         cookie (str): headers中的cookie
 
+    Raises:
+        e: json无所需数据
+        e: 无json
+
     Returns:
         int: getStep
     """
     resp = get_step_response(cookie)
-    return resp.json()['data']['userAuth']['prereserve']['getStep']
+    try:
+        resp = resp.json()
+        result = resp['data']['userAuth']['prereserve']['getStep']
+    except TypeError as e:
+        log_info("getStep json无所需数据")
+        log_info(_json=resp)
+        raise e
+    except Exception as e:
+        log_info("getStep无json")
+        log_info(resp.content)
+        raise e
+    return result
 
 
 def need_captcha(cookie: str) -> bool:
