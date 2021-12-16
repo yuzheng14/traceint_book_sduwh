@@ -108,4 +108,5 @@ https://open.weixin.qq.com/connect/oauth2/authorize
 &pass_ticket=yxHHNjeZdF9nA6MWULlbzgEPps4czteK399zvDw0%2BOQMh6m95nCR19kubhSzaoCn
 ```
 
-其中`uin``key``version``pass_ticket`
+其中新加`uin`、`key`、 `version`、 `pass_ticket`四个参数，`uin`和`version`相对固定，`key`和`pass_ticket`为随时生成。
+
