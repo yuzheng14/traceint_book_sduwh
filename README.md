@@ -68,3 +68,44 @@ main分支为稳定可用分支
 - [X] 注释
 
 **都看到这里了不给个star嘛？**
+
+## 微信OAuth认证尝试
+
+请求获取oauth url与实际请求oauth url对比
+
+请求得到
+
+```
+https://open.weixin.qq.com/connect/oauth2/authorize
+?appid=wx2996d437cd442527
+&redirect_uri=https://wechat.v2.traceint.com/index.php/url/auth.html
+?r=https://wechat.v2.traceint.com/index.php/reserve/index.html
+?f=wechat
+&n=617f6d050f140
+&response_type=code
+&scope=snsapi_userinfo
+&state=1
+&connect_redirect=1
+#wechat_redirect
+```
+
+实际请求
+
+```
+https://open.weixin.qq.com/connect/oauth2/authorize
+?appid=wx2996d437cd442527
+&redirect_uri=https://wechat.v2.traceint.com/index.php/url/auth.html
+?r=https://wechat.v2.traceint.com/index.php/reserve/index.html
+?f=wechat
+&n=617f6d050f14
+&response_type=code
+&scope=snsapi_userinfo
+&state=1
+&connect_redirect=1
+&uin=MjAwNTcxNTA3OA%3D%3D
+&key=c39cf953308ace2d1d5dfaab91543e6b5ca955eb40d997fa3aaf8652bad19b0f1e77c908c52f7be9c83b12e7452079ce795fcc8f44bd6dcb272646c0575754771afd4b8299ca67b14d64fc9fdbf547fc01016c67d4aae21fa7b0be744806aa4faa84ec3d8f1c77bfa41c6dcd108a6d5a2524b5e1378c8a1c45f772c5c35d3e3c
+&version=63040026
+&pass_ticket=yxHHNjeZdF9nA6MWULlbzgEPps4czteK399zvDw0%2BOQMh6m95nCR19kubhSzaoCn
+```
+
+其中`uin``key``version``pass_ticket`
