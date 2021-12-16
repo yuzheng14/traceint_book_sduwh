@@ -172,7 +172,6 @@ def get_ws_url(cookie: str) -> str:
     return resp.json()['data']['userAuth']['prereserve']['queeUrl']
 
 
-# TODO 测试
 def get_captcha_code_website(cookie: str) -> tuple:
     """获取验证码的code和网址
 
@@ -199,7 +198,6 @@ def get_captcha_code_website(cookie: str) -> tuple:
     return result
 
 
-# TODO test
 def get_captcha_image(website: str) -> bytes:
     """根据网址获取验证码图片二进制信息
 
