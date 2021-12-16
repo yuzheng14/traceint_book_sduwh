@@ -42,7 +42,7 @@ def log(msg=None, _json=None):
     print(f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}')
 
 
-def msg_or_json(msg=None, _json=None):
+def msg_or_json(msg=None, _json=None) -> str:
     """根据传入参数返回处理好的信息，两个参数有且仅有一个参数不为none
 
     Args:
@@ -51,6 +51,7 @@ def msg_or_json(msg=None, _json=None):
     """
     if (msg is None and _json is None) or (msg is not None and _json is not None):
         log("非法！错误信息及json信息同时为空或同时不为空")
+        return
 
     if (msg is None):
         return f'\n{json.dumps(_json,indent=4,ensure_ascii=False)}'
