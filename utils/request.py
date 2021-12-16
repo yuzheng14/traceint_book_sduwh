@@ -19,7 +19,7 @@ def need_captcha(cookie: str) -> bool:
 
 
 # TODO test
-def get_prereseve_libLayout(cookie: str, lib_id: int) -> dict:
+def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     """通过libId获取该层图书馆的座位信息
 
     Args:
