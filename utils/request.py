@@ -159,7 +159,6 @@ def get_SToken(cookie: str) -> str:
     return resp['data']['userAuth']['reserve']['getSToken']
 
 
-# TODO test
 def get_ws_url(cookie: str) -> str:
     """获取websocket链接地址（通常在程序崩溃时重新运行时获取）
 
@@ -172,19 +171,18 @@ def get_ws_url(cookie: str) -> str:
     resp = get_step_response(cookie)
     try:
         resp = resp.json()
-        result = resp.json()['data']['userAuth']['prereserve']['queeUrl']
+        result = resp['data']['userAuth']['prereserve']['queeUrl']
     except TypeError as e:
-        log_info("json中无所需数据")
+        log_info("获取ws地址json中无所需数据")
         log_info(_json=resp)
         raise e
     except Exception as e:
-        log_info("当前响应无json")
+        log_info("获取ws地址响应无json")
         log_info(resp.content)
         raise e
     return result
 
 
-# TODO test
 def get_queue_url(cookie: str) -> str:
     """获取排队的get连接
 
@@ -201,13 +199,13 @@ def get_queue_url(cookie: str) -> str:
     resp = get_step_response(cookie)
     try:
         resp = resp.json()
-        result = resp.json()['data']['userAuth']['prereserve']['successUrl']
+        result = resp['data']['userAuth']['prereserve']['successUrl']
     except TypeError as e:
-        log_info("json中无所需数据")
+        log_info("获取排队地址json中无所需数据")
         log_info(_json=resp)
         raise e
     except Exception as e:
-        log_info("当前响应无json")
+        log_info("获取排队地址响应无json")
         log_info(resp.content)
         raise e
     return result
