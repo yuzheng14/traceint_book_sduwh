@@ -169,7 +169,18 @@ def get_ws_url(cookie: str) -> str:
         str: websocket地址
     """
     resp = get_step_response(cookie)
-    return resp.json()['data']['userAuth']['prereserve']['queeUrl']
+    try:
+        resp = resp.json()
+        result = resp.json()['data']['userAuth']['prereserve']['queeUrl']
+    except TypeError as e:
+        log_info("json中无所需数据")
+        log_info(_json=resp)
+        raise e
+    except Exception as e:
+        log_info("当前响应无json")
+        log_info(resp.content)
+        raise e
+    return result
 
 
 def get_captcha_code_website(cookie: str) -> tuple:
