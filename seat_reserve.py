@@ -7,7 +7,7 @@ import requests
 import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info)
-from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url, get_captcha_code_website, get_captcha_image, verify_captcha, get_queue_url
+from utils.request import post, verify_cookie, need_captcha, get_ws_url, get_captcha_code_website, get_captcha_image, verify_captcha, get_queue_url
 
 
 # status=false时可以预定
@@ -114,10 +114,6 @@ def seat_prereserve(cookie):
         queue_num = int(resp_queue.content)
     log(f'前方排队{queue_num}人')
     log('排队完成')
-    try:
-        log(f'getStep:{get_step(cookie)}')
-    except Exception:
-        log('getStep失败')
 
     resp = post(pre_para, pre_headers).json()
     while 'errors' in resp:
@@ -152,11 +148,6 @@ def seat_prereserve(cookie):
     resp_queue = requests.get(queue_url)
     queue_num = int(resp_queue.content)
     log(f'抢座完成后排队人数{queue_num}')
-
-    try:
-        log(f'getStep:{get_step(cookie)}')
-    except Exception:
-        log('getStep失败')
 
     if 'wss' in dir():  # vars() locals().keys()均可
         wss.close()
