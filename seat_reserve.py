@@ -7,7 +7,7 @@ import requests
 import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info)
-from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url, get_captcha_code_website, get_captcha_image, verify_captcha
+from utils.request import post, verify_cookie, need_captcha, get_step, get_ws_url, get_captcha_code_website, get_captcha_image, verify_captcha, get_queue_url
 
 
 # status=false时可以预定
@@ -17,6 +17,8 @@ def seat_prereserve(cookie):
         return
 
     ocr = ddddocr.DdddOcr()
+
+    queue_url = get_queue_url(cookie)
 
     with open('json/reserve/reserve_para.json', 'r') as f:
         prereserve_para = json.load(f)
@@ -99,7 +101,7 @@ def seat_prereserve(cookie):
         traceback.print_exc()
 
     # TODO 此处改为更通用的写法
-    resp_queue = requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
+    resp_queue = requests.get(queue_url)
     queue_num = int(resp_queue.content)
     log(f'前方排队{queue_num}人')
 
@@ -108,7 +110,7 @@ def seat_prereserve(cookie):
         if queue_num > 100:
             time.sleep(2)
         # TODO 此处改为更通用的写法
-        resp_queue = requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
+        resp_queue = requests.get(queue_url)
         queue_num = int(resp_queue.content)
     log(f'前方排队{queue_num}人')
     log('排队完成')
@@ -147,7 +149,7 @@ def seat_prereserve(cookie):
             log(f"{seat['name']}号座位已有人")
 
     # 查看排队数据，已增强系统精准性
-    resp_queue = requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
+    resp_queue = requests.get(queue_url)
     queue_num = int(resp_queue.content)
     log(f'抢座完成后排队人数{queue_num}')
 
@@ -160,7 +162,7 @@ def seat_prereserve(cookie):
         wss.close()
         log('create_connection连接关闭')
 
-    resp_queue = requests.get('https://wechat.v2.traceint.com/quee/success?sid=21001936&schId=126&t=13b1b5fbc10742ac0fd0a0ff510ea917')
+    resp_queue = requests.get(queue_url)
     queue_num = int(resp_queue.content)
     log(f'关闭websocket后排队人数{queue_num}')
 

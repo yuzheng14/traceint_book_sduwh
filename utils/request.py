@@ -46,6 +46,32 @@ def get_para_and_headers(activity: Activity, cookie: str) -> tuple:
     return (activity.value, headers)
 
 
+def get_resp(activity: Activity, cookie: str) -> requests.Response:
+    """通过传入的活动获取response
+
+    Args:
+        activity (Activity): 活动enum
+        cookie (str): 传入cookie
+
+    Returns:
+        requests.Response: 返回的response
+    """
+    para, headers = get_para_and_headers(activity, cookie)
+    return post(para, headers)
+
+
+def get_step_response(cookie: str) -> requests.Response:
+    """获取getStep的响应
+
+    Args:
+        cookie (str): headers中的cookie
+
+    Returns:
+        requests.Response: 返回响应
+    """
+    return get_resp(Activity.getStep, cookie)
+
+
 def get_step(cookie: str) -> int:
     """获取getStep
 
@@ -84,32 +110,6 @@ def get_prereseve_libLayout(cookie: str, lib_id: int) -> dict:
     para, headers = get_para_and_headers(Activity.prereserveLibLayout, cookie)
     para['variables']['libId'] = lib_id
     return post(para, headers).json()
-
-
-def get_resp(activity: Activity, cookie: str) -> requests.Response:
-    """通过传入的活动获取response
-
-    Args:
-        activity (Activity): 活动enum
-        cookie (str): 传入cookie
-
-    Returns:
-        requests.Response: 返回的response
-    """
-    para, headers = get_para_and_headers(activity, cookie)
-    return post(para, headers)
-
-
-def get_step_response(cookie: str) -> requests.Response:
-    """获取getStep的响应
-
-    Args:
-        cookie (str): headers中的cookie
-
-    Returns:
-        requests.Response: 返回响应
-    """
-    return get_resp(Activity.getStep, cookie)
 
 
 def verify_cookie(cookie):
