@@ -87,16 +87,18 @@ def get_SToken(cookie: str) -> str:
         resp = resp.json()
         result = resp['data']['userAuth']['reserve']['getSToken']
     except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
         log_info("get_SToken时无所需数据")
         log_info(_json=resp)
         raise key_exc
     except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
         log_info("get_SToken时无json")
         log_info(resp.content)
         raise value_exc
     except Exception as e:
-        log_info("get_SToken时发生其他异常")
         log_info('\n' + traceback.format_exc())
+        log_info("get_SToken时发生其他异常")
         raise e
     return result
 
