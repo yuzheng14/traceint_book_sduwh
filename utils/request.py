@@ -65,9 +65,14 @@ def verify_cookie(cookie: str) -> bool:
     resp = get_resp(Activity.index, cookie)
     try:
         resp = resp.json()
-    except Exception as e:
-        log_info("验证cookie有效响应无json")
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_cookie时无json")
         log_info(resp.content)
+        raise value_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_cookie时发生其他异常")
         raise e
     return 'errors' not in resp
 
