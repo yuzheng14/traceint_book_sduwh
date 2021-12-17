@@ -227,7 +227,7 @@ def get_captcha_image(website: str) -> bytes:
         return resp.content
     else:
         log_info('图片地址404')
-        raise Exception("404 Not Found")
+        raise Exception("get_captcha_image时404 Not Found")
 
 
 # TODO try-exception
