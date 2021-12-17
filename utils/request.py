@@ -18,7 +18,6 @@ def need_captcha(cookie: str) -> bool:
     return get_step(cookie) == 0
 
 
-# TODO test
 def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     """通过libId获取该层图书馆的座位信息
 
@@ -45,24 +44,23 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     return result
 
 
-# TODO try-except
-# TODO doc-string
-def verify_cookie(cookie):
-    '''验证cookie有效性
-    参数
-    -------------------------------
-    cookie:str
-        传入cookie
+def verify_cookie(cookie: str) -> bool:
+    """验证cookie有效性
 
-    返回值
-    -----------------------
-    bool
-        true为有效
-    '''
+    Args:
+        cookie (str): headers中的cookie参数
+
+    Raises:
+        e: 响应无json
+
+    Returns:
+        bool: true则cookie有效
+    """
     resp = get_resp(Activity.index, cookie)
     try:
         resp = resp.json()
     except Exception as e:
+        log_info("验证cookie有效响应无json")
         log_info(resp.content)
         raise e
     return 'errors' not in resp
