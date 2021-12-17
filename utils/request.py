@@ -18,6 +18,19 @@ def need_captcha(cookie: str) -> bool:
     return get_step(cookie) == 0
 
 
+# TODO test
+def need_queue(cookie: str) -> bool:
+    """判断当前是否需要排队
+
+    Args:
+        cookie (str): headers中的cookie
+
+    Returns:
+        bool: true为需要
+    """
+    return get_step(cookie) == 1
+
+
 def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     """通过libId获取该层图书馆的座位信息
 

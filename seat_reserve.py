@@ -85,7 +85,6 @@ def seat_prereserve(cookie):
         log('错误')
         traceback.print_exc()
 
-    # TODO:修改为若排队未完成且排队人数为-1且超出时间则一直连接wss连接
     try:
         try:
             if ws_url is None:
@@ -100,16 +99,13 @@ def seat_prereserve(cookie):
         log('create_connection连接异常')
         traceback.print_exc()
 
-    # TODO 此处改为更通用的写法
     resp_queue = requests.get(queue_url)
     queue_num = int(resp_queue.content)
     log(f'前方排队{queue_num}人')
-
     while queue_num > 0:
         log(f'前方排队{queue_num}人')
         if queue_num > 100:
             time.sleep(2)
-        # TODO 此处改为更通用的写法
         resp_queue = requests.get(queue_url)
         queue_num = int(resp_queue.content)
     log(f'前方排队{queue_num}人')
