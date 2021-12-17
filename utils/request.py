@@ -230,7 +230,6 @@ def get_captcha_image(website: str) -> bytes:
         raise Exception("get_captcha_image时404 Not Found")
 
 
-# TODO docstring
 def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
     """验证验证码是否正确，返回结果以及websocket的url
 
