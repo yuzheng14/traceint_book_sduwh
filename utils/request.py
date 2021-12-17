@@ -18,6 +18,7 @@ def need_captcha(cookie: str) -> bool:
     return get_step(cookie) == 0
 
 
+# TODO except
 def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     """通过libId获取该层图书馆的座位信息
 
@@ -44,6 +45,7 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     return result
 
 
+# TODO except
 def verify_cookie(cookie: str) -> bool:
     """验证cookie有效性
 
