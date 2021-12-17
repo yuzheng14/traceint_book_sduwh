@@ -174,7 +174,6 @@ def get_queue_url(cookie: str) -> str:
 
 
 # TODO doc-string
-# TODO try-except
 def get_captcha_code_website(cookie: str) -> tuple:
     """获取验证码的code和网址
 
@@ -189,13 +188,19 @@ def get_captcha_code_website(cookie: str) -> tuple:
     try:
         resp = resp.json()
         result = ((resp['data']['userAuth']['prereserve']['captcha']['code'], resp['data']['userAuth']['prereserve']['captcha']['data']))
-    except TypeError as e:
-        log_info("json中无code及网址")
-        log_info(_json=resp)
-        raise e
-    except Exception as e:
-        log_info("当前响应无json")
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_captcha_code_website时无json")
         log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_captcha_code_website时json中无code及网址")
+        log_info(_json=resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_captcha_code_website时发生其他异常")
         raise e
 
     return result
