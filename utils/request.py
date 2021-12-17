@@ -1,10 +1,9 @@
-import json
-
-import requests
 import traceback
 
+import requests
+
+from utils.request_utils.request import Activity, get_para_and_headers, get_resp, get_step, get_step_response, post
 from utils.utils import log, log_info
-from utils.request_utils.request import post, Activity, get_para_and_headers, get_resp, get_step_response, get_step
 
 
 def need_captcha(cookie: str) -> bool:
