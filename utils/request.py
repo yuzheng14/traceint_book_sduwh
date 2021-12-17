@@ -173,12 +173,16 @@ def get_queue_url(cookie: str) -> str:
     return result
 
 
-# TODO doc-string
 def get_captcha_code_website(cookie: str) -> tuple:
     """获取验证码的code和网址
 
     Args:
         cookie (str): headers的cookie
+
+    Raises:
+        value_exc: 无json
+        key_exc: json数据
+        e: 其他异常
 
     Returns:
         tuple: 返回元组，第一个元素为code(后面发送验证请求会用到)，第二个元素为网址
