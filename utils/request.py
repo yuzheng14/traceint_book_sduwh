@@ -109,6 +109,11 @@ def get_ws_url(cookie: str) -> str:
     Args:
         cookie (str): headers中的cookie参数
 
+    Raises:
+        value_exc: 123
+        key_exc: 123
+        e: 123
+
     Returns:
         str: websocket地址
     """
@@ -116,13 +121,17 @@ def get_ws_url(cookie: str) -> str:
     try:
         resp = resp.json()
         result = resp['data']['userAuth']['prereserve']['queeUrl']
-    except TypeError as e:
-        log_info("获取ws地址json中无所需数据")
-        log_info(_json=resp)
-        raise e
-    except Exception as e:
-        log_info("获取ws地址响应无json")
+    except ValueError as value_exc:
+        log_info("get_ws_url时无json")
         log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info("get_ws_url时json中无所需数据")
+        log_info(_json=resp)
+        raise key_exc
+    except Exception as e:
+        log_info("get_ws_url时发生其他错误")
+        log_info(traceback.format_exc)
         raise e
     return result
 
