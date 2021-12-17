@@ -235,12 +235,14 @@ def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
     """验证验证码是否正确，返回结果以及websocket的url
 
     Args:
-        cookie (str): 如变量名
+        cookie (str): headers的cookie
         captcha (str): 识别出来的验证码
         code (str): 验证码的code（前面post请求得到的）
 
     Raises:
-        e: 若无法找到json或者json解析出错则抛出异常
+        value_exc: 无json
+        key_exc: json无数据
+        e: 其他异常
 
     Returns:
         tuple: 第一个元素为bool型，验证是否成功；第二个元素为str，websocket的url
