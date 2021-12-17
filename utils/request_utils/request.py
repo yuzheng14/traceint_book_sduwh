@@ -70,6 +70,7 @@ def get_step_response(cookie: str) -> requests.Response:
     return get_resp(Activity.getStep, cookie)
 
 
+# TODO test
 def get_step(cookie: str) -> int:
     """获取getStep
 
