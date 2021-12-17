@@ -138,11 +138,12 @@ def get_queue_url(cookie: str) -> str:
     """获取排队的get连接
 
     Args:
-        cookie (str): cookie
+        cookie (str): headers中的cookie参数
 
     Raises:
-        e: json中无所需数据
-        e: 无json
+        value_exc: 无json
+        key_exc: json无数据
+        e: 其他异常
 
     Returns:
         str: 排队的get连接
