@@ -122,14 +122,17 @@ def get_ws_url(cookie: str) -> str:
         resp = resp.json()
         result = resp['data']['userAuth']['prereserve']['queeUrl']
     except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
         log_info("get_ws_url时无json")
         log_info(resp.content)
         raise value_exc
     except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
         log_info("get_ws_url时json中无所需数据")
         log_info(_json=resp)
         raise key_exc
     except Exception as e:
+        log_info('\n' + traceback.format_exc())
         log_info("get_ws_url时发生其他错误")
         log_info(traceback.format_exc)
         raise e
