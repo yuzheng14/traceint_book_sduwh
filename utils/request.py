@@ -39,12 +39,12 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
         result = resp.json()
     except ValueError as value_exc:
         log_info('\n' + traceback.format_exc())
-        log_info("verify_captcha时无json")
+        log_info("get_prereserve_libLayout时无json")
         log_info(resp.content)
         raise value_exc
     except Exception as e:
         log_info('\n' + traceback.format_exc())
-        log_info("verify_captcha时发生其他异常")
+        log_info("get_prereserve_libLayout时发生其他异常")
         raise e
     return result
 
