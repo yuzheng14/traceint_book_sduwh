@@ -68,6 +68,7 @@ def verify_cookie(cookie: str) -> bool:
 
 # TODO restructure
 # TODO doc-string
+# TODO test
 def get_SToken(cookie: str) -> str:
     """获取退座所需要的SToken
     参数
@@ -84,8 +85,20 @@ def get_SToken(cookie: str) -> str:
     with open('json/book/index_para.json') as f:
         para = json.load(f)
     headers['Cookie'] = cookie
+    resp = get_resp(Activity.index, cookie)
+    try:
+        resp = resp.json()
+        result = resp['data']['userAuth']['reserve']['getSToken']
+    except KeyError as e:
+        log_info("获取STokn时无所需数据")
+        log_info(_json=resp)
+        raise e
+    except Exception as e:
+        log_info("获取SToken时无json")
+        log_info(resp.content)
+        raise e
     resp = post(para, headers).json()
-    return resp['data']['userAuth']['reserve']['getSToken']
+    return result
 
 
 # TODO doc-string
