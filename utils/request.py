@@ -1,6 +1,7 @@
 import json
 
 import requests
+import traceback
 
 from utils.utils import log, log_info
 from utils.request_utils.request import post, Activity, get_para_and_headers, get_resp, get_step_response, get_step
@@ -80,24 +81,22 @@ def get_SToken(cookie: str) -> str:
     str
         退座所需要的SToken
     """
-    with open('json/book/index_headers.json') as f:
-        headers = json.load(f)
-    with open('json/book/index_para.json') as f:
-        para = json.load(f)
-    headers['Cookie'] = cookie
     resp = get_resp(Activity.index, cookie)
     try:
         resp = resp.json()
         result = resp['data']['userAuth']['reserve']['getSToken']
-    except KeyError as e:
+    except KeyError as key_exc:
         log_info("获取STokn时无所需数据")
         log_info(_json=resp)
-        raise e
-    except Exception as e:
+        raise key_exc
+    except ValueError as value_exc:
         log_info("获取SToken时无json")
         log_info(resp.content)
+        raise value_exc
+    except Exception as e:
+        log_info("获取SToken时发生其他异常")
+        log_info('\n' + traceback.format_exc())
         raise e
-    resp = post(para, headers).json()
     return result
 
 
