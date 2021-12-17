@@ -134,7 +134,6 @@ def get_ws_url(cookie: str) -> str:
     except Exception as e:
         log_info('\n' + traceback.format_exc())
         log_info("get_ws_url时发生其他错误")
-        log_info(traceback.format_exc)
         raise e
     return result
 
