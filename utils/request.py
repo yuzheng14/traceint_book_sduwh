@@ -18,7 +18,6 @@ def need_captcha(cookie: str) -> bool:
     return get_step(cookie) == 0
 
 
-# TODO except
 def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     """通过libId获取该层图书馆的座位信息
 
@@ -38,9 +37,14 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     resp = post(para, headers)
     try:
         result = resp.json()
-    except Exception as e:
-        log_info("预约座位信息楼层响应无json")
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_captcha时无json")
         log_info(resp.content)
+        raise value_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_captcha时发生其他异常")
         raise e
     return result
 
