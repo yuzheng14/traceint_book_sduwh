@@ -101,8 +101,6 @@ def get_SToken(cookie: str) -> str:
     return result
 
 
-# TODO except
-# TODO doc-string
 def get_ws_url(cookie: str) -> str:
     """获取websocket链接地址（通常在程序崩溃时重新运行时获取）
 
