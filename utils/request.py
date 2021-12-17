@@ -67,19 +67,21 @@ def verify_cookie(cookie: str) -> bool:
     return 'errors' not in resp
 
 
-# TODO restructure
 # TODO doc-string
 # TODO test
 def get_SToken(cookie: str) -> str:
     """获取退座所需要的SToken
-    参数
-    ---------------------
-    cookie:str
-        传入cookie
-    返回值
-    ---------------------
-    str
-        退座所需要的SToken
+
+    Args:
+        cookie (str): headers中的cookie参数
+
+    Raises:
+        key_exc: json无对应键值
+        value_exc: 响应无json
+        e: 其他异常
+
+    Returns:
+        str: 退座所需要的SToken
     """
     resp = get_resp(Activity.index, cookie)
     try:
