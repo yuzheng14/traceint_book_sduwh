@@ -18,7 +18,6 @@ def need_captcha(cookie: str) -> bool:
     return get_step(cookie) == 0
 
 
-# TODO test
 def need_queue(cookie: str) -> bool:
     """判断当前是否需要排队
 

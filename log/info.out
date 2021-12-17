@@ -1,0 +1,13 @@
+[2021-12-17 18:30:56] 	getStep json无所需数据
+[2021-12-17 18:30:56] 	
+{
+    "errors": [
+        {
+            "msg": "access denied!",
+            "code": 40001
+        }
+    ],
+    "data": {
+        "userAuth": null
+    }
+}
