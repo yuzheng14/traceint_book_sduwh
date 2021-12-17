@@ -210,13 +210,14 @@ def get_captcha_code_website(cookie: str) -> tuple:
     return result
 
 
-# TODO doc-string
-# TODO Exception
 def get_captcha_image(website: str) -> bytes:
     """根据网址获取验证码图片二进制信息
 
     Args:
         website (str): 验证码网址
+
+    Raises:
+        Exception: 图片地址404
 
     Returns:
         bytes: 图片二进制信息
