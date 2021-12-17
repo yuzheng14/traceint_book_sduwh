@@ -67,8 +67,6 @@ def verify_cookie(cookie: str) -> bool:
     return 'errors' not in resp
 
 
-# TODO doc-string
-# TODO test
 def get_SToken(cookie: str) -> str:
     """获取退座所需要的SToken
 
