@@ -1,4 +1,5 @@
 import requests
+import traceback
 from enum import Enum
 from utils.utils import log_info
 
@@ -76,8 +77,9 @@ def get_step(cookie: str) -> int:
         cookie (str): headers中的cookie
 
     Raises:
-        e: json无所需数据
-        e: 无json
+        value_exc: 无json
+        key_exc: json无数据
+        e: 其他异常
 
     Returns:
         int: getStep
@@ -86,12 +88,18 @@ def get_step(cookie: str) -> int:
     try:
         resp = resp.json()
         result = resp['data']['userAuth']['prereserve']['getStep']
-    except TypeError as e:
-        log_info("getStep json无所需数据")
-        log_info(_json=resp)
-        raise e
-    except Exception as e:
-        log_info("getStep无json")
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_step时无json")
         log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_step时json中无code及网址")
+        log_info(_json=resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_step时发生其他异常")
         raise e
     return result
