@@ -134,7 +134,6 @@ def get_ws_url(cookie: str) -> str:
     return result
 
 
-# TODO except
 def get_queue_url(cookie: str) -> str:
     """获取排队的get连接
 
@@ -152,12 +151,16 @@ def get_queue_url(cookie: str) -> str:
     try:
         resp = resp.json()
         result = resp['data']['userAuth']['prereserve']['successUrl']
-    except TypeError as e:
-        log_info("获取排队地址json中无所需数据")
+    except ValueError as value_exc:
+        log_info("get_queue_url时无json")
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info("get_queue_url时json中无所需数据")
         log_info(_json=resp)
-        raise e
+        raise key_exc
     except Exception as e:
-        log_info("获取排队地址响应无json")
+        log_info("get_queue_url时发生其他异常")
         log_info(resp.content)
         raise e
     return result
