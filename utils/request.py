@@ -26,7 +26,8 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
         lib_id (int): 图书馆楼层id
 
     Raises:
-        e: 响应无json
+        value_exc: 无json
+        e: 其他异常
 
     Returns:
         dict: 楼层信息json
