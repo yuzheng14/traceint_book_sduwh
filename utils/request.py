@@ -108,9 +108,9 @@ def get_ws_url(cookie: str) -> str:
         cookie (str): headers中的cookie参数
 
     Raises:
-        value_exc: 123
-        key_exc: 123
-        e: 123
+        value_exc: 无json
+        key_exc: json无数据
+        e: 其他异常
 
     Returns:
         str: websocket地址
