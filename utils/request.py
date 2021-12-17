@@ -230,7 +230,6 @@ def get_captcha_image(website: str) -> bytes:
         raise Exception("get_captcha_image时404 Not Found")
 
 
-# TODO try-exception
 # TODO docstring
 def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
     """验证验证码是否正确，返回结果以及websocket的url
@@ -258,9 +257,19 @@ def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
         verify_result = resp['data']['userAuth']['prereserve']['verifyCaptcha']
         if verify_result:
             ws_url = resp['data']['userAuth']['prereserve']['setStep1']
-    except Exception as e:
-        log_info("响应无json")
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_captcha时无json")
         log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_captcha时json中无code及网址")
+        log_info(_json=resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_captcha时发生其他异常")
         raise e
 
     return (verify_result, ws_url)
