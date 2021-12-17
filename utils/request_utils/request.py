@@ -80,6 +80,7 @@ def get_step(cookie: str) -> int:
     Raises:
         value_exc: 无json
         key_exc: json无数据
+        type_exc: json中含有空对象
         e: 其他异常
 
     Returns:
@@ -99,6 +100,11 @@ def get_step(cookie: str) -> int:
         log_info("get_step时json中无code及网址")
         log_info(_json=resp)
         raise key_exc
+    except TypeError as type_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info('get_step时json中有None对象，疑似cookie过期')
+        log_info(_json=resp)
+        raise type_exc
     except Exception as e:
         log_info('\n' + traceback.format_exc())
         log_info("get_step时发生其他异常")
