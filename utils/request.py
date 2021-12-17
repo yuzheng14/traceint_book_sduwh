@@ -49,7 +49,6 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     return result
 
 
-# TODO except
 def verify_cookie(cookie: str) -> bool:
     """验证cookie有效性
 
