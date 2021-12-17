@@ -48,7 +48,7 @@ def seat_prereserve(cookie):
 
     # 开始抢座
     try:
-
+        # TODO 一个函数获取need_captcha,need_queue,ws_url
         # 如果没有验证验证码，则开始验证验证码
         if need_captcha(cookie):
 
