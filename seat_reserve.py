@@ -7,7 +7,7 @@ import requests
 import websocket
 
 from utils.utils import (log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info)
-from utils.request import post, verify_cookie, need_captcha, get_ws_url, get_captcha_code_website, get_captcha_image, verify_captcha, get_queue_url
+from utils.request import post, verify_cookie, need_captcha, get_ws_url, get_captcha_code_website, get_captcha_image, verify_captcha, get_queue_url, get_prereserve_libLayout
 
 
 # status=false时可以预定

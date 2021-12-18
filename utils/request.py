@@ -49,7 +49,8 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
 
     resp = post(para, headers)
     try:
-        result = resp.json()
+        resp = resp.json()
+        result = resp["data"]["userAuth"]["prereserve"]["libLayout"]["seats"]
     except ValueError as value_exc:
         log_info('\n' + traceback.format_exc())
         log_info("get_prereserve_libLayout时无json")
