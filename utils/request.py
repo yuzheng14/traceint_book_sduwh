@@ -72,7 +72,7 @@ def queue_init(cookie: str) -> tuple:
         log_info('\n' + traceback.format_exc())
         log_info("queue_init时发生其他异常")
         raise e
-    return (need_captcha, need_queue, ws_url, queue_url)
+    return need_captcha, need_queue, ws_url, queue_url
 
 
 def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
