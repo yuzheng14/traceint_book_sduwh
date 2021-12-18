@@ -56,6 +56,11 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
         log_info("get_prereserve_libLayout时无json")
         log_info(resp.content)
         raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_prereserve_libLayout时无json无数据")
+        log_info(resp)
+        raise key_exc
     except Exception as e:
         log_info('\n' + traceback.format_exc())
         log_info("get_prereserve_libLayout时发生其他异常")
