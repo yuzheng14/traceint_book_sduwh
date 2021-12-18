@@ -1,4 +1,3 @@
-import json
 import time
 import traceback
 
@@ -6,8 +5,9 @@ import ddddocr
 import requests
 import websocket
 
-from utils.request import post, verify_cookie, need_captcha, get_ws_url, get_captcha_code_website, get_captcha_image, \
-    verify_captcha, get_queue_url, get_prereserve_libLayout
+import json
+from utils.request import post, verify_cookie, get_ws_url, get_captcha_code_website, get_captcha_image, \
+    verify_captcha, get_queue_url, get_prereserve_libLayout, queue_init
 from utils.utils import log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info, \
     seat_exist
 
@@ -20,7 +20,7 @@ def seat_prereserve(cookie):
 
     ocr = ddddocr.DdddOcr()
 
-    queue_url = get_queue_url(cookie)
+    need_captcha, need_queue, ws_url, queue_url = queue_init(cookie)
 
     with open('json/reserve/reserve_para.json', 'r') as f:
         prereserve_para = json.load(f)
@@ -46,7 +46,7 @@ def seat_prereserve(cookie):
     try:
         # TODO 一个函数获取need_captcha,need_queue,ws_url
         # 如果没有验证验证码，则开始验证验证码
-        if need_captcha(cookie):
+        if need_captcha:
 
             log('当前未验证验证码，开始验证验证码')
 
