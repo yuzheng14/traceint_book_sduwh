@@ -122,3 +122,33 @@ def save_recognized_image(image_byte: bytes, captcha: str, code: str, website: s
     """
     name = '_'.join((captcha, code, website.split('/')[-1]))
     save_image(image_byte, name, 'resource/captcha/recognized_captcha')
+
+
+def seat_exist(seat: dict) -> bool:
+    """判断当前座位是否存在
+
+    Args:
+        seat (dict): 座位dict
+
+    Raises:
+        key_exc: 座位无数据
+        e: 其他异常
+
+    Returns:
+        bool: true为座位存在
+    """
+    try:
+        if seat['name'] == "" or seat['name'] is None:
+            return False
+        else:
+            return True
+    except KeyError as key_exc:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info("seat_exist时座位无数据")
+        log_info(seat)
+        raise key_exc
+    except Exception as e:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info("seat_exist时发生其他错误")
+        log_info(seat)
+        raise e
