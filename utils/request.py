@@ -30,6 +30,51 @@ def need_queue(cookie: str) -> bool:
     return get_step(cookie) == 1
 
 
+def queue_init(cookie: str) -> tuple:
+    """初始化排队并获取need_captcha, need_queue, ws_url, queue_url
+
+    Args:
+        cookie (str): header参数cookie
+
+    Raises:
+        value_exc: 无json
+        key_exc: json无数据
+        e: 其他异常
+
+    Returns:
+        tuple: 按顺序分别为need_captcha, need_queue, ws_url, queue_url
+    """
+    resp = get_step_response(cookie)
+    try:
+        resp = resp.json()
+        get_step = resp['data']['userAuth']['prereserve']['getStep']
+        ws_url = resp['data']['userAuth']['prereserve']['queeUrl']
+        queue_url = resp['data']['userAuth']['prereserve']['successUrl']
+        if get_step == 0:
+            need_captcha = True
+        else:
+            need_captcha = False
+        if get_step == 1:
+            need_queue = True
+        else:
+            need_queue = False
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("queue_init时无json")
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("queue_init时无json无数据")
+        log_info(resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("queue_init时发生其他异常")
+        raise e
+    return (need_captcha, need_queue, ws_url, queue_url)
+
+
 def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
     """通过libId获取该层图书馆的座位信息
 
