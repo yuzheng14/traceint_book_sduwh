@@ -39,6 +39,7 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
 
     Raises:
         value_exc: 无json
+        key_exc: json无数据
         e: 其他异常
 
     Returns:
