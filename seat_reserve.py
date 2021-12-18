@@ -6,8 +6,10 @@ import ddddocr
 import requests
 import websocket
 
-from utils.utils import log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info, seat_exist
-from utils.request import post, verify_cookie, need_captcha, get_ws_url, get_captcha_code_website, get_captcha_image, verify_captcha, get_queue_url, get_prereserve_libLayout
+from utils.request import post, verify_cookie, need_captcha, get_ws_url, get_captcha_code_website, get_captcha_image, \
+    verify_captcha, get_queue_url, get_prereserve_libLayout
+from utils.utils import log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info, \
+    seat_exist
 
 
 # status=false时可以预定
@@ -59,7 +61,6 @@ def seat_prereserve(cookie):
             # 获取验证验证码是否成功以及获得ws_url地址
             verify_result, ws_url = verify_captcha(cookie, captcha, captcha_code)
             while not verify_result:
-
                 log(f'{captcha_code}尝试失败，保存验证码图片后开始下一次尝试')
                 save_unrecognized_image(image_byte, captcha_code, captcha_website)
 
