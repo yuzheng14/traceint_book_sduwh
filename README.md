@@ -22,9 +22,19 @@
 
 main分支为稳定可用分支
 
+### python版本
+
+开发时所用版本为`3.8.2`
+
+经测试`3.10.1`会导致适合的`ddddocr`依赖
+
 ### 包
 
-应该装个`ddddocr`和`requests`库就可以了，剩下的在装这两个库的时候自动安装
+```shell
+pip install ddddocr
+pip install requests
+pip install websocket-client
+```
 
 ### 明日预约
 
