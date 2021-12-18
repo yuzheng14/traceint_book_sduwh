@@ -6,7 +6,7 @@ import ddddocr
 import requests
 import websocket
 
-from utils.utils import (log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info)
+from utils.utils import log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info, seat_exist
 from utils.request import post, verify_cookie, need_captcha, get_ws_url, get_captcha_code_website, get_captcha_image, verify_captcha, get_queue_url, get_prereserve_libLayout
 
 
@@ -108,8 +108,9 @@ def seat_prereserve(cookie):
     # 获取10楼的座位信息
     seats = get_prereserve_libLayout(cookie, 758)
     seats.sort(key=take_seat_name)
+
     for seat in seats:
-        if seat['name'] == "" or seat['name'] is None:
+        if not seat_exist(seat):
             log("该座位不存在")
             continue
         if not seat["status"]:
