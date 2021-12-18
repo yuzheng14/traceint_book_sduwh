@@ -27,12 +27,6 @@ def seat_prereserve(cookie):
     prereserve_headers['Cookie'] = cookie
     prereserve_para["variables"]["key"] = '31,74'
 
-    with open('json/reserve/pre_10_headers.json', 'r') as f:
-        pre_headers = json.load(f)
-    with open('json/reserve/pre_10_para.json', 'r') as f:
-        pre_para = json.load(f)
-    pre_headers['Cookie'] = cookie
-
     # 在开始明日预约前的1分钟确认cookie是否有效
     log('开始等待验证cookie时间')
     wait_time(12, 29)
@@ -111,12 +105,8 @@ def seat_prereserve(cookie):
     log(f'前方排队{queue_num}人')
     log('排队完成')
 
-    resp = post(pre_para, pre_headers).json()
-    while 'errors' in resp:
-        log('请求座位失败')
-        log(json.dumps(resp, indent=4, ensure_ascii=False))
-
-    seats = resp["data"]["userAuth"]["prereserve"]["libLayout"]["seats"]
+    # 获取10楼的座位信息
+    seats = get_prereserve_libLayout(cookie, 758)
     seats.sort(key=take_seat_name)
     for seat in seats:
         if seat['name'] == "" or seat['name'] is None:
