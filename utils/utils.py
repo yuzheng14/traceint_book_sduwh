@@ -28,7 +28,7 @@ def take_seat_name(elem: dict):
     """
     name = elem['name']
     if name != "" and name is not None:
-        return int(elem['name'])
+        return int(name)
     return 5000
 
 
