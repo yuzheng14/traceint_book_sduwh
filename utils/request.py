@@ -1,3 +1,4 @@
+import time
 import traceback
 
 import requests
@@ -389,6 +390,24 @@ def pass_captcha(cookie: str) -> str:
     log_info(f'验证码尝试成功，验证码为{captcha}')
     save_recognized_image(image_byte, captcha, captcha_code, captcha_website)
     return ws_url
+
+
+def pass_queue(queue_url: str):
+    """通过排队
+
+    Args:
+        queue_url: 排队人数连接
+    """
+    resp_queue = requests.get(queue_url)
+    queue_num = int(resp_queue.content)
+    log(f'前方排队{queue_num}人')
+    while queue_num > 0:
+        log_info(f'前方排队{queue_num}人')
+        if queue_num > 100:
+            time.sleep(2)
+        resp_queue = requests.get(queue_url)
+        queue_num = int(resp_queue.content)
+    log_info(f'前方排队{queue_num}人')
 
 
 # TODO doc注释

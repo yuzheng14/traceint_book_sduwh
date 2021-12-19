@@ -2,8 +2,6 @@ import json
 import time
 import traceback
 
-import requests
-
 
 def wait_time(hour: int, minute: int):
     """等待至参数指定的时间（时间可为负值）
@@ -154,24 +152,3 @@ def seat_exist(seat: dict) -> bool:
         log_info("seat_exist时发生其他错误")
         log_info(seat)
         raise e
-
-
-
-
-
-def pass_queue(queue_url: str):
-    """通过排队
-
-    Args:
-        queue_url: 排队人数连接
-    """
-    resp_queue = requests.get(queue_url)
-    queue_num = int(resp_queue.content)
-    log(f'前方排队{queue_num}人')
-    while queue_num > 0:
-        log_info(f'前方排队{queue_num}人')
-        if queue_num > 100:
-            time.sleep(2)
-        resp_queue = requests.get(queue_url)
-        queue_num = int(resp_queue.content)
-    log_info(f'前方排队{queue_num}人')
