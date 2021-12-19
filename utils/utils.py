@@ -62,7 +62,7 @@ def log_file(msg: str, file: str):
         msg (str): 输出信息
         file (str): 文件名称及路径
     """
-    with open(file, 'a') as f:
+    with open(file, 'a', encoding='utf-8') as f:
         f.write(f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}\n')
 
 
