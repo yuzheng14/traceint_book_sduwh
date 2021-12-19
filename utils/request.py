@@ -327,7 +327,6 @@ def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
     para['variables']['captchaCode'] = code
     resp = post(para, headers)
     ws_url = None
-    verify_result = False
 
     try:
         resp = resp.json()
