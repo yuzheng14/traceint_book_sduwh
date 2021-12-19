@@ -15,21 +15,6 @@ def wait_time(hour: int, minute: int):
         pass
 
 
-def take_seat_name(elem: dict):
-    """从seat dict中获取座位号
-
-    Args:
-        elem (dict): seat dict
-
-    Returns:
-        int: 座位号
-    """
-    name = elem['name']
-    if name != "" and name is not None:
-        return int(name)
-    return 5000
-
-
 def log(msg=None, _json=None):
     """输出格式化信息到控制台（可能会改为到文件
 
