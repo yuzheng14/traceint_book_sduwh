@@ -1,12 +1,13 @@
 import time
 import traceback
+from typing import Tuple
 
 import requests
 import websocket
 from ddddocr import DdddOcr
 
 from utils.request_utils.request import Activity, get_para_and_headers, get_resp, get_step, get_step_response, post
-from utils.utils import log, log_info, seat_exist, save_unrecognized_image, save_recognized_image, get_lib_id
+from utils.utils import log, log_info, seat_exist, save_unrecognized_image, save_recognized_image, get_lib_id, wait_time
 
 
 def need_captcha(cookie: str) -> bool:
@@ -487,6 +488,27 @@ def pass_save(cookie: str, floor: int, often_seat, reverse) -> str:
                 return seat['name']
         else:
             log_info(f"{seat['name']}号座位已有人")
+
+
+# TODO docstring
+def wait_for_start(cookie: str) -> Tuple[bool, bool, bool, str, str]:
+    if not verify_cookie(cookie):
+        log('cookie无效，请重新输入cookie')
+        return False, None, None, None, None
+    # 在开始明日预约前的1分钟确认cookie是否有效
+    log('开始等待验证cookie时间')
+    wait_time(12, 29)
+    if not verify_cookie(cookie):
+        log('cookie无效，请重新输入cookie')
+        return False, None, None, None, None
+    else:
+        log('cookie有效，请等待预定时间')
+
+    # 等待明日预约开始
+    log('开始等待预定时间')
+    wait_time(12, 30)
+    need_captcha, need_queue, ws_url, queue_url = queue_init(cookie)
+    return True, need_captcha, need_queue, ws_url, queue_url
 
 
 # TODO doc注释
