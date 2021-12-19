@@ -409,7 +409,6 @@ def pass_queue(queue_url: str):
     log_info(f'前方排队{queue_num}人')
 
 
-# TODO test
 def save(cookie: str, key: str, lib_id: int) -> bool:
     """
     预定座位
@@ -427,7 +426,11 @@ def save(cookie: str, key: str, lib_id: int) -> bool:
     resp = post(para, headers)
     try:
         resp = resp.json()
-        result=["data"]["userAuth"]["prereserve"]["save"]
+        if 'errors' not in resp:
+            return resp["data"]["userAuth"]["prereserve"]["save"]
+        log_info('save时json数据内含错误')
+        log_info(_json=resp)
+        return False
     except ValueError as value_exc:
         log_info('\n' + traceback.format_exc())
         log_info("save时无json")
@@ -444,7 +447,7 @@ def save(cookie: str, key: str, lib_id: int) -> bool:
         log_info(resp)
         log_info(resp.content)
         raise e
-    return result
+
 
 # TODO doc注释
 # TODO 完善函数
