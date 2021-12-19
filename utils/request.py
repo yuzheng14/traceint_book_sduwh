@@ -2,6 +2,7 @@ import time
 import traceback
 
 import requests
+import websocket
 from ddddocr import DdddOcr
 
 from utils.request_utils.request import Activity, get_para_and_headers, get_resp, get_step, get_step_response, post
@@ -391,12 +392,23 @@ def pass_captcha(cookie: str) -> str:
     return ws_url
 
 
-def pass_queue(queue_url: str):
+def pass_queue(queue_url: str, ws_url: str, need_captcha: bool, need_queue: bool) -> websocket._core.WebSocket:
     """通过排队
 
     Args:
         queue_url: 排队人数连接
     """
+    ws = None
+    try:
+        if need_captcha or need_queue:
+            log('当前需要排队，即将开始排队')
+            log_info(f'连接地址{ws_url}')
+            ws = websocket.create_connection(ws_url, timeout=30)
+            log_info('create_connection连接成功')
+    except Exception:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info('create_connection连接异常')
+
     resp_queue = requests.get(queue_url)
     queue_num = int(resp_queue.content)
     log(f'前方排队{queue_num}人')
@@ -407,6 +419,7 @@ def pass_queue(queue_url: str):
         resp_queue = requests.get(queue_url)
         queue_num = int(resp_queue.content)
     log_info(f'前方排队{queue_num}人')
+    return ws
 
 
 def save(cookie: str, key: str, lib_id: int) -> bool:
