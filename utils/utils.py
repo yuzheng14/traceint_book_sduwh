@@ -137,3 +137,21 @@ def seat_exist(seat: dict) -> bool:
         log_info("seat_exist时发生其他错误")
         log_info(seat)
         raise e
+
+
+def get_lib_id(floor: int) -> int:
+    """
+    返回楼层对应的libID
+    Args:
+        floor: 楼层，1为电子阅览室，2为自带电脑学习区，,13为图东环3楼，14为图东环4楼其余楼层对应
+
+    Returns:
+        int: lib_id
+    """
+    lib = [118707, 114074, 716, 730, 737, 765, 744, 786, 751, 758, 772, 779, 793, 800]
+    try:
+        return lib[floor - 1]
+    except IndexError as index_exc:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info(f'get_lib_id时索引超出范围，索引值为{floor}')
+        raise index_exc
