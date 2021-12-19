@@ -1,9 +1,10 @@
 import traceback
 
 import requests
+from ddddocr import DdddOcr
 
 from utils.request_utils.request import Activity, get_para_and_headers, get_resp, get_step, get_step_response, post
-from utils.utils import log, log_info, seat_exist
+from utils.utils import log, log_info, seat_exist, save_unrecognized_image, save_recognized_image
 
 
 def need_captcha(cookie: str) -> bool:
@@ -264,7 +265,8 @@ def get_captcha_code_website(cookie: str) -> tuple:
 
     try:
         resp = resp.json()
-        result = (resp['data']['userAuth']['prereserve']['captcha']['code'], resp['data']['userAuth']['prereserve']['captcha']['data'])
+        result = (resp['data']['userAuth']['prereserve']['captcha']['code'],
+                  resp['data']['userAuth']['prereserve']['captcha']['data'])
     except ValueError as value_exc:
         log_info('\n' + traceback.format_exc())
         log_info("get_captcha_code_website时无json")
@@ -347,6 +349,46 @@ def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
         raise e
 
     return verify_result, ws_url
+
+
+def pass_captcha(cookie: str) -> str:
+    """进行验证码验证,并返回websocket连接地址
+
+    Args:
+        cookie (str): header中的cookie
+
+    Returns:
+        str: websocket连接地址
+    """
+
+    ocr = DdddOcr()
+
+    # 获取验证码的code和网址，并获取图片二进制信息
+    captcha_code, captcha_website = get_captcha_code_website(cookie)
+    image_byte = get_captcha_image(captcha_website)
+
+    # ocr识别验证码
+    captcha = ocr.classification(image_byte)
+    log_info(f'识别验证码为{captcha}')
+
+    # 获取验证验证码是否成功以及获得ws_url地址
+    verify_result, ws_url = verify_captcha(cookie, captcha, captcha_code)
+    while not verify_result:
+        log_info(f'{captcha_code}尝试失败，保存验证码图片后开始下一次尝试')
+        save_unrecognized_image(image_byte, captcha_code, captcha_website)
+
+        # 获取验证码的code和网址，并获取验证码图片二进制信息
+        captcha_code, captcha_website = get_captcha_code_website(cookie)
+        image_byte = get_captcha_image(captcha_website)
+
+        # 识别验证码
+        captcha = ocr.classification(image_byte)
+        log_info(f'识别验证码为{captcha}')
+        verify_result, ws_url = verify_captcha(cookie, captcha, captcha_code)
+
+    log_info(f'验证码尝试成功，验证码为{captcha}')
+    save_recognized_image(image_byte, captcha, captcha_code, captcha_website)
+    return ws_url
 
 
 # TODO doc注释
