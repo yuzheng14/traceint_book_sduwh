@@ -3,7 +3,7 @@ import traceback
 import requests
 
 from utils.request_utils.request import Activity, get_para_and_headers, get_resp, get_step, get_step_response, post
-from utils.utils import log, log_info
+from utils.utils import log, log_info, seat_exist
 
 
 def need_captcha(cookie: str) -> bool:
@@ -111,7 +111,7 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> list:
         log_info('\n' + traceback.format_exc())
         log_info("get_prereserve_libLayout时发生其他异常")
         raise e
-    return result
+    return [seat for seat in result if seat_exist(seat)]
 
 
 def verify_cookie(cookie: str) -> bool:
