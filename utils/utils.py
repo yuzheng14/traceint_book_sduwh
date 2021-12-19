@@ -192,4 +192,5 @@ def pass_captcha(cookie: str) -> str:
         verify_result, ws_url = verify_captcha(cookie, captcha, captcha_code)
 
     log_info(f'验证码尝试成功，验证码为{captcha}')
+    save_recognized_image(image_byte, captcha, captcha_code, captcha_website)
     return ws_url
