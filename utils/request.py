@@ -427,10 +427,14 @@ def save(cookie: str, key: str, lib_id: int) -> bool:
     try:
         resp = resp.json()
         if 'errors' not in resp:
-            return resp["data"]["userAuth"]["prereserve"]["save"]
-        log_info('save时json数据内含错误')
-        log_info(_json=resp)
-        return False
+            log_info('save时json数据内含错误')
+            log_info(_json=resp)
+            return False
+        result = resp["data"]["userAuth"]["prereserve"]["save"]
+        if not result:
+            log_info('save时预定座位失败')
+            log_info(_json=resp)
+        return result
     except ValueError as value_exc:
         log_info('\n' + traceback.format_exc())
         log_info("save时无json")
