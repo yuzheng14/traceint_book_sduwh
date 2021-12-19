@@ -409,6 +409,43 @@ def pass_queue(queue_url: str):
     log_info(f'前方排队{queue_num}人')
 
 
+# TODO test
+def save(cookie: str, key: str, lib_id: int) -> bool:
+    """
+    预定座位
+    Args:
+        cookie: headers中的cookie
+        key: 座位key，seat字典中获取
+        lib_id: 楼层id
+
+    Returns:
+        true为预定成功
+    """
+    para, headers = get_para_and_headers(Activity.save, cookie)
+    para["variables"]["key"] = key
+    para['variables']['libid'] = lib_id
+    resp = post(para, headers)
+    try:
+        resp = resp.json()
+        result=["data"]["userAuth"]["prereserve"]["save"]
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("save时无json")
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("save时json无对应数据")
+        log_info(_json=resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("save时发生其他异常")
+        log_info(resp)
+        log_info(resp.content)
+        raise e
+    return result
+
 # TODO doc注释
 # TODO 完善函数
 # TODO 未拆封微信浏览器之前无法完善
