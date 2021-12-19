@@ -264,7 +264,7 @@ def get_captcha_code_website(cookie: str) -> tuple:
 
     try:
         resp = resp.json()
-        result = ((resp['data']['userAuth']['prereserve']['captcha']['code'], resp['data']['userAuth']['prereserve']['captcha']['data']))
+        result = (resp['data']['userAuth']['prereserve']['captcha']['code'], resp['data']['userAuth']['prereserve']['captcha']['data'])
     except ValueError as value_exc:
         log_info('\n' + traceback.format_exc())
         log_info("get_captcha_code_website时无json")
@@ -346,7 +346,7 @@ def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
         log_info("verify_captcha时发生其他异常")
         raise e
 
-    return (verify_result, ws_url)
+    return verify_result, ws_url
 
 
 # TODO doc注释
