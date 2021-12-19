@@ -500,13 +500,13 @@ def wait_for_start(cookie: str) -> Tuple[bool, bool, bool, str, str]:
         tuple: 按顺序为cookie_ok, need_captcha, need_queue, ws_url, queue_url
     """
     if not verify_cookie(cookie):
-        log('cookie无效，请重新输入cookie')
+        log_info('cookie无效，请重新输入cookie')
         return False, None, None, None, None
     # 在开始明日预约前的1分钟确认cookie是否有效
     log('开始等待验证cookie时间')
     wait_time(12, 29)
     if not verify_cookie(cookie):
-        log('cookie无效，请重新输入cookie')
+        log_info('cookie无效，请重新输入cookie')
         return False, None, None, None, None
     else:
         log('cookie有效，请等待预定时间')
