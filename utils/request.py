@@ -6,32 +6,8 @@ import requests
 import websocket
 from ddddocr import DdddOcr
 
-from utils.request_utils.request import Activity, get_para_and_headers, get_resp, get_step, get_step_response, post
+from utils.request_utils.request import Activity, get_para_and_headers, get_resp, get_step_response, post
 from utils.utils import log, log_info, seat_exist, save_unrecognized_image, save_recognized_image, get_lib_id, wait_time
-
-
-def need_captcha(cookie: str) -> bool:
-    """判断当前是否需要验证验证码
-
-    Args:
-        cookie (str): headers中的cookie
-
-    Returns:
-        bool: true为需要
-    """
-    return get_step(cookie) == 0
-
-
-def need_queue(cookie: str) -> bool:
-    """判断当前是否需要排队
-
-    Args:
-        cookie (str): headers中的cookie
-
-    Returns:
-        bool: true为需要
-    """
-    return get_step(cookie) == 1
 
 
 def queue_init(cookie: str) -> tuple:
