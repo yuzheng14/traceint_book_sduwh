@@ -352,7 +352,7 @@ def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
 # TODO doc注释
 # TODO 完善函数
 # TODO 未拆封微信浏览器之前无法完善
-def renew_cookie(cookie: dict) -> dict:
+def renew_cookie(cookie: str) -> str:
     if verify_cookie(cookie):
         log('当前验证码有效，无需更新')
         return cookie
