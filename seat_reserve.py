@@ -9,7 +9,7 @@ import json
 from utils.request import post, verify_cookie, get_ws_url, get_captcha_code_website, get_captcha_image, \
     verify_captcha, get_queue_url, get_prereserve_libLayout, queue_init
 from utils.utils import log, save_recognized_image, save_unrecognized_image, take_seat_name, wait_time, log_info, \
-    seat_exist
+    seat_exist, pass_captcha
 
 
 # status=false时可以预定
@@ -43,56 +43,22 @@ def seat_prereserve(cookie):
     wait_time(12, 30)
 
     # 开始抢座
-    try:
-        # TODO 一个函数获取need_captcha,need_queue,ws_url
-        # 如果没有验证验证码，则开始验证验证码
-        if need_captcha:
-
-            log('当前未验证验证码，开始验证验证码')
-
-            # 获取验证码的code和网址，并获取图片二进制信息
-            captcha_code, captcha_website = get_captcha_code_website(cookie)
-            image_byte = get_captcha_image(captcha_website)
-
-            # ocr识别验证码
-            captcha = ocr.classification(image_byte)
-            log_info(f'识别验证码为{captcha}')
-
-            # 获取验证验证码是否成功以及获得ws_url地址
-            verify_result, ws_url = verify_captcha(cookie, captcha, captcha_code)
-            while not verify_result:
-                log(f'{captcha_code}尝试失败，保存验证码图片后开始下一次尝试')
-                save_unrecognized_image(image_byte, captcha_code, captcha_website)
-
-                # 获取验证码的code和网址，并获取验证码图片二进制信息
-                captcha_code, captcha_website = get_captcha_code_website(cookie)
-                image_byte = get_captcha_image(captcha_website)
-
-                # 识别验证码
-                captcha = ocr.classification(image_byte)
-                log_info(f'识别验证码为{captcha}')
-                verify_result, ws_url = verify_captcha(cookie, captcha, captcha_code)
-
-            log(f'验证码尝试成功，验证码为{captcha}')
-        else:
-            log('已验证验证码')
-    except Exception:
-        log('错误')
-        traceback.print_exc()
+    # TODO 一个函数获取need_captcha,need_queue,ws_url
+    # 如果没有验证验证码，则开始验证验证码
+    if need_captcha:
+        log('当前未验证验证码，开始验证验证码')
+        ws_url=pass_captcha(cookie)
+    else:
+        log('已验证验证码')
 
     try:
-        try:
-            if ws_url is None:
-                ws_url = get_ws_url(cookie)
-        except Exception:
-            ws_url = get_ws_url(cookie)
-
         log(f'wss连接地址{ws_url}')
         wss = websocket.create_connection(ws_url, timeout=30)
         log('create_connection连接成功')
     except Exception:
+
         log('create_connection连接异常')
-        traceback.print_exc()
+
 
     resp_queue = requests.get(queue_url)
     queue_num = int(resp_queue.content)
