@@ -75,7 +75,7 @@ def queue_init(cookie: str) -> tuple:
     return need_captcha, need_queue, ws_url, queue_url
 
 
-def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
+def get_prereserve_libLayout(cookie: str, lib_id: int) -> list:
     """通过libId获取该层图书馆的座位信息
 
     Args:
@@ -88,7 +88,7 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> dict:
         e: 其他异常
 
     Returns:
-        dict: 楼层信息json
+        list: 楼层信息json
     """
     para, headers = get_para_and_headers(Activity.prereserveLibLayout, cookie)
     para['variables']['libId'] = lib_id
