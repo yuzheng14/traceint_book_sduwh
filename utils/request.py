@@ -5,7 +5,7 @@ import requests
 from ddddocr import DdddOcr
 
 from utils.request_utils.request import Activity, get_para_and_headers, get_resp, get_step, get_step_response, post
-from utils.utils import log, log_info, seat_exist, save_unrecognized_image, save_recognized_image
+from utils.utils import log, log_info, seat_exist, save_unrecognized_image, save_recognized_image, get_lib_id
 
 
 def need_captcha(cookie: str) -> bool:
@@ -447,6 +447,33 @@ def save(cookie: str, key: str, lib_id: int) -> bool:
         log_info(resp)
         log_info(resp.content)
         raise e
+
+
+def pass_save(cookie: str, floor: int, often_seat, reverse) -> str:
+    """
+    预定座位过程，成功则返回预定座位号
+    Args:
+        cookie: headers中的cookie
+        floor: 楼层
+        often_seat: 常用座位号
+        reverse: 是否倒序
+
+    Returns:
+        预定座位号
+    """
+    lib_id = get_lib_id(floor)
+    # 获取10楼的座位信息
+    seats = get_prereserve_libLayout(cookie, lib_id)
+    seats.sort(key=lambda s: abs(int(s['name']) - often_seat), reverse=reverse)
+    # 预定座位
+    for seat in seats:
+        if not seat["status"]:
+            log_info(f"开始预定{seat['name']}号")
+            if save(cookie, seat['key'], lib_id):
+                log(f"预定成功，座位为{seat['name']}号")
+                return seat['name']
+        else:
+            log_info(f"{seat['name']}号座位已有人")
 
 
 # TODO doc注释
