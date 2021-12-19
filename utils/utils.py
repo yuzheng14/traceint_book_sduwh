@@ -36,9 +36,9 @@ def msg_or_json(msg=None, _json=None) -> str:
     """
     if (msg is None and _json is None) or (msg is not None and _json is not None):
         log("非法！错误信息及json信息同时为空或同时不为空")
-        return
+        return f'{msg}+{_json}'
 
-    if (msg is None):
+    if msg is None:
         return f'\n{json.dumps(_json, indent=4, ensure_ascii=False)}'
     else:
         return msg
