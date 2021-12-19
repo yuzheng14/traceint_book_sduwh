@@ -4,8 +4,11 @@ from utils.utils import log, log_info
 
 # status=false时可以预定
 def seat_prereserve(cookie: str, floor: int = 10, often_seat: int = 1, reverse: bool = False):
+    # 初始化并根据cookie有效性更改
     cookie_ok, need_captcha, need_queue, ws_url, queue_url = wait_for_start(cookie)
-    # TODO 根据cookie_ok更改下面行为
+    if not cookie_ok:
+        log('cookie无效，请改正后重试')
+        return
 
     # 如果没有验证验证码，则开始验证验证码
     if need_captcha:
@@ -13,6 +16,8 @@ def seat_prereserve(cookie: str, floor: int = 10, often_seat: int = 1, reverse: 
         ws_url = pass_captcha(cookie)
     else:
         log('已验证验证码')
+    # 排队
+    log('开始排队')
     ws = pass_queue(queue_url, ws_url, need_captcha, need_queue)
     log('排队完成')
 
