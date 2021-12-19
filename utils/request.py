@@ -490,8 +490,15 @@ def pass_save(cookie: str, floor: int, often_seat, reverse) -> str:
             log_info(f"{seat['name']}号座位已有人")
 
 
-# TODO docstring
 def wait_for_start(cookie: str) -> Tuple[bool, bool, bool, str, str]:
+    """
+    等待明日预约开始时间并初始化数据
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        tuple: 按顺序为cookie_ok, need_captcha, need_queue, ws_url, queue_url
+    """
     if not verify_cookie(cookie):
         log('cookie无效，请重新输入cookie')
         return False, None, None, None, None
