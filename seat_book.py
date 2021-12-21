@@ -1,13 +1,12 @@
 import time
 
 import json
-from utils.request import post, verify_cookie, wait_for_reserve
-from utils.utils import log, wait_time
+from utils.request import post, wait_for_reserve, get_libLayout, get_lib_id
+from utils.utils import log
 
 
 # seat_status=1为可预订
 def book(cookie: str, often_floor: int = 3, strict_mode=False, reserve=False):
-
     with open('json/book/10_para.json', 'r') as f:
         post_para = json.load(f)
     with open('json/book/10_headers.json', 'r') as f:
@@ -25,9 +24,7 @@ def book(cookie: str, often_floor: int = 3, strict_mode=False, reserve=False):
         log('cookie无效，请改正后重试')
         return
 
-    wait_time(7, 00)
-    # log('等待九点钟')
-    # wait_time(9, 00)
+    lib_id = get_lib_id(often_floor)
     while True:
         resp = post(post_para, headers).json()
         if 'errors' in resp:
@@ -35,8 +32,7 @@ def book(cookie: str, often_floor: int = 3, strict_mode=False, reserve=False):
             continue
         log("post请求成功")
 
-        seats = resp["data"]["userAuth"]["reserve"]["libs"][0]["lib_layout"][
-            "seats"]
+        seats = get_libLayout(cookie, lib_id)
         seats.sort(key=lambda s: int(s['name']))
         for seat in seats:
             if seat['name'] == "" or seat['name'] is None:
