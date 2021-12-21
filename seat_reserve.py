@@ -30,4 +30,5 @@ def seat_prereserve(cookie: str, floor: int = 10, often_seat: int = 1, reverse: 
 
 
 if __name__ == '__main__':
-    seat_prereserve('')
+    cookie = ''
+    seat_prereserve(cookie, 5, 88, )
