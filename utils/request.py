@@ -460,7 +460,7 @@ def pass_save(cookie: str, floor: int, often_seat, reverse) -> str:
         if not seat["status"]:
             log_info(f"开始预定{seat['name']}号")
             if save(cookie, seat['key'], lib_id):
-                log(f"预定成功，座位为{seat['name']}号")
+                log_info(f"预定成功，座位为{seat['name']}号")
                 return seat['name']
         else:
             log_info(f"{seat['name']}号座位已有人")
