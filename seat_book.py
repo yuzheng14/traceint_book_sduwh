@@ -1,25 +1,30 @@
 import time
 
 import json
-from utils.request import post, verify_cookie
+from utils.request import post, verify_cookie, wait_for_reserve
 from utils.utils import log, wait_time
 
 
 # seat_status=1为可预订
-def book(cookie):
+def book(cookie: str, often_floor: int = 3, strict_mode=False, reserve=False):
+
     with open('json/book/10_para.json', 'r') as f:
         post_para = json.load(f)
     with open('json/book/10_headers.json', 'r') as f:
         headers = json.load(f)
     headers['Cookie'] = cookie
+
     with open('json/book/book_para.json', 'r') as f:
         book_para = json.load(f)
     with open('json/book/book_headers.json', 'r') as f:
         book_headers = json.load(f)
     book_headers['Cookie'] = headers['Cookie']
-    if not verify_cookie(cookie):
-        log('cookie无效，请重新输入')
-    log('开始等待开始时间')
+
+    # 验证cookie并等待开始抢座
+    if not wait_for_reserve(cookie):
+        log('cookie无效，请改正后重试')
+        return
+
     wait_time(7, 00)
     # log('等待九点钟')
     # wait_time(9, 00)
