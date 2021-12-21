@@ -4,6 +4,14 @@ from utils.utils import log, log_info
 
 # status=false时可以预定
 def seat_prereserve(cookie: str, floor: int = 10, often_seat: int = 1, reverse: bool = False):
+    """
+    预定座位
+    Args:
+        cookie: headers中的cookies
+        floor: 抢座楼层
+        often_seat: 常用座位
+        reverse: 是否倒序
+    """
     # 初始化并根据cookie有效性更改
     cookie_ok, need_captcha, need_queue, ws_url, queue_url = wait_for_start(cookie)
     if not cookie_ok:
