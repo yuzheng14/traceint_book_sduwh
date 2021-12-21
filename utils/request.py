@@ -1,6 +1,6 @@
 import time
 import traceback
-from typing import Tuple
+from typing import Tuple, List
 
 import requests
 import websocket
@@ -68,7 +68,7 @@ def get_prereserve_libLayout(cookie: str, lib_id: int) -> list:
         e: 其他异常
 
     Returns:
-        list: 楼层信息json
+        list: 座位信息list
     """
     para, headers = get_para_and_headers(Activity.prereserveLibLayout, cookie)
     para['variables']['libId'] = lib_id
@@ -522,6 +522,42 @@ def wait_for_reserve(cookie: str) -> bool:
     log('开始等待预定时间')
     wait_time(7, 00)
     return True
+
+
+# TODO test
+def get_libLayout(cookie: str, lib_id: int) -> List[dict]:
+    """
+    获取捡漏座位信息
+    Args:
+        cookie: headers中的cookie
+        lib_id: 图书馆楼层id
+
+    Returns:
+        List[dict]: 座位信息list
+    """
+    para, headers = get_para_and_headers(Activity.libLayout, cookie)
+    para['variables']['libId'] = lib_id
+
+    resp = post(para, headers)
+    try:
+        resp = resp.json()
+        result = resp["data"]["userAuth"]["reserve"]["libs"][0]["lib_layout"]["seats"]
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_libLayout时无json")
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_libLayout时无json无数据")
+        log_info(resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_libLayout时发生其他异常")
+        raise e
+    return [seat for seat in result if seat_exist(seat)]
+
 
 # TODO doc注释
 # TODO 完善函数
