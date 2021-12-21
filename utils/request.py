@@ -370,10 +370,13 @@ def pass_captcha(cookie: str) -> str:
 
 
 def pass_queue(queue_url: str, ws_url: str, need_captcha: bool, need_queue: bool) -> websocket._core.WebSocket:
-    """通过排队
-
+    """
+    通过排队
     Args:
-        queue_url: 排队人数连接
+        queue_url: 排队链接
+        ws_url: websocket连接
+        need_captcha: 是否需要验证验证码
+        need_queue: 是否需要排队
     """
     ws = None
     try:
