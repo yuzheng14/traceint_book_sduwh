@@ -442,7 +442,7 @@ def save(cookie: str, key: str, lib_id: int) -> bool:
         raise e
 
 
-def pass_save(cookie: str, floor: int, often_seat, reverse) -> str:
+def pass_save(cookie: str, floor: int, often_seat: int, reverse: bool) -> str:
     """
     预定座位过程，成功则返回预定座位号
     Args:
