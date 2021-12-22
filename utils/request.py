@@ -598,7 +598,6 @@ def reserveSeat(cookie: str, seat_key: str, lib_id: int) -> bool:
         raise e
 
 
-# TODO test
 def reserve_floor(cookie: str, floor: int, reverse: bool) -> str:
     """
     遍历一整层楼的座位，预定空座位
