@@ -16,10 +16,11 @@ def wait_time(hour: int, minute: int):
 
 
 def log(msg=None, _json=None):
-    """输出格式化信息到控制台（可能会改为到文件
-
+    """
+    输出格式化信息到控制台（可能会改为到文件
     Args:
-        message (str): 要输出的信息
+        msg: plain信息
+        _json: json信息
     """
     # with open('log.out','a',encoding='utf-8') as f:
     # f.write(time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())+'\t'+f'{message}'+'\n')
@@ -48,8 +49,8 @@ def log_info(info=None, _json=None):
     """记录错误至info.out文件，两个参数有且仅可有一个参数有值
 
     Args:
-        error (str, optional): 要输出的错误信息. Defaults to None.
-        json (dict, optional): 要输出错误发生时的json. Defaults to None.
+        info (str, optional): 要输出的错误信息. Defaults to None.
+        _json (dict, optional): 要输出错误发生时的json. Defaults to None.
     """
     msg = msg_or_json(info, _json)
     log_file(msg, "log/info.out")
