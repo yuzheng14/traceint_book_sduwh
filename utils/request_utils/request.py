@@ -42,6 +42,16 @@ class Activity(Enum):
             "libId": 765
         }
     }
+    reserveSeat = {
+        "operationName": "reserveSeat",
+        "query": "mutation reserveSeat($libId: Int!, $seatKey: String!, $captchaCode: String, $captcha: String!) {\n userAuth {\n reserve {\n reserveSeat(\n libId: $libId\n seatKey: $seatKey\n captchaCode: $captchaCode\n captcha: $captcha\n )\n }\n }\n}",
+        "variables": {
+            "seatKey": "27,74",
+            "libId": 765,
+            "captchaCode": "",
+            "captcha": ""
+        }
+    }
 
 
 def post(post_para: dict, headers: dict) -> requests.Response:
