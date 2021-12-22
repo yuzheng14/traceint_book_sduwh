@@ -559,6 +559,46 @@ def get_libLayout(cookie: str, lib_id: int) -> List[dict]:
     return [seat for seat in result if seat_exist(seat)]
 
 
+def reserveSeat(cookie: str, seat_key: str, lib_id: int) -> bool:
+    """
+    预定当日座位
+    Args:
+        cookie: headers中的cookie
+        seat_key: 座位id，seat信息中
+        lib_id: 楼层id
+
+    Returns:
+        true为预定成功
+    """
+    para, headers = get_para_and_headers(Activity.reserveSeat, cookie)
+    para["variables"]["seatKey"] = seat_key
+    para['variables']['libId'] = lib_id
+    resp=post(para, headers)
+    try:
+        resp=resp.json()
+        if 'errors' in resp:
+            log_info('reserveSeat时json数据内含错误或预定失败')
+            log_info(_json=resp)
+            return False
+        return resp["data"]["userAuth"]["reserve"]["reserveSeat"]
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("reserveSeat时无json")
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("reserveSeat时json无对应数据")
+        log_info(_json=resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("reserveSeat时发生其他异常")
+        log_info(resp)
+        log_info(resp.content)
+        raise e
+
+
 # TODO doc注释
 # TODO 完善函数
 # TODO 未拆封微信浏览器之前无法完善
@@ -573,4 +613,4 @@ def renew_cookie(cookie: str) -> str:
 # TODO doc注释
 # TODO 完善函数
 def have_seat() -> bool:
-    pass
+    return False
