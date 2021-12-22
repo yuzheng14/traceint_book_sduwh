@@ -645,8 +645,10 @@ def pass_reserve(cookie: str, often_floor: int, strict_mode: bool, reserve: bool
         return seat
     # 如果不是严格模式，则遍历全部楼层
     if not strict_mode:
-        for i in range(1, 15):
-            seat = reserve_floor(cookie, get_lib_id(often_floor), reserve)
+        floor = [_ for _ in range(1, 15) if _ != often_floor]
+        floor.sort(key=lambda f:abs(f-often_floor))
+        for i in floor:
+            seat = reserve_floor(cookie, get_lib_id(i), reserve)
             if seat != '':
                 return seat
     return ''
