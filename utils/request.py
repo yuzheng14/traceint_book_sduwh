@@ -524,7 +524,6 @@ def wait_for_reserve(cookie: str) -> bool:
     return True
 
 
-# TODO test
 def get_libLayout(cookie: str, lib_id: int) -> List[dict]:
     """
     获取捡漏座位信息
