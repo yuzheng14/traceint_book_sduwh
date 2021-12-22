@@ -573,9 +573,9 @@ def reserveSeat(cookie: str, seat_key: str, lib_id: int) -> bool:
     para, headers = get_para_and_headers(Activity.reserveSeat, cookie)
     para["variables"]["seatKey"] = seat_key
     para['variables']['libId'] = lib_id
-    resp=post(para, headers)
+    resp = post(para, headers)
     try:
-        resp=resp.json()
+        resp = resp.json()
         if 'errors' in resp:
             log_info('reserveSeat时json数据内含错误或预定失败')
             log_info(_json=resp)
@@ -597,6 +597,59 @@ def reserveSeat(cookie: str, seat_key: str, lib_id: int) -> bool:
         log_info(resp)
         log_info(resp.content)
         raise e
+
+
+# TODO test
+def reserve_floor(cookie: str, floor: int, reverse: bool) -> str:
+    """
+    遍历一整层楼的座位，预定空座位
+    Args:
+        cookie: headers中的cookie
+        floor: 楼层
+        reverse: 是否倒序
+
+    Returns:
+        成功则返回座位号，否则返回空字符串
+    """
+    lib_id = get_lib_id(floor)
+    seats = get_libLayout(cookie, lib_id)
+    seats.sort(key=lambda s: int(s['name']), reverse=reverse)
+    log_info(f'开始遍历{floor}楼')
+    for seat in seats:
+        if seat["seat_status"] == 1:
+            log_info(f"开始预定{seat['name']}号")
+            try:
+                if reserveSeat(cookie, seat['key'], lib_id):
+                    log_info(f"预定成功，座位为{seat['name']}号")
+                    return seat['name']
+            except Exception:
+                log_info(f'预定{seat["name"]}时发生错误')
+                return ''
+    return ''
+
+
+def pass_reserve(cookie: str, often_floor: int, strict_mode: bool, reserve: bool) -> str:
+    """
+    通过捡漏
+    Args:
+        cookie: headers中的cookie
+        often_floor: 常用楼层
+        strict_mode: 是否为严格模式，默认为true，false则为遍历全部楼层
+        reserve: 是否倒序
+
+    Returns:
+        成功则返回座位号，否则返回空字符串
+    """
+    seat = reserve_floor(cookie, get_lib_id(often_floor), reserve)
+    if seat != '':
+        return seat
+    # 如果不是严格模式，则遍历全部楼层
+    if not strict_mode:
+        for i in range(1, 15):
+            seat = reserve_floor(cookie, get_lib_id(often_floor), reserve)
+            if seat != '':
+                return seat
+    return ''
 
 
 # TODO doc注释
