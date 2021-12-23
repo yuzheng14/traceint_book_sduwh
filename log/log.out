@@ -1,0 +1,12 @@
+[2021-12-23 12:16:00] 	开始等待验证cookie时间
+[2021-12-23 12:29:00] 	cookie有效，请等待预定时间
+[2021-12-23 12:29:00] 	开始等待预定时间
+[2021-12-23 12:30:00] 	当前未验证验证码，开始验证验证码
+2021-12-23 12:30:00.898188499 [W:onnxruntime:, execution_frame.cc:770 VerifyOutputSizes] Expected shape from model of {1,19} does not match actual shape of {1,24} for output output
+2021-12-23 12:30:06.788247032 [W:onnxruntime:, execution_frame.cc:770 VerifyOutputSizes] Expected shape from model of {1,19} does not match actual shape of {1,24} for output output
+[2021-12-23 12:30:06] 	开始排队
+[2021-12-23 12:30:06] 	当前需要排队，即将开始排队
+[2021-12-23 12:30:07] 	前方排队44人
+[2021-12-23 12:30:11] 	排队完成
+[2021-12-23 12:30:11] 	开始预定座位
+[2021-12-23 12:30:12] 	预定成功，座位为91号
