@@ -644,7 +644,7 @@ def pass_reserve(cookie: str, often_floor: int, strict_mode: bool, reserve: bool
     # 如果不是严格模式，则遍历全部楼层
     if not strict_mode:
         floor = [_ for _ in range(1, 15) if _ != often_floor]
-        floor.sort(key=lambda f:abs(f-often_floor))
+        floor.sort(key=lambda f: abs(f - often_floor))
         for i in floor:
             seat = reserve_floor(cookie, get_lib_id(i), reserve)
             if seat != '':
@@ -665,5 +665,25 @@ def renew_cookie(cookie: str) -> str:
 
 # TODO doc注释
 # TODO 完善函数
-def have_seat() -> bool:
-    return False
+def have_seat(cookie: str) -> bool:
+    """
+    判断当前是否有座位
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        true为有座位
+    """
+    resp = get_resp(Activity.index, cookie)
+    try:
+        resp = resp.json()
+        return resp['data']['userAuth']['reserve']['reserve'] is not None
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_cookie时无json")
+        log_info(resp.content)
+        raise value_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_cookie时发生其他异常")
+        raise e
