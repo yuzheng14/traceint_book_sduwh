@@ -1,7 +1,5 @@
-import json
-
-from com.yuzheng14.traceint.utils.request import get_SToken, post, verify_cookie, reserveCancle, pass_to_cancel
-from com.yuzheng14.traceint.utils.utils import log, wait_time, log_info
+from com.yuzheng14.traceint.utils.request import reserveCancle, pass_to_cancel
+from com.yuzheng14.traceint.utils.utils import log
 
 
 # TODO restructure

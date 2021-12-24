@@ -3,7 +3,7 @@ from enum import Enum
 
 import requests
 
-from com.yuzheng14.traceint.utils.utils import log_info
+from com.yuzheng14.traceint.utils.utils import log_info, seat_exist
 
 
 # TODO doc注释
@@ -154,5 +154,141 @@ def get_step(cookie: str) -> int:
     except Exception as e:
         log_info('\n' + traceback.format_exc())
         log_info("get_step时发生其他异常")
+        raise e
+    return result
+
+
+def get_prereserve_libLayout(cookie: str, lib_id: int) -> list:
+    """通过libId获取该层图书馆的座位信息
+
+    Args:
+        cookie (str): headers中的cookie
+        lib_id (int): 图书馆楼层id
+
+    Raises:
+        value_exc: 无json
+        key_exc: json无数据
+        e: 其他异常
+
+    Returns:
+        list: 座位信息list
+    """
+    para, headers = get_para_and_headers(Activity.prereserveLibLayout, cookie)
+    para['variables']['libId'] = lib_id
+
+    resp = post(para, headers)
+    try:
+        resp = resp.json()
+        result = resp["data"]["userAuth"]["prereserve"]["libLayout"]["seats"]
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_prereserve_libLayout时无json")
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_prereserve_libLayout时无json无数据")
+        log_info(resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_prereserve_libLayout时发生其他异常")
+        raise e
+    return [seat for seat in result if seat_exist(seat)]
+
+
+def verify_cookie(cookie: str) -> bool:
+    """验证cookie有效性
+
+    Args:
+        cookie (str): headers中的cookie参数
+
+    Raises:
+        e: 响应无json
+
+    Returns:
+        bool: true则cookie有效
+    """
+    resp = get_resp(Activity.index, cookie)
+    try:
+        resp = resp.json()
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_cookie时无json")
+        log_info(resp.content)
+        raise value_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("verify_cookie时发生其他异常")
+        raise e
+    return 'errors' not in resp
+
+
+def get_SToken(cookie: str) -> str:
+    """获取退座所需要的SToken
+
+    Args:
+        cookie (str): headers中的cookie参数
+
+    Raises:
+        key_exc: json无对应键值
+        value_exc: 响应无json
+        e: 其他异常
+
+    Returns:
+        str: 退座所需要的SToken
+    """
+    resp = get_resp(Activity.index, cookie)
+    try:
+        resp = resp.json()
+        result = resp['data']['userAuth']['reserve']['getSToken']
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_SToken时无所需数据")
+        log_info(_json=resp)
+        raise key_exc
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_SToken时无json")
+        log_info(resp.content)
+        raise value_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_SToken时发生其他异常")
+        raise e
+    return result
+
+
+def get_ws_url(cookie: str) -> str:
+    """获取websocket链接地址（通常在程序崩溃时重新运行时获取）
+
+    Args:
+        cookie (str): headers中的cookie参数
+
+    Raises:
+        value_exc: 无json
+        key_exc: json无数据
+        e: 其他异常
+
+    Returns:
+        str: websocket地址
+    """
+    resp = get_step_response(cookie)
+    try:
+        resp = resp.json()
+        result = resp['data']['userAuth']['prereserve']['queeUrl']
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_ws_url时无json")
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_ws_url时json中无所需数据")
+        log_info(_json=resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("get_ws_url时发生其他错误")
         raise e
     return result
