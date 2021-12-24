@@ -9,9 +9,9 @@ def cancel(cookie):
         log('cookie失效，请输入有效cookie后重试')
         return
 
-    with open('../../../json/cancel/cancel_para.json', 'r') as f:
+    with open('../../../../json/cancel/cancel_para.json', 'r') as f:
         cancel_para = json.load(f)
-    with open('../../../json/cancel/cancel_header.json', 'r') as f:
+    with open('../../../../json/cancel/cancel_header.json', 'r') as f:
         cancel_header = json.load(f)
     cancel_header['Cookie'] = cookie
 
