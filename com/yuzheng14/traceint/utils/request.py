@@ -1,198 +1,16 @@
 import time
 import traceback
-from typing import Tuple, List
+from typing import Tuple
 
 import requests
 import websocket
 from ddddocr import DdddOcr
 
 from com.yuzheng14.traceint.utils.request_utils.request import Activity, get_para_and_headers, get_resp, \
-    get_step_response, post, get_prereserve_libLayout, verify_cookie, get_SToken
-from com.yuzheng14.traceint.utils.utils import log, log_info, seat_exist, save_unrecognized_image, \
+    post, get_prereserve_libLayout, verify_cookie, get_SToken, get_captcha_code_website, \
+    get_captcha_image, verify_captcha, save, reserve_floor, queue_init
+from com.yuzheng14.traceint.utils.utils import log, log_info, save_unrecognized_image, \
     save_recognized_image, get_lib_id, wait_time
-
-
-def queue_init(cookie: str) -> tuple:
-    """初始化排队并获取need_captcha, need_queue, ws_url, queue_url
-
-    Args:
-        cookie (str): header参数cookie
-
-    Raises:
-        value_exc: 无json
-        key_exc: json无数据
-        e: 其他异常
-
-    Returns:
-        tuple: 按顺序分别为need_captcha, need_queue, ws_url, queue_url
-    """
-    resp = get_step_response(cookie)
-    try:
-        resp = resp.json()
-        get_step = resp['data']['userAuth']['prereserve']['getStep']
-        ws_url = resp['data']['userAuth']['prereserve']['queeUrl']
-        queue_url = resp['data']['userAuth']['prereserve']['successUrl']
-        if get_step == 0:
-            need_captcha = True
-        else:
-            need_captcha = False
-        if get_step == 1:
-            need_queue = True
-        else:
-            need_queue = False
-    except ValueError as value_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("queue_init时无json")
-        log_info(resp.content)
-        raise value_exc
-    except KeyError as key_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("queue_init时无json无数据")
-        log_info(resp)
-        raise key_exc
-    except Exception as e:
-        log_info('\n' + traceback.format_exc())
-        log_info("queue_init时发生其他异常")
-        raise e
-    return need_captcha, need_queue, ws_url, queue_url
-
-
-def get_queue_url(cookie: str) -> str:
-    """获取排队的get连接
-
-    Args:
-        cookie (str): headers中的cookie参数
-
-    Raises:
-        value_exc: 无json
-        key_exc: json无数据
-        e: 其他异常
-
-    Returns:
-        str: 排队的get连接
-    """
-    resp = get_step_response(cookie)
-    try:
-        resp = resp.json()
-        result = resp['data']['userAuth']['prereserve']['successUrl']
-    except ValueError as value_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("get_queue_url时无json")
-        log_info(resp.content)
-        raise value_exc
-    except KeyError as key_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("get_queue_url时json中无所需数据")
-        log_info(_json=resp)
-        raise key_exc
-    except Exception as e:
-        log_info('\n' + traceback.format_exc())
-        log_info("get_queue_url时发生其他异常")
-        raise e
-    return result
-
-
-def get_captcha_code_website(cookie: str) -> tuple:
-    """获取验证码的code和网址
-
-    Args:
-        cookie (str): headers的cookie
-
-    Raises:
-        value_exc: 无json
-        key_exc: json数据
-        e: 其他异常
-
-    Returns:
-        tuple: 返回元组，第一个元素为code(后面发送验证请求会用到)，第二个元素为网址
-    """
-    resp = get_resp(Activity.captcha, cookie)
-
-    try:
-        resp = resp.json()
-        result = (resp['data']['userAuth']['prereserve']['captcha']['code'],
-                  resp['data']['userAuth']['prereserve']['captcha']['data'])
-    except ValueError as value_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("get_captcha_code_website时无json")
-        log_info(resp.content)
-        raise value_exc
-    except KeyError as key_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("get_captcha_code_website时json中无code及网址")
-        log_info(_json=resp)
-        raise key_exc
-    except Exception as e:
-        log_info('\n' + traceback.format_exc())
-        log_info("get_captcha_code_website时发生其他异常")
-        raise e
-
-    return result
-
-
-def get_captcha_image(website: str) -> bytes:
-    """根据网址获取验证码图片二进制信息
-
-    Args:
-        website (str): 验证码网址
-
-    Raises:
-        Exception: 图片地址404
-
-    Returns:
-        bytes: 图片二进制信息
-    """
-    resp = requests.get(website)
-    if resp.status_code != 404:
-        return resp.content
-    else:
-        log_info('图片地址404')
-        raise Exception("get_captcha_image时404 Not Found")
-
-
-def verify_captcha(cookie: str, captcha: str, code: str) -> tuple:
-    """验证验证码是否正确，返回结果以及websocket的url
-
-    Args:
-        cookie (str): headers的cookie
-        captcha (str): 识别出来的验证码
-        code (str): 验证码的code（前面post请求得到的）
-
-    Raises:
-        value_exc: 无json
-        key_exc: json无数据
-        e: 其他异常
-
-    Returns:
-        tuple: 第一个元素为bool型，验证是否成功；第二个元素为str，websocket的url
-    """
-    para, headers = get_para_and_headers(Activity.verify_captcha, cookie)
-    para['variables']['captcha'] = captcha
-    para['variables']['captchaCode'] = code
-    resp = post(para, headers)
-    ws_url = None
-
-    try:
-        resp = resp.json()
-        verify_result = resp['data']['userAuth']['prereserve']['verifyCaptcha']
-        if verify_result:
-            ws_url = resp['data']['userAuth']['prereserve']['setStep1']
-    except ValueError as value_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("verify_captcha时无json")
-        log_info(resp.content)
-        raise value_exc
-    except KeyError as key_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("verify_captcha时json中无code及网址")
-        log_info(_json=resp)
-        raise key_exc
-    except Exception as e:
-        log_info('\n' + traceback.format_exc())
-        log_info("verify_captcha时发生其他异常")
-        raise e
-
-    return verify_result, ws_url
 
 
 def pass_captcha(cookie: str) -> str:
@@ -266,46 +84,6 @@ def pass_queue(queue_url: str, ws_url: str, need_captcha: bool, need_queue: bool
         queue_num = int(resp_queue.content)
     log_info(f'前方排队{queue_num}人')
     return ws
-
-
-def save(cookie: str, key: str, lib_id: int) -> bool:
-    """
-    预定座位
-    Args:
-        cookie: headers中的cookie
-        key: 座位key，seat字典中获取
-        lib_id: 楼层id
-
-    Returns:
-        true为预定成功
-    """
-    para, headers = get_para_and_headers(Activity.save, cookie)
-    para["variables"]["key"] = key
-    para['variables']['libid'] = lib_id
-    resp = post(para, headers)
-    try:
-        resp = resp.json()
-        if 'errors' in resp:
-            log_info('save时json数据内含错误或预定失败')
-            log_info(_json=resp)
-            return False
-        return resp["data"]["userAuth"]["prereserve"]["save"]
-    except ValueError as value_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("save时无json")
-        log_info(resp.content)
-        raise value_exc
-    except KeyError as key_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("save时json无对应数据")
-        log_info(_json=resp)
-        raise key_exc
-    except Exception as e:
-        log_info('\n' + traceback.format_exc())
-        log_info("save时发生其他异常")
-        log_info(resp)
-        log_info(resp.content)
-        raise e
 
 
 def pass_save(cookie: str, floor: int, often_seat: int, reverse: bool) -> str:
@@ -390,108 +168,6 @@ def wait_for_reserve(cookie: str) -> bool:
     return True
 
 
-def get_libLayout(cookie: str, lib_id: int) -> List[dict]:
-    """
-    获取捡漏座位信息
-    Args:
-        cookie: headers中的cookie
-        lib_id: 图书馆楼层id
-
-    Returns:
-        List[dict]: 座位信息list
-    """
-    para, headers = get_para_and_headers(Activity.libLayout, cookie)
-    para['variables']['libId'] = lib_id
-
-    resp = post(para, headers)
-    try:
-        resp = resp.json()
-        result = resp["data"]["userAuth"]["reserve"]["libs"][0]["lib_layout"]["seats"]
-    except ValueError as value_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("get_libLayout时无json")
-        log_info(resp.content)
-        raise value_exc
-    except KeyError as key_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("get_libLayout时无json无数据")
-        log_info(resp)
-        raise key_exc
-    except Exception as e:
-        log_info('\n' + traceback.format_exc())
-        log_info("get_libLayout时发生其他异常")
-        raise e
-    return [seat for seat in result if seat_exist(seat)]
-
-
-def reserveSeat(cookie: str, seat_key: str, lib_id: int) -> bool:
-    """
-    预定当日座位
-    Args:
-        cookie: headers中的cookie
-        seat_key: 座位id，seat信息中
-        lib_id: 楼层id
-
-    Returns:
-        true为预定成功
-    """
-    para, headers = get_para_and_headers(Activity.reserveSeat, cookie)
-    para["variables"]["seatKey"] = seat_key
-    para['variables']['libId'] = lib_id
-    resp = post(para, headers)
-    try:
-        resp = resp.json()
-        if 'errors' in resp:
-            log_info('reserveSeat时json数据内含错误或预定失败')
-            log_info(_json=resp)
-            return False
-        return resp["data"]["userAuth"]["reserve"]["reserveSeat"]
-    except ValueError as value_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("reserveSeat时无json")
-        log_info(resp.content)
-        raise value_exc
-    except KeyError as key_exc:
-        log_info('\n' + traceback.format_exc())
-        log_info("reserveSeat时json无对应数据")
-        log_info(_json=resp)
-        raise key_exc
-    except Exception as e:
-        log_info('\n' + traceback.format_exc())
-        log_info("reserveSeat时发生其他异常")
-        log_info(resp)
-        log_info(resp.content)
-        raise e
-
-
-def reserve_floor(cookie: str, floor: int, reverse: bool) -> str:
-    """
-    遍历一整层楼的座位，预定空座位
-    Args:
-        cookie: headers中的cookie
-        floor: 楼层
-        reverse: 是否倒序
-
-    Returns:
-        成功则返回座位号，否则返回空字符串
-    """
-    lib_id = get_lib_id(floor)
-    seats = get_libLayout(cookie, lib_id)
-    seats.sort(key=lambda s: int(s['name']), reverse=reverse)
-    log_info(f'开始遍历{floor}楼')
-    for seat in seats:
-        if seat["seat_status"] == 1:
-            log_info(f"开始预定{seat['name']}号")
-            try:
-                if reserveSeat(cookie, seat['key'], lib_id):
-                    log_info(f"预定成功，座位为{seat['name']}号")
-                    return seat['name']
-            except Exception:
-                log_info(f'预定{seat["name"]}时发生错误')
-                return ''
-    return ''
-
-
 def pass_reserve(cookie: str, often_floor: int, strict_mode: bool, reserve: bool) -> str:
     """
     通过捡漏
@@ -518,7 +194,7 @@ def pass_reserve(cookie: str, often_floor: int, strict_mode: bool, reserve: bool
     return ''
 
 
-def reserveCancle(cookie: str) -> bool:
+def pass_reserveCancle(cookie: str) -> bool:
     """
     退座
     Args:
@@ -552,7 +228,7 @@ def reserveCancle(cookie: str) -> bool:
         raise e
 
 
-def pass_to_cancel(cookie: str) -> bool:
+def wait_to_cancel(cookie: str) -> bool:
     """
     等待退座
     Args:
@@ -577,17 +253,6 @@ def pass_to_cancel(cookie: str) -> bool:
 
     wait_time(22, 30)
     return True
-
-
-# TODO doc注释
-# TODO 完善函数
-# TODO 未拆封微信浏览器之前无法完善
-def renew_cookie(cookie: str) -> str:
-    if verify_cookie(cookie):
-        log('当前验证码有效，无需更新')
-        return cookie
-    pass
-    return cookie
 
 
 # TODO doc注释
