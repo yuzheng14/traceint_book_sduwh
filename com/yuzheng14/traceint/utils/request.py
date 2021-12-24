@@ -654,6 +654,40 @@ def pass_reserve(cookie: str, often_floor: int, strict_mode: bool, reserve: bool
     return ''
 
 
+def reserveCancle(cookie: str) -> bool:
+    """
+    退座
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        true为退座成功
+    """
+    para, headers = get_para_and_headers(Activity.reserveCancle, cookie)
+    para['variables']['sToken'] = get_SToken(cookie)
+    resp = post(para, headers)
+    try:
+        resp = resp.json()
+        if 'error' not in resp:
+            return True
+        log_info("reserveCancle发生错误")
+        log_info(_json=resp)
+    except ValueError as value_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("reserveCancle时无json")
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info('\n' + traceback.format_exc())
+        log_info("reserveCancle时无json无数据")
+        log_info(resp)
+        raise key_exc
+    except Exception as e:
+        log_info('\n' + traceback.format_exc())
+        log_info("reserveCancle时发生其他异常")
+        raise e
+
+
 # TODO doc注释
 # TODO 完善函数
 # TODO 未拆封微信浏览器之前无法完善
