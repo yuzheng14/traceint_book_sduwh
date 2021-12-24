@@ -26,14 +26,16 @@ main分支为稳定可用分支
 
 开发时所用版本为`3.8.2`
 
-经测试`3.10.1`会导致适合的`ddddocr`依赖
+点击下载安装包：[3.8.2官网安装包](https://www.python.org/ftp/python/3.8.2/python-3.8.2-amd64.exe)
+
+> 官网下载链接下载慢可将链接复制到迅雷创建下载任务
+
+经测试`3.10.1`会导致找不到适合的`ddddocr`依赖
 
 ### 包
 
 ```shell
-pip install ddddocr
-pip install requests
-pip install websocket-client
+pip install -r requirements.txt
 ```
 
 ### 明日预约

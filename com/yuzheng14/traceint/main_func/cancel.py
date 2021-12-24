@@ -4,6 +4,7 @@ from com.yuzheng14.traceint.utils.request import get_SToken, post, verify_cookie
 from com.yuzheng14.traceint.utils.utils import log, wait_time, log_info
 
 
+# TODO restructure
 def cancel(cookie):
     if not verify_cookie(cookie):
         log('cookie失效，请输入有效cookie后重试')

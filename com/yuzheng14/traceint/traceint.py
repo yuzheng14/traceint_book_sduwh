@@ -8,4 +8,8 @@ def seat_pickup(cookie: str, often_floor: int = 3, strict_mode: bool = True, res
 
 
 def seat_reserve(cookie: str, floor: int = 10, often_seat: int = 1, reverse: bool = False):
-    seat_prereserve(cookie,floor,often_seat, reverse)
+    seat_prereserve(cookie, floor, often_seat, reverse)
+
+
+def seat_cancel(cookie: str):
+    cancel(cookie)
