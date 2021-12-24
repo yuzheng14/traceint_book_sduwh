@@ -1,0 +1,7 @@
+{
+  "operationName": "done",
+  "query": "mutation done($user_task_id: Int!) {\n userAuth {\n credit {\n done(user_task_id: $user_task_id)\n }\n }\n}",
+  "variables": {
+    "user_task_id": 39265747
+  }
+}
