@@ -688,6 +688,33 @@ def reserveCancle(cookie: str) -> bool:
         raise e
 
 
+def pass_to_cancel(cookie: str) -> bool:
+    """
+    等待退座
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        true为cookie失效
+    """
+    if not verify_cookie(cookie):
+        log_info('cookie失效，请输入有效cookie后重试')
+        return False
+
+    log('开始等待验证cookie时间')
+    wait_time(22, 29)
+    if not verify_cookie(cookie):
+        log_info('cookie无效，请重新输入cookie')
+        return False
+    else:
+        log_info('cookie有效，请等待预定时间')
+
+    log('等待固定时间')
+
+    wait_time(22, 30)
+    return True
+
+
 # TODO doc注释
 # TODO 完善函数
 # TODO 未拆封微信浏览器之前无法完善
