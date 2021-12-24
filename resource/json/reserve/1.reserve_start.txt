@@ -1,0 +1,29 @@
+POST https://wechat.v2.traceint.com/index.php/graphql/ HTTP/1.1
+Host: wechat.v2.traceint.com
+Connection: keep-alive
+Content-Length: 135
+Origin: https://web.traceint.com
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat(0x63040026)
+Content-Type: application/json
+Accept: */*
+Cookie: FROM_TYPE=weixin; v=5.5; wechatSESS_ID=6627c89f563b1e3340771da6eb4981f4b115249e90b0f57c; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNTU3MTYzNX0.QeypFtZtORgERKckVxg3yEBzEMeGS4_MdcOg2I5HVyFnCfy82xVCqTE64aOtcXJ-xND-yXPzgii73a2PSKHYrPbAn9Mbim52iRSm8Gk2jdiixJn9Hmy_kMTOaxKWuoRyKelnkAh1xxWKQyrjDqALYkS50PwvSvIAqUMfXC7IaRbz2rpISLdNIsV5CuP6r1XmCXkBebMJ5PQ5A3gZ7_ZO1VZ6E_AccgLVUyz5Z2P1vt1-LlDt6NCJh_puSlBDNvTtFJDRV48xuVtKPYsz3gvmusEU4ovJZT3k0y6KIdl4bo3FgIOpGHRA6uVwBouDy0exXQAqtjWYQva0fpm0jeig_w; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635546155,1635549931,1635550504,1635568036; Hm_lpvt_7ecd21a13263a714793f376c18038a87=1635568036; SERVERID=b9fc7bd86d2eed91b23d7347e0ee995e|1635568167|1635568029
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: https://web.traceint.com/web/index.html
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7
+
+{"operationName":"prereserveCheckMsg","query":"query prereserveCheckMsg {\n userAuth {\n prereserve {\n prereserveCheckMsg\n }\n }\n}"}
+HTTP/1.1 200 OK
+Date: Sat, 30 Oct 2021 04:29:38 GMT
+Content-Type: application/json;charset=utf-8
+Content-Length: 148
+Connection: keep-alive
+Access-Control-Allow-Origin: https://web.traceint.com
+Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept, Origin, Authorization
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS
+Set-Cookie: SERVERID=b9fc7bd86d2eed91b23d7347e0ee995e|1635568178|1635568029;Path=/
+
+{"data":{"userAuth":{"prereserve":{"prereserveCheckMsg":"\u4e0d\u5728\u9884\u7ea6\u65f6\u95f4\u5185,\u8bf7\u5728 12:30-23:59 \u6765\u9884\u7ea6"}}}}

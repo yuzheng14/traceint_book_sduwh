@@ -1,0 +1,4 @@
+{
+    "operationName": "getStep0",
+    "query": "query getStep0 {\n userAuth {\n prereserve {\n getNum\n captcha {\n code\n data\n }\n }\n }\n}"
+}

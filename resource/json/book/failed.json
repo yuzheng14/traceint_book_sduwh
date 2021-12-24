@@ -1,0 +1,11 @@
+{
+    "errors": [
+        {
+            "msg": "Access Denied!",
+            "code": 40001
+        }
+    ],
+    "data": {
+        "userAuth": null
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "data": {
+        "userAuth": {
+            "prereserve": {
+                "getNum": 0,
+                "captcha": {
+                    "code": "a0f44cef6ccb8747e67e613df9121e7e",
+                    "data": "https:\/\/static.wechat.v2.traceint.com\/template\/theme2\/cache\/yzm\/10d84ba656ed060957f90bc8731d902d.jpg"
+                }
+            }
+        }
+    }
+}

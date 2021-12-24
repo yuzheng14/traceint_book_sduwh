@@ -1,0 +1,23 @@
+GET https://wechat.v2.traceint.com/index.php/index/boot.html HTTP/1.1
+Host: wechat.v2.traceint.com
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat(0x63040026)
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Cookie: FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635549931,1635550504,1635568036,1635689109; wechatSESS_ID=9486c4036c942883e0ece931b8ce9d95ba2e436a6ab7c0a8; SERVERID=b9fc7bd86d2eed91b23d7347e0ee995e|1635740937|1635740933
+Referer: https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2996d437cd442527&redirect_uri=https%3A%2F%2Fwechat.v2.traceint.com%2Findex.php%2Furl%2Fauth.html%3Fr%3Dhttps%253A%252F%252Fwechat.v2.traceint.com%252Findex.php%252Freserve%252Findex.html%253Ff%253Dwechat%2526n%253D617f6d050f140&response_type=code&scope=snsapi_userinfo&state=1&connect_redirect=1&uin=MjAwNTcxNTA3OA%3D%3D&key=c39cf953308ace2d1d5dfaab91543e6b5ca955eb40d997fa3aaf8652bad19b0f1e77c908c52f7be9c83b12e7452079ce795fcc8f44bd6dcb272646c0575754771afd4b8299ca67b14d64fc9fdbf547fc01016c67d4aae21fa7b0be744806aa4faa84ec3d8f1c77bfa41c6dcd108a6d5a2524b5e1378c8a1c45f772c5c35d3e3c&version=63040026&pass_ticket=yxHHNjeZdF9nA6MWULlbzgEPps4czteK399zvDw0%2BOQMh6m95nCR19kubhSzaoCn
+Accept-Language: zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7
+
+
+HTTP/1.1 303 See Other
+Date: Mon, 01 Nov 2021 04:28:57 GMT
+Content-Type: text/html
+Content-Length: 0
+Connection: keep-alive
+Location: https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2996d437cd442527&redirect_uri=https%3A%2F%2Fwechat.v2.traceint.com%2Findex.php%2FurlNew%2Fauth.html%3Fr%3Dhttps%253A%252F%252Fweb.traceint.com%252Fweb%252Findex.html%2523%252Fpages%252Findex%252Findex%253Fr%253D1635740937%2526n%253D617f6d0914e74&response_type=code&scope=snsapi_userinfo&state=1&connect_redirect=1#wechat_redirect
+Set-Cookie: SERVERID=b9fc7bd86d2eed91b23d7347e0ee995e|1635740937|1635740933;Path=/
+

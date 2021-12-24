@@ -1,0 +1,8 @@
+{
+    "operationName": "setStep1",
+    "query": "mutation setStep1($captcha: String!, $captchaCode: String!) {\n userAuth {\n prereserve {\n verifyCaptcha(captcha: $captcha, code: $captchaCode)\n setStep1\n }\n }\n}",
+    "variables": {
+        "captcha": "wvsb",
+        "captchaCode": "ba315bdcb30fd7f55cd8fe1d443d4024"
+    }
+}

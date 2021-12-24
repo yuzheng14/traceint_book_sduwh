@@ -1,0 +1,9 @@
+{
+    "data": {
+        "userAuth": {
+            "reserve": {
+                "reserveSeat": true
+            }
+        }
+    }
+}

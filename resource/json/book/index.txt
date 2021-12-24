@@ -1,0 +1,29 @@
+POST https://wechat.v2.traceint.com/index.php/graphql/ HTTP/1.1
+Host: wechat.v2.traceint.com
+Connection: keep-alive
+Content-Length: 1172
+Origin: https://web.traceint.com
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat(0x63040026)
+Content-Type: application/json
+Accept: */*
+Cookie: FROM_TYPE=weixin; v=5.5; Hm_lvt_7ecd21a13263a714793f376c18038a87=1635546155,1635549931,1635550504,1635568036; wechatSESS_ID=a035e5e1fee15ca19b254278aedff1d20f3c9fc907607210; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIxMDAxOTM2LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTYzNTY5MjcwN30.Ez20IR5pBg0EAdZnqj-ERDSy5pxFdwnf5zUhDz4vprHbiYZj-8gfz2x7ZBqYAP0Q1AhdQc4PVpOx_PRkeFevgSqoaP7-TdZa_GWhl6D4nFZf0I_9YcaMuWdxxaNa4eGTMCV4j_MfNzaILDlJiCGg2xMYFVn3Gkpw8ODQJAg188Z4csOOIWtR4roKzrL_oJ3C0ZW2VIweyBTO_RUfn3A1A84U_IjsLwiHHkpo_nMX71xI5gT9kDiIjGtKOXbxHGjwXsNuCNtFXmvqRjuqsh79rOSVpMQZ6rNbN8BG7-08VP_x5rG4Zv5R3nWvSHJYFp3inWRCVhT9ZQPZaqpVok2p6w; SERVERID=e3fa93b0fb9e2e6d4f53273540d4e924|1635689107|1635689099
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: https://web.traceint.com/web/index.html
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7
+
+{"operationName":"index","query":"query index($pos: String!, $param: [hash]) {\n userAuth {\n oftenseat {\n list {\n id\n info\n lib_id\n seat_key\n status\n }\n }\n message {\n new(from: \"system\") {\n has\n from_user\n title\n num\n }\n indexMsg {\n message_id\n title\n content\n isread\n isused\n from_user\n create_time\n }\n }\n reserve {\n reserve {\n token\n status\n user_id\n user_nick\n sch_name\n lib_id\n lib_name\n lib_floor\n seat_key\n seat_name\n date\n exp_date\n exp_date_str\n validate_date\n hold_date\n diff\n diff_str\n mark_source\n isRecordUser\n isChooseSeat\n isRecord\n mistakeNum\n openTime\n threshold\n daynum\n mistakeNum\n closeTime\n timerange\n forbidQrValid\n renewTimeNext\n forbidRenewTime\n forbidWechatCancle\n }\n getSToken\n }\n currentUser {\n user_id\n user_nick\n user_mobile\n user_sex\n user_sch_id\n user_sch\n user_last_login\n user_avatar(size: MIDDLE)\n user_adate\n user_student_no\n user_student_name\n area_name\n user_deny {\n deny_deadline\n }\n sch {\n sch_id\n sch_name\n activityUrl\n isShowCommon\n isBusy\n }\n }\n }\n ad(pos: $pos, param: $param) {\n name\n pic\n url\n }\n}","variables":{"pos":"App-首页"}}
+HTTP/1.1 200 OK
+Date: Sun, 31 Oct 2021 14:05:09 GMT
+Content-Type: application/json;charset=utf-8
+Content-Length: 2808
+Connection: keep-alive
+Access-Control-Allow-Origin: https://web.traceint.com
+Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept, Origin, Authorization
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS
+Set-Cookie: SERVERID=e3fa93b0fb9e2e6d4f53273540d4e924|1635689109|1635689099;Path=/
+
+{"data":{"userAuth":{"oftenseat":{"list":[{"id":5610860,"info":"\u5341\u697c 23\u53f7","lib_id":758,"seat_key":"31,74","status":1},{"id":4202720,"info":"\u5341\u697c 12\u53f7","lib_id":758,"seat_key":"19,75","status":1}]},"message":{"new":{"has":true,"from_user":null,"title":"\u697c\u5c42\u5f00\u653e\u8c03\u6574\u7684\u901a\u77e5","num":0},"indexMsg":null},"reserve":{"reserve":{"token":"21001936-5ceb4b1f966316603ec5d356527e421d","status":3,"user_id":21001936,"user_nick":"\u90c1\u84b8\u5341\u56db","sch_name":"\u5c71\u4e1c\u5927\u5b66\uff08\u5a01\u6d77\uff09","lib_id":758,"lib_name":"\u5341\u697c","lib_floor":"\u5341\u697c","seat_key":"19,75","seat_name":"12","date":1635610991,"exp_date":1635642000,"exp_date_str":"09:00","validate_date":1635638742,"hold_date":null,"diff":50367,"diff_str":"13.99 \u5c0f\u65f6","mark_source":null,"isRecordUser":null,"isChooseSeat":null,"isRecord":null,"mistakeNum":null,"openTime":" 8:00","threshold":null,"daynum":null,"closeTime":" 22:30","timerange":null,"forbidQrValid":null,"renewTimeNext":"","forbidRenewTime":false,"forbidWechatCancle":""},"getSToken":"5cdbf0a86b9b900d6a1e14639ecfdf04e59f7898"},"currentUser":{"user_id":21001936,"user_nick":"\u90c1\u84b8\u5341\u56db","user_mobile":"18554208685","user_sex":1,"user_sch_id":126,"user_sch":"\u5c71\u4e1c\u5927\u5b66\uff08\u5a01\u6d77\uff09","user_last_login":1635675946,"user_avatar":"https:\/\/static.wechat.v2.traceint.com\/data\/attachment\/avatar\/021\/0019\/36_avatar_middle.jpg?1609038547","user_adate":1569060295,"user_student_no":"201900600079","user_student_name":"\u5415\u6668\u66e6","area_name":null,"user_deny":{"deny_deadline":null},"sch":{"sch_id":126,"sch_name":"\u5c71\u4e1c\u5927\u5b66\uff08\u5a01\u6d77\uff09","activityUrl":null,"isShowCommon":true,"isBusy":true}}},"ad":[{"name":"\u7edf\u4e00\u5934\u56fe","pic":"http:\/\/wechat.v2.traceint.com\/data\/attachment\/2020-08-03\/pre_061212pyygrgnstw2d.png","url":"http:\/\/wechat.v2.traceint.com\/index.php\/click?id=155&url=&t=1635689229&token=1d7f4d2415a8b815dba5ad8635c1acb5"},{"name":"\u3010\u5168\u5730\u533a\u3011\u6a0a\u767b\u8bfb\u4e66\u53cc\u5341\u4e00","pic":"http:\/\/wechat.v2.traceint.com\/data\/attachment\/2021-10-19\/pre_093206kqw7ns3vjl2w.png","url":"http:\/\/wechat.v2.traceint.com\/index.php\/click?id=238&url=https%3A%2F%2Fwww.hudongba.com%2Fparty%2Frnhe5.html%3Fhdb_source%3Ddistribution%26hdb_pos%3Dhvd4yx262r&t=1635689229&token=b66a45bdc0a9b91bfd6a9b26f99299c5"},{"name":"\u3010\u5168\u5730\u533a\u3011\u5916\u5356\u79ef\u5206\u7ea2\u5305","pic":"http:\/\/wechat.v2.traceint.com\/data\/attachment\/2021-10-28\/pre_09393244cx5euw9gbp.jpg","url":"http:\/\/wechat.v2.traceint.com\/index.php\/click?id=254&url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FIV4JVj6QFhSVZbrrJKt-WA&t=1635689229&token=e435b7004aece81f366c8968deaaf540"}]}}
