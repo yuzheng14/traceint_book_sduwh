@@ -60,6 +60,10 @@ class Activity(Enum):
             "sToken": "c4902bd615587a0f73d24573d083d24f09f10aa6"
         }
     }
+    getList = {
+        "operationName": "getList",
+        "query": "query getList {\n userAuth {\n credit {\n tasks {\n id\n task_id\n task_name\n task_info\n task_url\n credit_num\n contents\n conditions\n task_type\n status\n }\n staticTasks {\n id\n name\n task_type_name\n credit_num\n contents\n button\n }\n }\n }\n}"
+    }
 
 
 def post(post_para: dict, headers: dict) -> requests.Response:
@@ -629,3 +633,8 @@ def queue_init(cookie: str) -> tuple:
         log_info("queue_init时发生其他异常")
         raise e
     return need_captcha, need_queue, ws_url, queue_url
+
+
+# TODO 完善代码
+def is_sign(cookie: str) -> bool:
+    pass
