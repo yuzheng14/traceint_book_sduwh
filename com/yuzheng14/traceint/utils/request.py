@@ -6,8 +6,10 @@ import requests
 import websocket
 from ddddocr import DdddOcr
 
-from utils.request_utils.request import Activity, get_para_and_headers, get_resp, get_step_response, post
-from utils.utils import log, log_info, seat_exist, save_unrecognized_image, save_recognized_image, get_lib_id, wait_time
+from com.yuzheng14.traceint.utils.request_utils.request import Activity, get_para_and_headers, get_resp, \
+    get_step_response, post
+from com.yuzheng14.traceint.utils.utils import log, log_info, seat_exist, save_unrecognized_image, \
+    save_recognized_image, get_lib_id, wait_time
 
 
 def queue_init(cookie: str) -> tuple:

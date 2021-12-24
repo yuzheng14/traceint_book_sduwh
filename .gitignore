@@ -3,7 +3,7 @@ log.sh
 commit.sh
 yapf_style.cfg
 captcha_and_log.sh
-test.py
 **/__pycache__/
 .idea
 .vscode
+**/test.py

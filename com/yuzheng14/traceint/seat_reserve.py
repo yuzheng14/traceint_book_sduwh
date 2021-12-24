@@ -1,5 +1,5 @@
-from utils.request import pass_captcha, pass_queue, pass_save, wait_for_start
-from utils.utils import log, log_info
+from com.yuzheng14.traceint.utils.request import pass_captcha, pass_queue, pass_save, wait_for_start
+from com.yuzheng14.traceint.utils.utils import log, log_info
 
 
 # status=false时可以预定

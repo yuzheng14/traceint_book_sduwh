@@ -1,17 +1,17 @@
 import json
 
-from utils.request import get_SToken, post, verify_cookie
-from utils.utils import log, log_json, wait_time
+from com.yuzheng14.traceint.utils.request import get_SToken, post, verify_cookie
+from com.yuzheng14.traceint.utils.utils import log, wait_time, log_info
 
 
 def cancel(cookie):
-    if (not verify_cookie(cookie)):
+    if not verify_cookie(cookie):
         log('cookie失效，请输入有效cookie后重试')
         return
 
-    with open('json/cancel/cancel_para.json', 'r') as f:
+    with open('../../../json/cancel/cancel_para.json', 'r') as f:
         cancel_para = json.load(f)
-    with open('json/cancel/cancel_header.json', 'r') as f:
+    with open('../../../json/cancel/cancel_header.json', 'r') as f:
         cancel_header = json.load(f)
     cancel_header['Cookie'] = cookie
 
@@ -30,7 +30,7 @@ def cancel(cookie):
     s_token = get_SToken(cookie)
     cancel_para['variables']['sToken'] = s_token
     cancel_resp = post(cancel_para, cancel_header)
-    log_json(cancel_resp.json())
+    log_info(_json=cancel_resp.json())
 
 
 if __name__ == '__main__':

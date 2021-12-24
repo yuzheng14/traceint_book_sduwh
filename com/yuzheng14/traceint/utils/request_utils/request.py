@@ -3,7 +3,7 @@ from enum import Enum
 
 import requests
 
-from utils.utils import log_info
+from com.yuzheng14.traceint.utils.utils import log_info
 
 
 # TODO doc注释
@@ -81,7 +81,7 @@ def get_para_and_headers(activity: Activity, cookie: str) -> tuple:
     headers = Activity.headers.value
     headers['Cookie'] = cookie
 
-    return (activity.value, headers)
+    return activity.value, headers
 
 
 def get_resp(activity: Activity, cookie: str) -> requests.Response:

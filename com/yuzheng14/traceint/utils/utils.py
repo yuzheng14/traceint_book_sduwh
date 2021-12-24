@@ -68,7 +68,7 @@ def log_file(msg: str, file: str):
 
 
 def save_image(image_byte: bytes, name: str, image_path: str):
-    '''保存验证码图片
+    """保存验证码图片
     参数
     -----------------------
     image_byte:bytes
@@ -77,7 +77,7 @@ def save_image(image_byte: bytes, name: str, image_path: str):
         保存图片文件名称
     image_path:str
         保存地址/路径
-    '''
+    """
     try:
         with open(f'{image_path}/{name}', 'wb') as f:
             f.write(image_byte)
