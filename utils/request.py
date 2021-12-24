@@ -680,10 +680,10 @@ def have_seat(cookie: str) -> bool:
         return resp['data']['userAuth']['reserve']['reserve'] is not None
     except ValueError as value_exc:
         log_info('\n' + traceback.format_exc())
-        log_info("verify_cookie时无json")
+        log_info("have_seat时无json")
         log_info(resp.content)
         raise value_exc
     except Exception as e:
         log_info('\n' + traceback.format_exc())
-        log_info("verify_cookie时发生其他异常")
+        log_info("have_seat时发生其他异常")
         raise e
