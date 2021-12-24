@@ -2,7 +2,6 @@ from com.yuzheng14.traceint.utils.request import pass_reserveCancle, wait_to_can
 from com.yuzheng14.traceint.utils.utils import log
 
 
-# TODO restructure
 def cancel(cookie):
     """
     退座
