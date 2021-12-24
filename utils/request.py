@@ -638,7 +638,7 @@ def pass_reserve(cookie: str, often_floor: int, strict_mode: bool, reserve: bool
     Returns:
         成功则返回座位号，否则返回空字符串
     """
-    seat = reserve_floor(cookie, get_lib_id(often_floor), reserve)
+    seat = reserve_floor(cookie, often_floor, reserve)
     if seat != '':
         return seat
     # 如果不是严格模式，则遍历全部楼层
