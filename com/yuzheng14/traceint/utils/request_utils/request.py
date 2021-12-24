@@ -52,6 +52,13 @@ class Activity(Enum):
             "captcha": ""
         }
     }
+    reserveCancle = {
+        "operationName": "reserveCancle",
+        "query": "mutation reserveCancle($sToken: String!) {\n userAuth {\n reserve {\n reserveCancle(sToken: $sToken) {\n timerange\n img\n hours\n mins\n per\n }\n }\n }\n}",
+        "variables": {
+            "sToken": "c4902bd615587a0f73d24573d083d24f09f10aa6"
+        }
+    }
 
 
 def post(post_para: dict, headers: dict) -> requests.Response:
