@@ -1,4 +1,0 @@
-{
-    "operationName": "getStep",
-    "query": "query getStep {\n userAuth {\n prereserve {\n getStep\n queeUrl\n successUrl\n endTime\n }\n }\n}"
-}
