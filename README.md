@@ -18,7 +18,9 @@
 
 ## 使用方法
 
-目前本项目代码可以实现明日预约、实时/定时捡漏、退座，目前代码重构以及更改通用性中，随时可能更改使用方法
+目前本项目代码可以实现明日预约、实时/定时捡漏、退座
+
+目前代码重构以及更改通用性中，随时可能更改使用方法
 
 main分支为稳定可用分支
 
@@ -41,16 +43,26 @@ pip install -r requirements.txt
 ### 明日预约
 
 1. 抓包得到图书馆post请求header的cookie
-2. 打开`seat_reserve.py`文件，将main函数的参数改为自己的cookie，或调用文件内函数传入cookie参数
+2. 调用`com.yuzheng14.traceint.traceint`中的`seat_reserve`函数，参数详见docstring
 3. 冲杯咖啡等待即可
 
 ### 实时捡漏
 
-和明日预约差不多，也不是重点就懒得写了
+1. 抓包得到图书馆post请求header的cookie
+2. 调用`com.yuzheng14.traceint.traceint`中的`seat_pickup`函数，参数详见docstring
+3. 冲杯咖啡等待即可
 
 ### 退座
 
-同上
+1. 抓包得到图书馆post请求header的cookie
+2. 调用`com.yuzheng14.traceint.traceint`中的`seat_cancel`函数，参数详见docstring
+3. 冲杯咖啡等待即可
+
+### 签到
+
+1. 抓包得到图书馆post请求header的cookie
+2. 调用`com.yuzheng14.traceint.traceint`中的`credit_sign`函数，参数详见docstring
+3. 冲杯咖啡等待即可
 
 ## uml设计
 
