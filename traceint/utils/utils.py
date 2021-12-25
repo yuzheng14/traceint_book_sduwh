@@ -2,6 +2,8 @@ import json
 import time
 import traceback
 
+from traceint.utils.io_func import log_file, save_image
+
 
 def wait_time(hour: int, minute: int):
     """等待至参数指定的时间（时间可为负值）
@@ -54,35 +56,6 @@ def log_info(info=None, _json=None):
     """
     msg = msg_or_json(info, _json)
     log_file(msg, "log/info.out")
-
-
-def log_file(msg: str, file: str):
-    """将msg输出到file指定的文件中
-
-    Args:
-        msg (str): 输出信息
-        file (str): 文件名称及路径
-    """
-    with open(file, 'a', encoding='utf-8') as f:
-        f.write(f'{time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())}\t{msg}\n')
-
-
-def save_image(image_byte: bytes, name: str, image_path: str):
-    """保存验证码图片
-    参数
-    -----------------------
-    image_byte:bytes
-        要保存的图片二进制数据
-    name:str
-        保存图片文件名称
-    image_path:str
-        保存地址/路径
-    """
-    try:
-        with open(f'{image_path}/{name}', 'wb') as f:
-            f.write(image_byte)
-    except Exception:
-        traceback.print_exc()
 
 
 def save_unrecognized_image(image_byte: bytes, code: str, website: str):
