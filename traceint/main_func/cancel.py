@@ -1,5 +1,5 @@
-from com.yuzheng14.traceint.utils.request import pass_reserveCancle, wait_to_cancel
-from com.yuzheng14.traceint.utils.utils import log
+from traceint.utils.request import pass_reserveCancle, wait_to_cancel
+from traceint.utils.utils import log
 
 
 def cancel(cookie) -> bool:

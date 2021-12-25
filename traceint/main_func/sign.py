@@ -1,4 +1,4 @@
-from com.yuzheng14.traceint.utils.request import pass_sign
+from traceint.utils.request import pass_sign
 
 
 def sign(cookie: str):

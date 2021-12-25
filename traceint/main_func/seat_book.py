@@ -1,7 +1,7 @@
 import time
 
-from com.yuzheng14.traceint.utils.request import wait_for_reserve, have_seat, pass_reserve
-from com.yuzheng14.traceint.utils.utils import log
+from traceint.utils.request import wait_for_reserve, have_seat, pass_reserve
+from traceint.utils.utils import log
 
 
 # seat_status=1为可预订

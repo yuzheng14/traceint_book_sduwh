@@ -4,7 +4,7 @@ from typing import List, Optional
 
 import requests
 
-from com.yuzheng14.traceint.utils.utils import log_info, seat_exist, get_lib_id, log
+from traceint.utils.utils import log_info, seat_exist, get_lib_id, log
 
 
 # TODO doc注释

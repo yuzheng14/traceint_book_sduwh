@@ -6,10 +6,10 @@ import requests
 import websocket
 from ddddocr import DdddOcr
 
-from com.yuzheng14.traceint.utils.request_utils.request import Activity, get_para_and_headers, get_resp, \
+from traceint.utils.request_utils.request import Activity, get_para_and_headers, get_resp, \
     post, get_prereserve_libLayout, verify_cookie, get_SToken, get_captcha_code_website, \
     get_captcha_image, verify_captcha, save, reserve_floor, queue_init, get_task, get_task_id
-from com.yuzheng14.traceint.utils.utils import log, log_info, save_unrecognized_image, \
+from traceint.utils.utils import log, log_info, save_unrecognized_image, \
     save_recognized_image, get_lib_id, wait_time
 
 

@@ -1,7 +1,7 @@
-from com.yuzheng14.traceint.main_func.cancel import cancel
-from com.yuzheng14.traceint.main_func.seat_book import book
-from com.yuzheng14.traceint.main_func.seat_reserve import seat_prereserve
-from com.yuzheng14.traceint.main_func.sign import sign
+from traceint.main_func.cancel import cancel
+from traceint.main_func.seat_book import book
+from traceint.main_func.seat_reserve import seat_prereserve
+from traceint.main_func.sign import sign
 
 
 def seat_pickup(cookie: str, often_floor: int = 3, strict_mode: bool = True, reserve: bool = False) -> bool:
