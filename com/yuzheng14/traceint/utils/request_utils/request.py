@@ -695,6 +695,3 @@ def get_task_id(cookie: str) -> int:
     while task is None:
         task = get_task(cookie)
     return task['id']
-
-
-# TODO 完善代码
