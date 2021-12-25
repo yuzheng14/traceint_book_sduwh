@@ -1,6 +1,7 @@
 from com.yuzheng14.traceint.main_func.cancel import cancel
 from com.yuzheng14.traceint.main_func.seat_book import book
 from com.yuzheng14.traceint.main_func.seat_reserve import seat_prereserve
+from com.yuzheng14.traceint.main_func.sign import sign
 
 
 def seat_pickup(cookie: str, often_floor: int = 3, strict_mode: bool = True, reserve: bool = False) -> bool:
@@ -32,3 +33,15 @@ def seat_cancel(cookie: str) -> bool:
         true为退座成功
     """
     return cancel(cookie)
+
+
+def credit_sign(cookie: str) -> bool:
+    """
+    积分签到
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        true为签到成功
+    """
+    return sign(cookie)
