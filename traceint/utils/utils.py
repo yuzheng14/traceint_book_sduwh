@@ -2,7 +2,7 @@ import json
 import time
 import traceback
 
-from traceint.utils.io_func import log_file, save_image
+from traceint.utils.io_func import log_file, save_image, path_exist
 
 
 def wait_time(hour: int, minute: int):
@@ -55,6 +55,7 @@ def log_info(info=None, _json=None):
         _json (dict, optional): 要输出错误发生时的json. Defaults to None.
     """
     msg = msg_or_json(info, _json)
+    path_exist('log')
     log_file(msg, "log/info.out")
 
 

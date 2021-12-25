@@ -1,5 +1,19 @@
+import os
 import time
 import traceback
+
+
+def path_exist(path: str):
+    """
+    若路径不存在则创建路径
+    Args:
+        path: 路径
+
+    Returns:
+
+    """
+    if not os.path.exists(path):
+        os.makedirs(path)
 
 
 def log_file(msg: str, file: str):
@@ -24,6 +38,7 @@ def save_image(image_byte: bytes, name: str, image_path: str):
     image_path:str
         保存地址/路径
     """
+    path_exist(image_path)
     try:
         with open(f'{image_path}/{name}', 'wb') as f:
             f.write(image_byte)
