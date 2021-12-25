@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+:用户: as user
+
+(明日预约抢座) as tomorrow
+(签到) as sign
+(闲时捡漏) as spare
+(退座) as withdraw
+
+user --> spare
+user --> tomorrow
+user --> sign
+user --> withdraw
+
+sign .> spare : <<extend>>
+sign .> tomorrow: <<extend>>
+@enduml
