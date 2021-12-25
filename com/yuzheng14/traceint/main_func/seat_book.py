@@ -31,15 +31,3 @@ def book(cookie: str, often_floor: int = 3, strict_mode: bool = True, reserve: b
     if have_seat(cookie):
         return True
     return False
-
-
-if __name__ == '__main__':
-    cookie = '; '.join(['FROM_TYPE=weixin',
-                        'v=5.5',
-                        'wechatSESS_ID=b5c65bfe59c857f9ffaf0dba50b38aa5577205aaa4816a97',
-                        'Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjIzNTcyMTQ0LCJzY2hJZCI6MTI2LCJleHBpcmVBdCI6MTY0MDMwNzU2NH0.EKEqLVI1AMfQ8yhoNaubgtdSHzx4nW0huJYVAjqYRfuJZYVt_pCObbjpP-SGicch5Td9o45C3uw-L_CqYNDP7oMslC5niny63thETUdw565OAcjiJkt5iu_mJHe97Bdwuf7AAtGCG3z6jqRM318AanBPiu4qYh5nckiN8KfxqGcw9vSz71T689_caV0jtgG3IB3hsZU57fGkjURL0Mf2M8Npizq9hhGzdFdlRu5PmbtD4ByV5W3rkfiAGUsLarsmjAb0XPYxjkfo4It_9-6rvxyHWC6DcWK7xN9n_VrNsxmoYEZWd1HnxMiDP__cCYhGiM37ZJLN_vNIy4mcdsAkGA',
-                        'SERVERID=e3fa93b0fb9e2e6d4f53273540d4e924|1640303549|1640303517',
-                        'Hm_lvt_7ecd21a13263a714793f376c18038a87=1640182666',
-                        'Hm_lpvt_7ecd21a13263a714793f376c18038a87=1640303537'])
-    book(cookie, 5)
-    # book_test()
