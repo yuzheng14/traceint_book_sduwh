@@ -3,9 +3,12 @@
 
 autonumber
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+用户->程序:调用/启动
+程序->服务器:判断当前cookie是否有效
+程序<--服务器:返回结果
+程序->服务器:获取一整层楼的座位信息
+程序<--服务器:返回座位信息
+程序->服务器:发送选座请求
+程序<--服务器:返回结果
+用户<--程序:结束
 @enduml
