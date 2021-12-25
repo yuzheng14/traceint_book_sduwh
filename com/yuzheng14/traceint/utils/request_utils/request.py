@@ -654,7 +654,7 @@ def get_task_resp(cookie: str) -> requests.Response:
     return get_resp(Activity.getList, cookie)
 
 
-def get_task(cookie: str) -> Optional[dict, None]:
+def get_task(cookie: str) -> Optional[dict]:
     """
     获取签到任务
     Args:
