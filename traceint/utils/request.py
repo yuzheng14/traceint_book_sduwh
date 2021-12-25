@@ -3,7 +3,8 @@ from enum import Enum
 from typing import List, Optional
 
 import requests
-from traceint.utils.utils import log_info, seat_exist, get_lib_id, log
+
+from traceint.utils.utils import log_info, seat_exist, get_lib_id, log, queue_delay
 
 
 def have_seat(cookie: str) -> bool:
@@ -498,6 +499,10 @@ def save(cookie: str, key: str, lib_id: int) -> bool:
     resp = post(para, headers)
     try:
         resp = resp.json()
+        # 如果服务器排队有延迟则再预定一次
+        if queue_delay(resp):
+            resp = post(para, headers)
+            resp = resp.json()
         if 'errors' in resp:
             log_info('save时json数据内含错误或预定失败')
             log_info(_json=resp)

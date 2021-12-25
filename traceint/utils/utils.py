@@ -130,3 +130,16 @@ def get_lib_id(floor: int) -> int:
         log_info(f'\n{traceback.format_exc()}')
         log_info(f'get_lib_id时索引超出范围，索引值为{floor}')
         raise index_exc
+
+
+def queue_delay(resp: dict) -> bool:
+    """
+    判断服务器排队是否延迟
+    Args:
+        msg: 响应转换成str
+
+    Returns:
+
+    """
+
+    return '请先排队' in json.dumps(resp)
