@@ -255,8 +255,6 @@ def wait_to_cancel(cookie: str) -> bool:
     return True
 
 
-# TODO doc注释
-# TODO 完善函数
 def have_seat(cookie: str) -> bool:
     """
     判断当前是否有座位
