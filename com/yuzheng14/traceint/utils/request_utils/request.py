@@ -698,16 +698,3 @@ def get_task_id(cookie: str) -> int:
 
 
 # TODO 完善代码
-def is_sign(cookie: str) -> bool:
-    """
-    是否签到
-    Args:
-        cookie: headers中的cookie
-
-    Returns:
-        true为已经签到
-    """
-    task = get_task(cookie)
-    while task is None:
-        task = get_task(cookie)
-    return task['status'] == 2

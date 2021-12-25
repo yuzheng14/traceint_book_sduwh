@@ -8,7 +8,7 @@ from ddddocr import DdddOcr
 
 from com.yuzheng14.traceint.utils.request_utils.request import Activity, get_para_and_headers, get_resp, \
     post, get_prereserve_libLayout, verify_cookie, get_SToken, get_captcha_code_website, \
-    get_captcha_image, verify_captcha, save, reserve_floor, queue_init
+    get_captcha_image, verify_captcha, save, reserve_floor, queue_init, get_task
 from com.yuzheng14.traceint.utils.utils import log, log_info, save_unrecognized_image, \
     save_recognized_image, get_lib_id, wait_time
 
@@ -277,3 +277,18 @@ def have_seat(cookie: str) -> bool:
         log_info('\n' + traceback.format_exc())
         log_info("have_seat时发生其他异常")
         raise e
+
+
+def is_sign(cookie: str) -> bool:
+    """
+    是否签到
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        true为已经签到
+    """
+    task = get_task(cookie)
+    while task is None:
+        task = get_task(cookie)
+    return task['status'] == 2
