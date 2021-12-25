@@ -8,7 +8,7 @@ from ddddocr import DdddOcr
 
 from com.yuzheng14.traceint.utils.request_utils.request import Activity, get_para_and_headers, get_resp, \
     post, get_prereserve_libLayout, verify_cookie, get_SToken, get_captcha_code_website, \
-    get_captcha_image, verify_captcha, save, reserve_floor, queue_init, get_task
+    get_captcha_image, verify_captcha, save, reserve_floor, queue_init, get_task, get_task_id
 from com.yuzheng14.traceint.utils.utils import log, log_info, save_unrecognized_image, \
     save_recognized_image, get_lib_id, wait_time
 
@@ -292,3 +292,37 @@ def is_sign(cookie: str) -> bool:
     while task is None:
         task = get_task(cookie)
     return task['status'] == 2
+
+
+def pass_sign(cookie: str) -> bool:
+    """
+    通过签到
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        true为签到成功
+    """
+    para, headers = get_para_and_headers(Activity.done, cookie)
+    para['variables']['user_task_id'] = get_task_id(cookie)
+    resp = post(para, headers)
+    try:
+        resp = resp.json()
+        if 'errors' in resp:
+            log_info('errors时cookie可能过期')
+            log_info(_json=resp)
+        return resp['data']['userAuth']['credit']['done']
+    except ValueError as value_exc:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info('pass_sign时无json')
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exc:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info('pass_sign时json无数据')
+        log_info(_json=resp)
+        raise key_exc
+    except Exception as exc:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info('pass_sign时发生其他异常')
+        raise exc
