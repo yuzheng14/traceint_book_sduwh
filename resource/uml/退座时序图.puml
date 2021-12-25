@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+用户->程序:调用/启动
+程序->服务器:判断当前cookie是否有效
+程序<--服务器:返回结果
+程序->服务器:发送请求获取SToken
+程序<--服务器:返回SToken
+程序->服务器:发送退座请求
+程序<--服务器:返回结果
+用户<--程序:结束
+@enduml
