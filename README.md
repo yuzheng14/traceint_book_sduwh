@@ -171,3 +171,4 @@ https://open.weixin.qq.com/connect/oauth2/authorize
 其中新加`uin`、`key`、 `version`、 `pass_ticket`四个参数，`uin`和`version`相对固定，`key`和`pass_ticket`为随时生成。
 
 带有`wechatSESS_ID`和`SERVERID`发送请求则返回该cookie
+
