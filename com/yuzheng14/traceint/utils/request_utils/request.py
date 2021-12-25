@@ -1,6 +1,6 @@
 import traceback
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 import requests
 
@@ -633,6 +633,53 @@ def queue_init(cookie: str) -> tuple:
         log_info("queue_init时发生其他异常")
         raise e
     return need_captcha, need_queue, ws_url, queue_url
+
+
+def get_task_resp(cookie: str) -> requests.Response:
+    """
+    获取签到任务response
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        requests.Response: 返回task响应
+    """
+    return get_resp(Activity.getList, cookie)
+
+
+def get_task(cookie: str) -> Optional[dict, None]:
+    """
+    获取签到任务
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        dict: 返回签到任务字典
+    """
+    resp = get_task_resp(cookie)
+    try:
+        resp = resp.json()
+        tasks = resp['data']['userAuth']['credit']['tasks']
+        if tasks is not None:
+            return tasks[0]
+        else:
+            log_info('get_task时tasks体为空')
+            log_info(f'tasks:{tasks}')
+            return None
+    except ValueError as value_exc:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info('get_task时无json')
+        log_info(resp.content)
+        raise value_exc
+    except KeyError as key_exec:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info('get_task时json无数据')
+        log_info(resp)
+        raise key_exec
+    except Exception as exc:
+        log_info(f'\n{traceback.format_exc()}')
+        log_info('get_task时发生其他错误')
+        raise exc
 
 
 # TODO 完善代码
