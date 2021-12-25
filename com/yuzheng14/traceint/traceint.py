@@ -22,5 +22,5 @@ def seat_reserve(cookie: str, floor: int = 10, often_seat: int = 1, reverse: boo
     return seat_prereserve(cookie, floor, often_seat, reverse)
 
 
-def seat_cancel(cookie: str):
-    cancel(cookie)
+def seat_cancel(cookie: str)->bool:
+    return cancel(cookie)
