@@ -35,8 +35,3 @@ def seat_prereserve(cookie: str, floor: int = 10, often_seat: int = 1, reverse: 
     if ws is not None:  # vars() locals().keys()均可
         ws.close()
         log_info('create_connection连接关闭')
-
-
-if __name__ == '__main__':
-    cookie = ''
-    seat_prereserve(cookie, 5, 88, )
