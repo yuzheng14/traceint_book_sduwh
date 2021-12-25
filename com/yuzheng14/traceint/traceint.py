@@ -20,6 +20,16 @@ def seat_pickup(cookie: str, often_floor: int = 3, strict_mode: bool = True, res
 
 
 def seat_reserve(cookie: str, floor: int = 10, often_seat: int = 1, reverse: bool = False) -> bool:
+    """
+    明日预约抢座
+    Args:
+        cookie: headers中的cookies
+        floor: 抢座楼层
+        often_seat: 常用座位
+        reverse: 是否倒序
+    Returns:
+        true为抢座成功
+    """
     return seat_prereserve(cookie, floor, often_seat, reverse)
 
 
