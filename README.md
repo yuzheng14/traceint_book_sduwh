@@ -123,6 +123,10 @@ pip install -r requirements.txt
 - [ ] 前端
 - [ ] docker打包
 
+**认证**
+
+- [ ] 通过wechatSESSID获取cookie
+
 **都看到这里了不给个star嘛？**
 
 ## 微信OAuth认证尝试
