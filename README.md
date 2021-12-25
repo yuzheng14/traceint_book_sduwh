@@ -99,6 +99,7 @@ pip install -r requirements.txt
 
 #### 封装
 
+- [ ] 推送pypi
 - [ ] tkintr封装
 - [ ] 后端
 - [ ] 前端
