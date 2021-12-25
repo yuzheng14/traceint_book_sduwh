@@ -64,6 +64,13 @@ class Activity(Enum):
         "operationName": "getList",
         "query": "query getList {\n userAuth {\n credit {\n tasks {\n id\n task_id\n task_name\n task_info\n task_url\n credit_num\n contents\n conditions\n task_type\n status\n }\n staticTasks {\n id\n name\n task_type_name\n credit_num\n contents\n button\n }\n }\n }\n}"
     }
+    done = {
+        "operationName": "done",
+        "query": "mutation done($user_task_id: Int!) {\n userAuth {\n credit {\n done(user_task_id: $user_task_id)\n }\n }\n}",
+        "variables": {
+            "user_task_id": 39265747
+        }
+    }
 
 
 def post(post_para: dict, headers: dict) -> requests.Response:
