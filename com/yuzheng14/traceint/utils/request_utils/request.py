@@ -682,6 +682,21 @@ def get_task(cookie: str) -> Optional[dict, None]:
         raise exc
 
 
+def get_task_id(cookie: str) -> int:
+    """
+    获取签到任务id
+    Args:
+        cookie: headers中的cookie
+
+    Returns:
+        int: 签到任务id
+    """
+    task = get_task(cookie)
+    while task is None:
+        task = get_task(cookie)
+    return task['id']
+
+
 # TODO 完善代码
 def is_sign(cookie: str) -> bool:
     pass
