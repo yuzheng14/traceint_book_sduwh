@@ -43,25 +43,25 @@ pip install -r requirements.txt
 ### 明日预约
 
 1. 抓包得到图书馆post请求header的cookie
-2. 调用`com.yuzheng14.traceint.traceint`中的`seat_reserve`函数，参数详见docstring
+2. 调用`traceint`中的`seat_reserve`函数，参数详见docstring
 3. 冲杯咖啡等待即可
 
 ### 实时捡漏
 
 1. 抓包得到图书馆post请求header的cookie
-2. 调用`com.yuzheng14.traceint.traceint`中的`seat_pickup`函数，参数详见docstring
+2. 调用`traceint`中的`seat_pickup`函数，参数详见docstring
 3. 冲杯咖啡等待即可
 
 ### 退座
 
 1. 抓包得到图书馆post请求header的cookie
-2. 调用`com.yuzheng14.traceint.traceint`中的`seat_cancel`函数，参数详见docstring
+2. 调用`traceint`中的`seat_cancel`函数，参数详见docstring
 3. 冲杯咖啡等待即可
 
 ### 签到
 
 1. 抓包得到图书馆post请求header的cookie
-2. 调用`com.yuzheng14.traceint.traceint`中的`credit_sign`函数，参数详见docstring
+2. 调用`traceint`中的`credit_sign`函数，参数详见docstring
 3. 冲杯咖啡等待即可
 
 ## uml设计
