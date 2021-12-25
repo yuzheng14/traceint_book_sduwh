@@ -1,4 +1,5 @@
-from traceint.utils.request import pass_reserveCancle, wait_to_cancel
+from traceint.utils.wait_func import wait_to_cancel
+from traceint.utils.pass_func import pass_reserveCancle
 from traceint.utils.utils import log
 
 

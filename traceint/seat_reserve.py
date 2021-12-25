@@ -1,4 +1,5 @@
-from traceint.utils.request import pass_captcha, pass_queue, pass_save, wait_for_start
+from traceint.utils.wait_func import wait_for_start
+from traceint.utils.pass_func import pass_captcha, pass_queue, pass_save
 from traceint.utils.utils import log, log_info
 
 

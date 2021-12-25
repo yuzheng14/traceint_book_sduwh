@@ -1,6 +1,8 @@
 import time
 
-from traceint.utils.request import wait_for_reserve, have_seat, pass_reserve
+from traceint.utils.request import have_seat
+from traceint.utils.wait_func import wait_for_reserve
+from traceint.utils.pass_func import pass_reserve
 from traceint.utils.utils import log
 
 
