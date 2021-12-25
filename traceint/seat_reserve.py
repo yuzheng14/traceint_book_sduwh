@@ -1,5 +1,6 @@
+from traceint.utils.request import is_sign
 from traceint.utils.wait_func import wait_for_start
-from traceint.utils.pass_func import pass_captcha, pass_queue, pass_save
+from traceint.utils.pass_func import pass_captcha, pass_queue, pass_save, pass_sign
 from traceint.utils.utils import log, log_info
 
 
@@ -38,4 +39,10 @@ def seat_prereserve(cookie: str, floor: int = 10, often_seat: int = 1, reverse: 
     if ws is not None:  # vars() locals().keys()均可
         ws.close()
         log_info('create_connection连接关闭')
+
+    # 如果未签到则签到
+    if not is_sign(cookie):
+        log('检测到当前未签到，将自动进行签到')
+        pass_sign(cookie)
+
     return True

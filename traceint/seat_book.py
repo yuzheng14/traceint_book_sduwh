@@ -1,8 +1,8 @@
 import time
 
-from traceint.utils.request import have_seat
+from traceint.utils.request import have_seat, is_sign
 from traceint.utils.wait_func import wait_for_reserve
-from traceint.utils.pass_func import pass_reserve
+from traceint.utils.pass_func import pass_reserve, pass_sign
 from traceint.utils.utils import log
 
 
@@ -30,6 +30,12 @@ def book(cookie: str, often_floor: int = 3, strict_mode: bool = True, reserve: b
             log(f'预定成功，座位为{seat}号')
             return True
         time.sleep(2)
+
+    # 如果未签到则签到
+    if not is_sign(cookie):
+        log('检测到当前未签到，将自动进行签到')
+        pass_sign(cookie)
+
     if have_seat(cookie):
         return True
     return False
