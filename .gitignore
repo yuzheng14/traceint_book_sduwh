@@ -8,3 +8,4 @@ captcha_and_log.sh
 .vscode
 **/test.py
 test.py
+nohup.out
