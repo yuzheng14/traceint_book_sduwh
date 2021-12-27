@@ -7,3 +7,5 @@ captcha_and_log.sh
 .idea
 .vscode
 **/test.py
+test.py
+nohup.out
