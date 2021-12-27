@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/yuzheng14/tracient_book_sduwh",
     packages=setuptools.find_packages(),
-    install_requires=['ddddocr>=1.1.0', 'requests>=2.26.0', 'websocket-client==1.2.3'],
+    install_requires=['ddddocr>=1.1.0', 'requests>=2.26.0', 'websocket-client>=1.2.3'],
     classifiers=(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
