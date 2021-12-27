@@ -500,6 +500,7 @@ def save(cookie: str, key: str, lib_id: int) -> bool:
     try:
         resp = resp.json()
         # 如果服务器排队有延迟则再预定一次
+        # TODO 测试延迟
         if queue_delay(resp):
             log_info('save时服务器有延迟,即将再试一次')
             log_info(_json=resp)
