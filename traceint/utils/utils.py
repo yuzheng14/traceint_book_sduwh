@@ -136,10 +136,10 @@ def queue_delay(resp: dict) -> bool:
     """
     判断服务器排队是否延迟
     Args:
-        msg: 响应转换成str
+        resp: 响应转换成str
 
     Returns:
 
     """
 
-    return '请先排队' in json.dumps(resp)
+    return '请先排队' in json.dumps(resp, ensure_ascii=False)
