@@ -24,6 +24,14 @@
 
 main分支为稳定可用分支
 
+### docker
+
+快速部署服务器版(详见`docker`分支)
+
+```shell
+docker run -d -p 8000:8000 humorh/traceint_server
+```
+
 ### python版本
 
 开发时所用版本为`3.8.2`
