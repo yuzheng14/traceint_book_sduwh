@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="traceint",
-    version="1.3.5",
+    version="1.3.6",
     author="yuzheng14",
     author_email="yuzheng14@yuzheng14.com",
     description="integrated assistance of traceint",
