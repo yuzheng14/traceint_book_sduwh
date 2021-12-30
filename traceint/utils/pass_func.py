@@ -130,7 +130,7 @@ def pass_reserve(cookie: str, often_floor: int, strict_mode: bool, reserve: bool
         floor = [_ for _ in range(1, 15) if _ != often_floor]
         floor.sort(key=lambda f: abs(f - often_floor))
         for i in floor:
-            seat = reserve_floor(cookie, get_lib_id(i), reserve)
+            seat = reserve_floor(cookie, often_floor, reserve)
             if seat != '':
                 return seat
     return ''
