@@ -6,6 +6,5 @@ captcha_and_log.sh
 **/__pycache__/
 .idea
 .vscode
-**/test.py
-test.py
+**/test*.py
 nohup.out
