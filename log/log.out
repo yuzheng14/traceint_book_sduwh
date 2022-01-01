@@ -82,3 +82,16 @@ IndexError: list index out of range
 [2021-12-31 12:30:03] 	开始预定座位
 [2021-12-31 12:30:04] 	预定成功，座位为88号
 [2021-12-31 12:30:04] 	检测到当前未签到，将自动进行签到
+[2022-01-01 12:13:22] 	开始等待验证cookie时间
+[2022-01-01 12:29:00] 	cookie有效，请等待预定时间
+[2022-01-01 12:29:00] 	开始等待预定时间
+[2022-01-01 12:30:00] 	当前未验证验证码，开始验证验证码
+2022-01-01 12:30:01.218402379 [W:onnxruntime:, execution_frame.cc:770 VerifyOutputSizes] Expected shape from model of {1,19} does not match actual shape of {1,24} for output output
+2022-01-01 12:30:07.171668813 [W:onnxruntime:, execution_frame.cc:770 VerifyOutputSizes] Expected shape from model of {1,19} does not match actual shape of {1,24} for output output
+[2022-01-01 12:30:07] 	开始排队
+[2022-01-01 12:30:07] 	当前需要排队，即将开始排队
+[2022-01-01 12:30:07] 	前方排队82人
+[2022-01-01 12:30:14] 	排队完成
+[2022-01-01 12:30:14] 	开始预定座位
+[2022-01-01 12:30:15] 	预定成功，座位为88号
+[2022-01-01 12:30:15] 	检测到当前未签到，将自动进行签到
