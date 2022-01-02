@@ -1,8 +1,5 @@
 seat_reserve2.py
-log.sh
-commit.sh
-yapf_style.cfg
-captcha_and_log.sh
+*.sh
 **/__pycache__/
 .idea
 .vscode
