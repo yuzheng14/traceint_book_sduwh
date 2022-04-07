@@ -83,6 +83,8 @@ def pass_queue(queue_url: str, ws_url: str, need_captcha: bool, need_queue: bool
     return ws
 
 
+# TODO 抢座失败反应
+# TODO 抢座失败返回值
 def pass_save(cookie: str, floor: int, often_seat: int, reverse: bool) -> str:
     """
     预定座位过程，成功则返回预定座位号
@@ -185,7 +187,7 @@ def pass_sign(cookie: str) -> bool:
     try:
         resp = resp.json()
         if 'errors' in resp:
-            log_info('errors时cookie可能过期')
+            log_info('pass_sign时cookie可能过期')
             log_info(_json=resp)
         return resp['data']['userAuth']['credit']['done']
     except ValueError as value_exc:
