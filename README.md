@@ -180,3 +180,4 @@ https://open.weixin.qq.com/connect/oauth2/authorize
 
 带有`wechatSESS_ID`和`SERVERID`发送请求则返回该cookie
 
+**因学校更改选座系统，不再使用我去图书馆，本项目自2022年1月7日起无限期停更**
