@@ -2,6 +2,8 @@
 
 山东大学（威海）我去图书馆抢座脚本
 
+**因学校更改选座系统，不再使用我去图书馆，本项目自2022年1月7日起无限期停更**
+
 **请认真阅读许可证**
 
 ## 许可证（请以LICENSE文件为准，此处仅提供阅读）
@@ -179,5 +181,3 @@ https://open.weixin.qq.com/connect/oauth2/authorize
 其中新加`uin`、`key`、 `version`、 `pass_ticket`四个参数，`uin`和`version`相对固定，`key`和`pass_ticket`为随时生成。
 
 带有`wechatSESS_ID`和`SERVERID`发送请求则返回该cookie
-
-**因学校更改选座系统，不再使用我去图书馆，本项目自2022年1月7日起无限期停更**
